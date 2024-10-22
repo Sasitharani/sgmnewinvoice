@@ -21,6 +21,21 @@ export default {
         '.border1': {
           border: '1px solid black',
         },
+        '.thin-border':{
+          boxShadow:'0px 0px 2px 0 #000000;',
+        },
+        '.my-border-left':{
+          boxShadow: '-2px 0 3px -2px #000000',
+        },
+        '.my-border-right':{
+          boxShadow: '2px 0 3px -2px #000000',
+        },
+        '.my-border-top':{
+          boxShadow: '0 -2px 3px -3px #000000',
+        },
+        '.my-border-bottom':{
+          boxShadow: '0 2px 3px -2px #000000',
+        },
       })
     },
   ],
