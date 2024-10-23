@@ -90,7 +90,7 @@ const App = () => {
       sgstAmount,
       totalTax,
       totalAmount,
-      totalTaxInWords: numberToWords(totalTax),
+      totalTaxInWords: numberToWords(totalAmount),
     }));
   }, [formData.items, formData.cgstPercent, formData.sgstPercent]);
 
@@ -141,7 +141,6 @@ const App = () => {
   };
 
   return (
-    <div ref={componentRef}>
     <div className="flex justify-center items-center min-h-screen bg-gray-50 py-6 sm:py-12 print:min-h-auto print:py-0 print:bg-white my-border">
       <form
         onSubmit={handleSubmit}
@@ -597,7 +596,6 @@ const App = () => {
       </form>
       <button onClick={handlePrint} className="mr-4 px-4 py-2 bg-blue-500 text-white rounded">Print</button>
       <button onClick={handleSaveAsPDF} className="px-4 py-2 bg-green-500 text-white rounded">Save as PDF</button>
-    </div>
     </div>
   );
 };

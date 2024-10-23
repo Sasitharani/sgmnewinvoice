@@ -90,7 +90,7 @@ const App = () => {
       sgstAmount,
       totalTax,
       totalAmount,
-      totalTaxInWords: numberToWords(totalAmount),
+      totalTaxInWords: numberToWords(totalTax),
     }));
   }, [formData.items, formData.cgstPercent, formData.sgstPercent]);
 
@@ -141,7 +141,9 @@ const App = () => {
   };
 
   return (
+    
     <div className="flex justify-center items-center min-h-screen bg-gray-50 py-6 sm:py-12 print:min-h-auto print:py-0 print:bg-white my-border">
+      <div ref={componentRef}>
       <form
         onSubmit={handleSubmit}
         className="relative flex flex-col overflow-hidden bg-white p-6 print:w-[210mm] print:h-[297mm] print:shadow-none print:border-none"
@@ -596,7 +598,11 @@ const App = () => {
       </form>
       <button onClick={handlePrint} className="mr-4 px-4 py-2 bg-blue-500 text-white rounded">Print</button>
       <button onClick={handleSaveAsPDF} className="px-4 py-2 bg-green-500 text-white rounded">Save as PDF</button>
+      </div>
+      {/* ---------------------------------------End of Component Ref------------------------------------------------- */}
     </div>
+    // ---------------------------------------------End of return div--------------------------------------------------------///
+  
   );
 };
 
