@@ -1,54 +1,21 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useReactToPrint } from 'react-to-print';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { useSelector } from 'react-redux';
 import Header from './Header';
 import Firstrow from './Firstrow';
 import Desctable from './Desctable';
 import Calc from './Calc';
 import Footer from './Footer';
-import { useSelector, useDispatch } from 'react-redux';
-import { setGrossAmount, setCgstAmount, setSgstAmount, setTotalTax, setTotalAmount } from './invoiceSlice';
+import InvoiceEntry from './InvoiceEntry';
 
-const App = () => {
-  const componentRef = useRef();
-  const dispatch = useDispatch();
-  const { items, grossAmount, cgstAmount, sgstAmount, totalTax, totalAmount } = useSelector((state) => state.invoice);
 
-  const [formData, setFormData] = useState({
-    address1: '',
-    address2: '',
-    address3: '',
-    address4: '',
-    address6: '',
-    items: Array(8).fill({
-      item1: '',
-      description: '',
-      pack: '',
-      hsn: '',
-      qty: '',
-      rate: '',
-      amount: 0,
-    }),
-    accNo: '',
-    ifscCode: '',
-    bankName: '',
-    branch: '',
-    paymentMode: '',
-    transportMode: '',
-    cgstPercent: 0,
-    sgstPercent: 0,
-    cgstAmount: 0,
-    sgstAmount: 0,
-    grossAmount: 0,
-    totalTax: 0,
-    totalAmount: 0,
-    totalTaxInWords: '',
-    date: '',
-    invoiceNo: '',
-  });
+const InvoicePage = () => {
+  const invoiceData = useSelector((state) => state.invoice);
+  const componentRef = React.useRef();
 
   const handleSaveAsPDF = () => {
     const input = componentRef.current;
@@ -58,20 +25,9 @@ const App = () => {
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save('invoice.pdf');
     });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('http://localhost:5000/api/invoices', formData);
-      Swal.fire('Success', 'Data saved successfully', 'success');
-    } catch (error) {
-      Swal.fire('Error', 'Failed to save data', 'error');
-    }
   };
 
   return (
@@ -79,7 +35,6 @@ const App = () => {
       <div className="flex justify-center items-center min-h-screen bg-gray-50 py-6 sm:py-12 print:min-h-auto print:py-0 print:bg-white my-border">
         <div className="flex justify-center items-center min-h-screen my-vertical-center">
           <form
-            onSubmit={handleSubmit}
             className="relative flex flex-col overflow-hidden bg-white p-6 print:w-[210mm] print:h-[297mm] print:shadow-none print:border-none"
             ref={componentRef}
           >
@@ -96,14 +51,22 @@ const App = () => {
             </div>
           </form>
         </div>
-        <button
-          onClick={handleSaveAsPDF}
-          className="px-4 py-2 bg-green-500 text-white rounded"
-        >
+        <button onClick={handleSaveAsPDF} className="px-4 py-2 bg-green-500 text-white rounded">
           Save as PDF
         </button>
       </div>
     </div>
+  );
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<InvoiceEntry />} />
+        <Route path="/invoice" element={<InvoicePage />} />
+      </Routes>
+    </Router>
   );
 };
 
