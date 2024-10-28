@@ -5,21 +5,14 @@ import { setGrossAmount, setCgstAmount, setSgstAmount, setTotalTax, setTotalAmou
 export default function Calc() {
   const dispatch = useDispatch();
   const { items, grossAmount, cgstAmount, sgstAmount, totalTax, totalAmount } = useSelector((state) => state.invoice);
+
   const [formData, setFormData] = useState({
     address1: '',
     address2: '',
     address3: '',
     address4: '',
     address6: '',
-    items: Array(8).fill({
-      item1: '',
-      description: '',
-      pack: '',
-      hsn: '',
-      qty: '',
-      rate: '',
-      amount: 0,
-    }),
+    items: Array(8).fill({ item1: '', description: '', pack: '', hsn: '', qty: '', rate: '', amount: 0 }),
     accNo: '',
     ifscCode: '',
     bankName: '',
@@ -48,15 +41,16 @@ export default function Calc() {
 
   const numberToWords = (num) => {
     const a = [
-      '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
+      '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+      'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
     ];
     const b = [
       '', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'
     ];
-
     if ((num = num.toString()).length > 9) return 'Overflow';
     const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{1})$/);
-    if (!n) return; 
+    if (!n) return;
+
     let str = '';
     str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + ' Crore ' : '';
     str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + ' Lakh ' : '';
@@ -72,7 +66,6 @@ export default function Calc() {
     const sgstAmount = (grossAmount * formData.sgstPercent) / 100;
     const totalTax = cgstAmount + sgstAmount;
     const totalAmount = grossAmount + totalTax;
-
     dispatch(setGrossAmount(grossAmount));
     dispatch(setCgstAmount(cgstAmount));
     dispatch(setSgstAmount(sgstAmount));
@@ -89,17 +82,19 @@ export default function Calc() {
   };
 
   return (
-    <div className="">
-      <div className="grid grid-cols-12  ">
-        <div className="grid col-span-10  ">
-          <div className="grid grid-rows-1 ">
-            <div className="grid grid-cols-[20%_80%]  ">
+    <div>
+      <div className="grid grid-cols-12">
+        <div className="grid col-span-10">
+          <div className="grid grid-rows-1">
+            <div className="grid grid-cols-[20%_80%]">
               <div>
-                <div className="border  h-8 text-left">Acc No:</div>
-                <div className="border  h-8 text-left">Ifsc Code:</div>
-                <div className="border  h-8 text-left">Bank Name:</div>
-                <div className="border  h-8 text-left">Branch:</div>
+                <div className="border h-8 text-left">Acc No:</div>
+                <div className="border h-8 text-left">Ifsc Code:</div>
+                <div className="border h-8 text-left">Bank Name:</div>
+                <div className="border h-8 text-left">Branch:</div>
               </div>
+           
+              ...
               <div>
                 <div className="b">
                   <input
@@ -110,7 +105,6 @@ export default function Calc() {
                     className="w-full h-8 border"
                     placeholder="Acc No:"
                   />
-
                 </div>
                 <div className="b">
                   <input
@@ -132,7 +126,7 @@ export default function Calc() {
                     placeholder="Bank Name:"
                   />
                 </div>
-                <div className="b  h-8">
+                <div className="b h-8">
                   <input
                     type="text"
                     name="branch"
@@ -146,75 +140,73 @@ export default function Calc() {
             </div>
           </div>
         </div>
-        <div className="grid col-span-2 ">
-          {/* <div className="grid grid-rows-1 border border-cyan-300"> */}
-            <div className="grid grid-cols-2  ">
-              <div>
-                <div className="border font-bold text-left h-8">CGST %:</div>
-                <div className="border font-bold text-left h-8">SGST %:</div>
-                <div className="border font-bold text-left h-8">Gross Amount:</div>
-                <div className="border font-bold text-left h-8">Total Tax:</div>
-                <div className="border font-bold text-left h-8">Total Amount:</div>
+        <div className="grid col-span-2">
+          <div className="grid grid-cols-2">
+            <div>
+              <div className="border font-bold text-left h-8">CGST %:</div>
+              <div className="border font-bold text-left h-8">SGST %:</div>
+              <div className="border font-bold text-left h-8">Gross Amount:</div>
+              <div className="border font-bold text-left h-8">Total Tax:</div>
+              <div className="border font-bold text-left h-8">Total Amount:</div>
+            </div>
+            <div>
+              <div className="h-8">
+                <input
+                  type="text"
+                  name="cgstPercent"
+                  value={formData.cgstPercent > 0 ? formData.cgstPercent : ''}
+                  onChange={handleTaxChange}
+                  className="w-full h-8 border"
+                  placeholder={formData.cgstPercent === 0 ? '' : undefined}
+                />
               </div>
-              <div>
-                <div className="h-8">
-                  <input
-                    type="text"
-                    name="cgstPercent"
-                    value={formData.cgstPercent>0 ? formData.cgstPercent:''}
-                    onChange={handleTaxChange}
-                    className="w-full h-8 border "
-                    placeholder={formData.cgstPercent===0 ?'':undefined}
-                  />
-                </div>
-                <div className="h-8">
-                  <input
-                    type="text"
-                    name="sgstPercent"
-                    value={formData.sgstPercent>0 ?formData.sgstPercent:'' }
-                    onChange={handleTaxChange}
-                    className="w-full h-8 border"
-                    placeholder={formData.sgstPercent===0? '':undefined}
-                  />
-                </div>
-                <div className="h-8  ">
-                  <input
-                    type="text"
-                    name="grossAmount"
-                    value={grossAmount}
-                    readOnly
-                    className="w-full h-8 border font-bold"
-                    placeholder="Gross Amount"
-                  />
-                </div>
-                <div className="b ">
-                  <input
-                    type="text"
-                    name="totalTax"
-                    value={totalTax}
-                    readOnly
-                    className="w-full h-8 border font-bold"
-                    placeholder="Total Tax"
-                  />
-                </div>
-                <div className="b">
-                  <input
-                    type="text"
-                    name="totalAmount"
-                    value={totalAmount}
-                    readOnly
-                    className="w-full h-8 border font-bold"
-                    placeholder="Total Amount"
-                  />
-                </div>
+              <div className="h-8">
+                <input
+                  type="text"
+                  name="sgstPercent"
+                  value={formData.sgstPercent > 0 ? formData.sgstPercent : ''}
+                  onChange={handleTaxChange}
+                  className="w-full h-8 border"
+                  placeholder={formData.sgstPercent === 0 ? '' : undefined}
+                />
+              </div>
+              <div className="h-8">
+                <input
+                  type="text"
+                  name="grossAmount"
+                  value={grossAmount}
+                  readOnly
+                  className="w-full h-8 border font-bold"
+                  placeholder="Gross Amount"
+                />
+              </div>
+              <div className="b">
+                <input
+                  type="text"
+                  name="totalTax"
+                  value={totalTax}
+                  readOnly
+                  className="w-full h-8 border font-bold"
+                  placeholder="Total Tax"
+                />
+              </div>
+              <div className="b">
+                <input
+                  type="text"
+                  name="totalAmount"
+                  value={totalAmount}
+                  readOnly
+                  className="w-full h-8 border font-bold"
+                  placeholder="Total Amount"
+                />
               </div>
             </div>
-          {/* </div> */}
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-12 ">
+      <div className="grid grid-cols-12">
         <div className="col-span-2 h-9">Rupees</div>
-        <div className="col-span-10  h-9">
+        <div className="col-span-10 h-9">
           <input
             type="text"
             name="totalTaxInWords"
@@ -223,9 +215,8 @@ export default function Calc() {
             className="w-full h-9 font-bold"
             placeholder="Total Tax in Words"
           />
-          </div>
         </div>
-      
+      </div>
     </div>
   );
 }
