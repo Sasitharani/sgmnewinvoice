@@ -52,17 +52,22 @@ const App = () => {
 
   const handleSaveAsPDF = () => {
     const input = componentRef.current;
+    const invoiceNo = formData.invoiceNo;
+    const currentYear = new Date().getFullYear();
+    const financialYear = `${currentYear}-${currentYear + 1}`;
+  
     html2canvas(input, { scale: 2, useCORS: true }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
+  
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('invoice.pdf');
+      pdf.save(`${invoiceNo}Invoice${financialYear}.pdf`);
     });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
