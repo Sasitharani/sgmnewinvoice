@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setInvoiceData, setNumItems, updateItem } from './invoiceSlice';
+import { setInvoiceData, setNumItems, updateItem, setTotalGrossAmount } from './invoiceSlice';
 import { useNavigate } from 'react-router-dom';
 
 const InvoiceEntry = () => {
@@ -20,8 +20,10 @@ const InvoiceEntry = () => {
     transport: '',
     payment: '',
     companyname: '',
-    items: [{ name: '', qty: '', rate: '', amount: 0 }],
+    grossAmount: 0,
+    items: [{ name: '', qty: '', rate: '', amount: 0, Cgst: 0, Sgst: 0, ctax: 0, stax: 0, totalTax: 0, grossAmount: 0 }],
   });
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +38,7 @@ const InvoiceEntry = () => {
     setFormState({
       ...formState,
       numItems,
-      items: Array(numItems).fill({ name: '', qty: '', rate: '', amount: 0 }),
+      items: Array(numItems).fill({ name: '', qty: '', rate: '', amount: 0, Cgst: 0, Sgst: 0, ctax: 0, stax: 0, totalTax: 0, grossAmount: 0 }),
     });
     dispatch(setNumItems(numItems));
   };
@@ -50,14 +52,42 @@ const InvoiceEntry = () => {
       items[index].amount = items[index].qty * items[index].rate || 0;
     }
 
+    if (name === 'Cgst' || name === 'Sgst') {
+      if (items[index].amount > 0) {
+        if (name === 'Cgst') {
+          items[index].ctax = items[index].amount * items[index].Cgst * 0.01;
+        }
+        if (name === 'Sgst') {
+          items[index].stax = items[index].amount * items[index].Sgst * 0.01;
+        }
+        setError('');
+      } else {
+        setError('ENTER RATE AND QUANTITY');
+      }
+      items[index].totalTax = items[index].ctax + items[index].stax;
+      items[index].grossAmount = items[index].totalTax + items[index].amount;
+    }
+
     setFormState({ ...formState, items });
     dispatch(updateItem({ index, item: items[index] }));
+    calculateTotalGrossAmount(items);
+  };
+
+  const calculateTotalGrossAmount = (items) => {
+    const totalGrossAmount = items.reduce((sum, item) => sum + item.grossAmount, 0);
+    setFormState((prevState) => ({
+      ...prevState,
+      grossAmount: totalGrossAmount,
+    }));
+    dispatch(setTotalGrossAmount(totalGrossAmount));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setInvoiceData(formState));
-    navigate('/invoice');
+    if (!error) {
+      dispatch(setInvoiceData(formState));
+      navigate('/invoice');
+    }
   };
 
   return (
@@ -182,9 +212,9 @@ const InvoiceEntry = () => {
             value={item.qty}
             onChange={(e) => handleItemChange(index, e)}
             placeholder={`Item ${index + 1} Quantity`}
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p2 border border-gray-300 rounded"
           />
-          <input
+                    <input
             type="number"
             name="rate"
             value={item.rate}
@@ -200,39 +230,60 @@ const InvoiceEntry = () => {
             placeholder="Amount"
             className="w-full p-2 border border-gray-300 rounded"
           />
-          <div className="font-semibold">
-            <div className="grid grid-cols-1">
-              <div className="b">
-                <select
-                  name="transport"
-                  value={formState.transport}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                >
-                  <option value="">Select Transport Mode</option>
-                  <option value="SGM Transport">SGM Transport</option>
-                  <option value="Own Transport">Own Transport</option>
-                </select>
-              </div>
-            </div>
-            <div className="grid grid-cols-1">
-              <div>
-                <select
-                  name="payment"
-                  value={formState.payment}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-2"
-                >
-                  <option value="">Select Payment Mode</option>
-                  <option value="Cash">Cash</option>
-                  <option value="Online">Online</option>
-                  <option value="Gpay">Gpay</option>
-                </select>
-              </div>
-            </div>
-          </div>
+          <input
+            type="number"
+            name="Cgst"
+            value={item.Cgst}
+            onChange={(e) => handleItemChange(index, e)}
+            placeholder="CGST"
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="number"
+            name="Sgst"
+            value={item.Sgst}
+            onChange={(e) => handleItemChange(index, e)}
+            placeholder="SGST"
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="number"
+            name="ctax"
+            value={item.ctax}
+            readOnly
+            placeholder="CTax"
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="number"
+            name="stax"
+            value={item.stax}
+            readOnly
+            placeholder="STax"
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="number"
+            name="totalTax"
+            value={item.totalTax}
+            readOnly
+            placeholder="Total Tax"
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            type="number"
+            name="grossAmount"
+            value={item.grossAmount}
+            readOnly
+            placeholder="Gross Amount"
+            className="w-full p-2 border border-gray-300 rounded"
+          />
         </div>
       ))}
+      <div className="text-lg font-bold">
+        Total Gross Amount: {formState.grossAmount}
+      </div>
+      {error && <div className="text-red-500">{error}</div>}
       <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
         Submit
       </button>

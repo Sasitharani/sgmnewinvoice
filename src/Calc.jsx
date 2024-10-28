@@ -4,7 +4,9 @@ import { setGrossAmount, setCgstAmount, setSgstAmount, setTotalTax, setTotalAmou
 
 export default function Calc() {
   const dispatch = useDispatch();
-  const { items, grossAmount, cgstAmount, sgstAmount, totalTax, totalAmount } = useSelector((state) => state.invoice);
+  const items = useSelector((state) => state.invoice.items);
+  console.log(items.stax);
+  const { grossAmount, totalTax, totalAmount } = useSelector((state) => state.invoice);
 
   const [formData, setFormData] = useState({
     address1: '',
@@ -83,140 +85,161 @@ export default function Calc() {
 
   return (
     <div>
-      <div className="grid grid-cols-12">
-        <div className="grid col-span-10">
-          <div className="grid grid-rows-1">
-            <div className="grid grid-cols-[20%_80%]">
-              <div>
-                <div className="border h-8 text-left">Acc No:</div>
-                <div className="border h-8 text-left">Ifsc Code:</div>
-                <div className="border h-8 text-left">Bank Name:</div>
-                <div className="border h-8 text-left">Branch:</div>
+      <div className="grid grid-cols-12 border border-black">
+        <div className="grid col-span-9">
+          
+            {/* S-Bank Details */}
+            <div className="grid grid-cols-[13%_40%_30%]">
+              {/* S Bank details div 1 */}
+              <div className=''>
+              <div className="h-8 text-left font-bold">Bank Name</div>
+                  <div className=" h-8 text-left font-bold">Acc No:</div>
+                  <div className=" h-8 text-left font-bold">Ifsc Code:</div>
+                  <div className=" h-8 text-left font-bold">Account Name</div>
+                  <div className=" h-8 text-left font-bold">Branch Name:</div>
               </div>
-           
-              ...
-              <div>
-                <div className="b">
-                  <input
-                    type="text"
-                    name="accNo"
-                    value={formData.accNo}
-                    onChange={handleChange}
-                    className="w-full h-8 border"
-                    placeholder="Acc No:"
-                  />
-                </div>
-                <div className="b">
-                  <input
-                    type="text"
-                    name="ifscCode"
-                    value={formData.ifscCode}
-                    onChange={handleChange}
-                    className="w-full h-8 border"
-                    placeholder="Ifsc Code:"
-                  />
-                </div>
-                <div className="b">
-                  <input
-                    type="text"
-                    name="bankName"
-                    value={formData.bankName}
-                    onChange={handleChange}
-                    className="w-full h-8 border"
-                    placeholder="Bank Name:"
-                  />
-                </div>
-                <div className="b h-8">
-                  <input
-                    type="text"
-                    name="branch"
-                    value={formData.branch}
-                    onChange={handleChange}
-                    className="w-full h-8 border"
-                    placeholder="Branch:"
-                  />
-                </div>
+               {/* S Bank details div 2 */}
+              <div className=''>
+                  <div className=" h-8 text-left">KVB</div>
+                  <div className=" h-8 text-left">1791280000000159</div>
+                  <div className=" h-8 text-left">KVBL0001791</div>
+                  <div className=" h-8 text-left">Sri Gowmari Modern Bricks</div>
+                  <div className=" h-8 text-left">R.M Colony</div>
+              </div>
+              {/* S Bank details div 3 */}
+              <div className=''>
+                
               </div>
             </div>
+            {/* Bank details end */}
           </div>
-        </div>
-        <div className="grid col-span-2">
-          <div className="grid grid-cols-2">
+          <div className="grid col-span-3 border border-black">
+            {items.map((item, index) => (<div>
+          {/* Outline of the amounts starting */}
+        
+          <div className="grid grid-cols-[40%_30%_30%]">
             <div>
-              <div className="border font-bold text-left h-8">CGST %:</div>
-              <div className="border font-bold text-left h-8">SGST %:</div>
-              <div className="border font-bold text-left h-8">Gross Amount:</div>
-              <div className="border font-bold text-left h-8">Total Tax:</div>
-              <div className="border font-bold text-left h-8">Total Amount:</div>
+              <div className="border border-black font-bold text-left h-8">CGST %:</div>
+              <div className="border border-black font-bold text-left h-8">SGST %:</div>
+              <div className="border border-black font-bold text-left h-8">Total Tax:</div>
+              <div className="border border-black font-bold text-left h-8">Gross Amount:</div>
+              <div className="border border-black font-bold text-left h-8">Total Amount:</div>
             </div>
             <div>
-              <div className="h-8">
-                <input
-                  type="text"
-                  name="cgstPercent"
-                  value={formData.cgstPercent > 0 ? formData.cgstPercent : ''}
-                  onChange={handleTaxChange}
-                  className="w-full h-8 border"
-                  placeholder={formData.cgstPercent === 0 ? '' : undefined}
-                />
+           
+              <div>
+              <div className="border border-black font-bold text-left h-8">
+                      <input
+                          type="text"
+                          name="cgstPercent"
+                          value={item.Cgst}
+                          // onChange={handleTaxChange}
+                          className="w-full h-8 border border-black"
+                          // placeholder={formData.cgstPercent === 0 ? '' : undefined}
+                        />
               </div>
+              <div className="border border-black font-bold text-left h-8">
+                        <input
+                            type="text"
+                            name="sgstPercent"
+                            value={item.Sgst}
+                            // onChange={handleTaxChange}
+                            className="w-full h-8 border border-black"
+                            // placeholder={formData.sgstPercent === 0 ? '' : undefined}
+                          />
+              </div>
+              <div>
+              <div className="h-8">
+         
+              </div>
+              <div className="h-8">
+            
+              </div>
+
+              <div className="b">
+              
+              </div>
+            </div>
+                            
+            </div>
+            
+            </div>
+            <div>
+            
               <div className="h-8">
                 <input
                   type="text"
                   name="sgstPercent"
-                  value={formData.sgstPercent > 0 ? formData.sgstPercent : ''}
+                  value={item.stax}
                   onChange={handleTaxChange}
                   className="w-full h-8 border"
-                  placeholder={formData.sgstPercent === 0 ? '' : undefined}
+                  placeholder=""
                 />
-              </div>
+              </div> 
               <div className="h-8">
-                <input
+              <input
                   type="text"
-                  name="grossAmount"
-                  value={grossAmount}
-                  readOnly
-                  className="w-full h-8 border font-bold"
-                  placeholder="Gross Amount"
+                  name="sgstPercent"
+                  value={item.stax}
+                  onChange={handleTaxChange}
+                  className="w-full h-8 border"
+                  placeholder=""
                 />
               </div>
               <div className="b">
                 <input
                   type="text"
                   name="totalTax"
-                  value={totalTax}
+                  value={item.totalTax}
                   readOnly
                   className="w-full h-8 border font-bold"
                   placeholder="Total Tax"
                 />
               </div>
               <div className="b">
-                <input
+              <input
                   type="text"
                   name="totalAmount"
                   value={totalAmount}
                   readOnly
                   className="w-full h-8 border font-bold"
-                  placeholder="Total Amount"
+                  placeholder=""
+                />
+              </div>
+              <div className="b">
+
+                 <input
+                  type="text"
+                  name="grossAmount"
+                  value={item.grossAmount}
+                  readOnly
+                  className="w-full h-8 border font-bold"
+                  placeholder=""
                 />
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="grid grid-cols-12">
+      ))}
+  {/* End of the amounts starting */}
+  </div>
+        </div>
+        {/* Outline of the amounts ending */}
+      {/* Ruppes in words */}
+      <div className="grid grid-cols-12 border-black border-2">
         <div className="col-span-2 h-9">Rupees</div>
         <div className="col-span-10 h-9">
           <input
             type="text"
             name="totalTaxInWords"
-            value={numberToWords(totalAmount)}
+            value={numberToWords(grossAmount)}
             readOnly
             className="w-full h-9 font-bold"
             placeholder="Total Tax in Words"
           />
         </div>
-      </div>
-    </div>
+     </div>
+</div>
+   
   );
 }

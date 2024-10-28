@@ -8,7 +8,7 @@ const initialState = {
   numItems: 1,
   transport:'',
   payment:'',
-  items: Array(1).fill({ name: '', qty: '', rate: '' ,amount:''}),
+  items: Array(1).fill({ name: '', qty: '', rate: '' ,amount:'',cgst:'',sgst:'',ctax:'',stax:'',totalTax:0,grossAmount:0}),
   grossAmount: 0,
   cgstAmount: 0,
   sgstAmount: 0,
@@ -53,6 +53,9 @@ const invoiceSlice = createSlice({
     setTotalAmount: (state, action) => {
       state.totalAmount = action.payload;
     },
+    // setTotalGrossAmount: (state, action) => {
+    //   state.grossAmount = action.payload;
+    // },
   },
 });
 
