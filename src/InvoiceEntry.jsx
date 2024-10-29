@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setInvoiceData, setNumItems, updateItem, setTotalGrossAmount } from './invoiceSlice';
+import { setInvoiceData, setNumItems, updateItem, setTotalGrossAmount, setTotalTax,setCgstAmount,setSgstAmount } from './invoiceSlice';
 import { useNavigate } from 'react-router-dom';
 
 const InvoiceEntry = () => {
@@ -20,7 +20,12 @@ const InvoiceEntry = () => {
     transport: '',
     payment: '',
     companyname: '',
-    grossAmount: 0,
+    finalAmount: 0,
+    totalTax: 0,
+    Cgst:0,
+    Sgst:0,
+    Ctax:0,
+    Stax:0,
     items: [{ name: '', qty: '', rate: '', amount: 0, Cgst: 0, Sgst: 0, ctax: 0, stax: 0, totalTax: 0, grossAmount: 0 }],
   });
   const [error, setError] = useState('');
@@ -56,6 +61,7 @@ const InvoiceEntry = () => {
       if (items[index].amount > 0) {
         if (name === 'Cgst') {
           items[index].ctax = items[index].amount * items[index].Cgst * 0.01;
+          console.log(items[index].ctax)
         }
         if (name === 'Sgst') {
           items[index].stax = items[index].amount * items[index].Sgst * 0.01;
@@ -68,24 +74,31 @@ const InvoiceEntry = () => {
       items[index].grossAmount = items[index].totalTax + items[index].amount;
     }
 
-    setFormState({ ...formState, items });
+    const totalTax = items.reduce((sum, item) => sum + item.totalTax, 0);
+    const ctax=items.reduce((sum, item) => sum + item.ctax, 0);
+    const stax=items.reduce((sum, item) => sum + item.stax, 0);
+
+    setFormState({ ...formState, items, totalTax,ctax,stax});
     dispatch(updateItem({ index, item: items[index] }));
     calculateTotalGrossAmount(items);
   };
 
   const calculateTotalGrossAmount = (items) => {
-    const totalGrossAmount = items.reduce((sum, item) => sum + item.grossAmount, 0);
+    const finalAmount = items.reduce((sum, item) => sum + item.grossAmount, 0);
     setFormState((prevState) => ({
       ...prevState,
-      grossAmount: totalGrossAmount,
+      finalAmount: finalAmount,
     }));
-    dispatch(setTotalGrossAmount(totalGrossAmount));
+    dispatch(setTotalGrossAmount(finalAmount));
   };
-
+console.log(formState.Ctax)
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!error) {
       dispatch(setInvoiceData(formState));
+      dispatch(setTotalTax(formState.totalTax));
+      dispatch(setCgstAmount(formState.Ctax));
+      dispatch(setSgstAmount(formState.Stax));
       navigate('/invoice');
     }
   };
@@ -214,7 +227,7 @@ const InvoiceEntry = () => {
             placeholder={`Item ${index + 1} Quantity`}
             className="w-full p2 border border-gray-300 rounded"
           />
-                    <input
+          <input
             type="number"
             name="rate"
             value={item.rate}
@@ -230,7 +243,7 @@ const InvoiceEntry = () => {
             placeholder="Amount"
             className="w-full p-2 border border-gray-300 rounded"
           />
-          <input
+                    <input
             type="number"
             name="Cgst"
             value={item.Cgst}
@@ -281,7 +294,7 @@ const InvoiceEntry = () => {
         </div>
       ))}
       <div className="text-lg font-bold">
-        Total Gross Amount: {formState.grossAmount}
+        Total Gross Amount: {formState.finalAmount}
       </div>
       {error && <div className="text-red-500">{error}</div>}
       <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">

@@ -9,7 +9,7 @@ const initialState = {
   transport:'',
   payment:'',
   items: Array(1).fill({ name: '', qty: '', rate: '' ,amount:'',cgst:'',sgst:'',ctax:'',stax:'',totalTax:0,grossAmount:0}),
-  grossAmount: 0,
+  finalAmount: 0,
   cgstAmount: 0,
   sgstAmount: 0,
   totalTax: 0,
@@ -48,14 +48,16 @@ const invoiceSlice = createSlice({
       state.sgstAmount = action.payload;
     },
     setTotalTax: (state, action) => {
+      console.log(action.payload+"----total Tax")
       state.totalTax = action.payload;
     },
     setTotalAmount: (state, action) => {
       state.totalAmount = action.payload;
+      console.log(action.payload+"--total amount")
     },
-    // setTotalGrossAmount: (state, action) => {
-    //   state.grossAmount = action.payload;
-    // },
+    setTotalGrossAmount: (state, action) => {
+      state.finalAmount = action.payload;
+    },
   },
 });
 
@@ -69,6 +71,7 @@ export const {
   setSgstAmount,
   setTotalTax,
   setTotalAmount,
+  setTotalGrossAmount,
 } = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;
