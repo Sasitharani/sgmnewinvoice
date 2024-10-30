@@ -4,8 +4,41 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export default function Calc() {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.invoice.items);
-  const { finalAmount, totalTax, totalAmount,grossAmount,cgstAmount,sgstAmount,ctax,stax} = useSelector((state) => state.invoice);
+
+  // const { finalAmount, totalTax, totalAmount,grossAmount,cgstAmount,sgstAmount,ctax,stax} = useSelector((state) => state.invoice);
+ 
+
+
+  
+    const {
+      invoiceData: {
+        date,
+        invoiceNo,
+        address,
+        companyname,
+        add1,
+        street1,
+        street2,
+        town,
+        state,
+        pin,
+        transport,
+        payment,
+        items,
+        finalAmount,
+        totalTax,
+        Ctax: ctax,
+        Stax: stax,
+        rate,
+        qty,
+        totalAmount,
+        grossAmount ,
+      },
+      numItems,
+      totalGrossAmount,
+      CgstAmount: cgstAmount,
+      SgstAmount: sgstAmount,
+    } = useSelector((state) => state.invoice);
 
   console.log(cgstAmount+"---cgstAmount in calc")
 
@@ -190,7 +223,7 @@ export default function Calc() {
           <input
             type="text"
             name="totalTaxInWords"
-            value={numberToWords(finalAmount)+" Only/-"}
+            value={numberToWords(finalAmount)}
             readOnly
             className="w-full h-9 font-bold"
             placeholder="Total Amount in Words"

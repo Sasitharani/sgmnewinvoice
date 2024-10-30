@@ -3,10 +3,43 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateItem } from './invoiceSlice';
 
 const Desctable = () => {
-  const dispatch = useDispatch();
-  const items = useSelector((state) => state.invoice.items);
 
-  const amount = items.rate * items.qty;
+
+
+    const {
+      invoiceData: {
+        date,
+        invoiceNo,
+        address,
+        companyname,
+        add1,
+        street1,
+        street2,
+        town,
+        state,
+        pin,
+        transport,
+        payment,
+        items,
+        finalAmount,
+        totalTax,
+        Ctax: ctax,
+        Stax: stax,
+        rate,
+        qty,
+        totalAmount,
+      },
+      numItems,
+      totalGrossAmount,
+      CgstAmount: cgstAmount,
+      SgstAmount: sgstAmount,
+    } = useSelector((state) => state.invoice);
+
+
+
+  const dispatch = useDispatch();
+
+  console.log(state.invoice+"-----Items Array")
 
 
 
@@ -168,7 +201,7 @@ const Desctable = () => {
               <input
                 type="text"
                 name="qty"
-                value={item.qty}
+                value={qty}
                 readOnly
                 className="w-full h-6"
                 placeholder=""
@@ -178,7 +211,7 @@ const Desctable = () => {
               <input
                 type="text"
                 name="rate"
-                value={item.rate}
+                value={rate}
                 readOnly
                 className="w-full"
                 placeholder=""
@@ -188,7 +221,7 @@ const Desctable = () => {
               <input
                 type="text"
                 name="amount"
-                value={item.amount}
+                value={totalAmount}
                 readOnly
                 className="w-full h-6"
                 placeholder=""

@@ -1,26 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
 const initialState = {
-  date: '',
-  invoiceNo: '',
-  address: '',
+  invoiceData: {
+    date: '',
+    invoiceNo: '',
+    address: '',
+    companyname: '',
+    add1: '',
+    street1: '',
+    street2: '',
+    town: '',
+    state: '',
+    pin: '',
+    numItems: 1,
+    transport: '',
+    payment: '',
+    finalAmount: 0,
+    totalTax: 0,
+    Cgst: 0,
+    Sgst: 0,
+    Ctax: 0,
+    Stax: 0,
+    items: [{ name: '', qty: '', rate: 0, amount: 0, Cgst: 0, Sgst: 0, ctax: 0, stax: 0, totalTax: 0, grossAmount: 0 }],
+  },
   numItems: 1,
-  transport:'',
-  payment:'',
-  items: Array(1).fill({ name: '', qty: '', rate: '' ,amount:'',cgst:'',sgst:'',ctax:'',stax:'',totalTax:0,grossAmount:0}),
-  finalAmount: 0,
-  cgstAmount: 0,
-  sgstAmount: 0,
+  totalGrossAmount: 0,
+  grossAmount:0,
   totalTax: 0,
-  totalAmount: 0,
-  add1:'',
-  street1:'',
-  street2:'',
-  town:'',
-  state:'',
-  pin:'',
-  companyname:'',
+  CgstAmount: 0,
+  SgstAmount: 0,
 };
 
 const invoiceSlice = createSlice({
@@ -28,50 +36,32 @@ const invoiceSlice = createSlice({
   initialState,
   reducers: {
     setInvoiceData: (state, action) => {
-      return { ...state, ...action.payload };
+      state.invoiceData = action.payload;
     },
     setNumItems: (state, action) => {
       state.numItems = action.payload;
-      state.items = Array(action.payload).fill({ name: '', qty: '', rate: '',amount:'' });
     },
     updateItem: (state, action) => {
+      
       const { index, item } = action.payload;
-      state.items[index] = item;
-    },
-    setGrossAmount: (state, action) => {
-      state.grossAmount = action.payload;
-    },
-    setCgstAmount: (state, action) => {
-      state.cgstAmount = action.payload;
-    },
-    setSgstAmount: (state, action) => {
-      state.sgstAmount = action.payload;
-    },
-    setTotalTax: (state, action) => {
-      console.log(action.payload+"----total Tax")
-      state.totalTax = action.payload;
-    },
-    setTotalAmount: (state, action) => {
-      state.totalAmount = action.payload;
-      console.log(action.payload+"--total amount")
+      state.invoiceData.items[index] = item;
+      console.log(item)
     },
     setTotalGrossAmount: (state, action) => {
-      state.finalAmount = action.payload;
+      state.grossAmount = action.payload;
+    },
+    setTotalTax: (state, action) => {
+      state.totalTax = action.payload;
+    },
+    setCgstAmount: (state, action) => {
+      state.CgstAmount = action.payload;
+    },
+    setSgstAmount: (state, action) => {
+      state.SgstAmount = action.payload;
     },
   },
 });
 
-export const {
-  setInvoiceData,
-  setNumItems,
-  updateItem,
-  amount,
-  setGrossAmount,
-  setCgstAmount,
-  setSgstAmount,
-  setTotalTax,
-  setTotalAmount,
-  setTotalGrossAmount,
-} = invoiceSlice.actions;
+export const { setInvoiceData, setNumItems, updateItem, setTotalGrossAmount, setTotalTax, setCgstAmount, setSgstAmount } = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;
