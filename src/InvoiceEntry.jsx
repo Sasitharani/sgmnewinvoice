@@ -1,4 +1,3 @@
-// InvoiceEntry.js
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -110,12 +109,35 @@ const InvoiceEntry = () => {
     
     dispatch(updateItem({ index, item: items[index] }));
     dispatch(setTotalGrossAmount(grossAmount));
-   
     dispatch(setCgstAmount(items[index].ctax));
     dispatch(setSgstAmount(items[index].stax));
     dispatch(setCgst(items[index].Cgst));
     dispatch(setSgst(items[index].Sgst));
   };
+
+  const addItemRow = () => {
+    setFormState({
+      ...formState,
+      items: [
+        ...formState.items,
+        {
+          name: '',
+          qty: '',
+          rate: '',
+          amount: 0,
+          Cgst: 0,
+          Sgst: 0,
+          ctax: 0,
+          stax: 0,
+          totalTax: 0,
+          grossAmount: 0,
+          date: formState.date,      // Include date in each new row
+          invoiceNo: formState.invoiceNo, // Include invoice number in each new row
+        },
+      ],
+    });
+  };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -126,96 +148,75 @@ const InvoiceEntry = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-lg mx-auto mt-10 p-6 border border-gray-300 rounded shadow">
-      <label>Date</label>
-      <input type="date" name="date" value={formState.date} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" />
-
-      <label>Invoice No</label>
-      <input type="text" name="invoiceNo" value={formState.invoiceNo} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" />
-
-      <label>Address</label>
-      <select name="address" value={formState.address} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded">
-        <option value="" disabled>Select Address</option>
-        <option value="Address 1">Address 1</option>
-        <option value="Address 2">Address 2</option>
-        <option value="Address 3">Address 3</option>
-        <option value="Address 4">Address 4</option>
-      </select>
-
-      <label>Company Name</label>
-      <input type="text" name="companyname" value={formState.companyname} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" />
-
-      <label>Door No/Flat No/Bld No</label>
-      <input type="text" name="add1" value={formState.add1} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" />
-
-      <label>Street-1</label>
-      <input type="text" name="street1" value={formState.street1} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" />
-
-      <label>Street-2</label>
-      <input type="text" name="street2" value={formState.street2} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" />
-
-      <label>Town/City/Village</label>
-      <input type="text" name="town" value={formState.town} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" />
-
-      <label>State</label>
-      <input type="text" name="state" value={formState.state} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" />
-
-      <label>Pin Code</label>
-      <input type="number" name="pin" value={formState.pin} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded" />
-
-      <label>Transport</label>
-      <select name="transport" value={formState.transport} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded">
-        <option value="" disabled>Select Transport</option>
-        <option value="SGM Transport">SGM Transport</option>
-        <option value="Own Transport">Own Transport</option>
-      </select>
-
-      <label>Payment Method</label>
-      <select name="payment" value={formState.payment} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded">
-        <option value="" disabled>Select Payment Method</option>
-        <option value="Cash">Cash</option>
-        <option value="Cheque">Cheque</option>
-        <option value="Bank Transfer">Bank Transfer</option>
-      </select>
-
-      <label>Number of Items</label>
-      <input type="number" name="numItems" value={formState.numItems} onChange={handleNumItemsChange} className="w-full p-2 border border-gray-300 rounded" min="1" />
-
-      {formState.items.map((item, index) => (
-        <div key={index} className="space-y-2">
-          <label>Item Name</label>
-          <select name="name" value={item.name} onChange={(e) => handleItemChange(index, e)} className="w-full p-2 border border-gray-300 rounded">
-            <option value="" disabled>Select Item</option>
-            <option value="Fly Ash Bricks-White">Fly Ash Bricks-White</option>
-            <option value="Fly Ash Bricks-Brown">Fly Ash Bricks-Brown</option>
-            <option value="Fly Ash Bricks-Normal">Fly Ash Bricks-Normal</option>
-            <option value="Solid Bricks-8">Solid Bricks-8"</option>
-            <option value="Solid Bricks-6">Solid Bricks-6"</option>
-          </select>
-
-          <label>Quantity</label>
-          <input type="number" name="qty" value={item.qty} onChange={(e) => handleItemChange(index, e)} className="w-full p-2 border border-gray-300 rounded" />
-
-          <label>Rate</label>
-          <input type="number" name="rate" value={item.rate} onChange={(e) => handleItemChange(index, e)} className="w-full p-2 border border-gray-300 rounded" />
-
-          <label>Amount</label>
-          <input type="number" name="amount" value={item.amount} readOnly className="w-full p-2 border border-gray-300 rounded" />
-
-          <label>CGST</label>
-          <input type="number" name="Cgst" value={item.Cgst} readOnly className="w-full p-2 border border-gray-300 rounded" />
-
-          <label>SGST</label>
-          <input type="number" name="Sgst" value={item.Sgst} readOnly className="w-full p-2 border border-gray-300 rounded" />
-
-          <div><strong>CTax:</strong> {item.ctax.toFixed(2)}</div>
-          <div><strong>STax:</strong> {item.stax.toFixed(2)}</div>
-          <div><strong>Total Tax:</strong> {item.totalTax.toFixed(2)}</div>
-          <div><strong>Gross Amount:</strong> {item.grossAmount.toFixed(2)}</div>
-        </div>
-      ))}
-
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded">Submit Invoice</button>
+    <form onSubmit={handleSubmit} className="w-full max-w-screen-xl mx-auto mt-10 p-6 border border-gray-300 rounded shadow" style={{ margin: '30px' }}>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-collapse border border-gray-300">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Date</th>
+              <th className="border border-gray-300 p-2">Invoice No</th>
+              <th className="border border-gray-300 p-2">Item Name</th>
+              <th className="border border-gray-300 p-2">Quantity</th>
+              <th className="border border-gray-300 p-2">Rate</th>
+              <th className="border border-gray-300 p-2">Amount</th>
+              <th className="border border-gray-300 p-2">CGST (%)</th>
+              <th className="border border-gray-300 p-2">SGST (%)</th>
+              <th className="border border-gray-300 p-2">CTax</th>
+              <th className="border border-gray-300 p-2">STax</th>
+              <th className="border border-gray-300 p-2">Total Tax</th>
+              <th className="border border-gray-300 p-2">Gross Amount</th>
+              <th className="border border-gray-300 p-2">Actions</th> {/* Added Actions header */}
+            </tr>
+          </thead>
+          <tbody>
+            {formState.items.map((item, index) => (
+              <tr key={index}>
+            
+                  <>
+                    <td className="border border-gray-300 p-2">
+                      <input type="date" name="date" value={formState.date} onChange={handleChange} className="w-full p-1" />
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      <input type="text" name="invoiceNo" value={formState.invoiceNo} onChange={handleChange} className="w-full p-1" />
+                    </td>
+                  </>
+                
+                <td className="border border-gray-300 p-2">
+                  <select name="name" value={item.name} onChange={(e) => handleItemChange(index, e)} className="w-full">
+                    <option value="" disabled>Select Item</option>
+                    <option value="Fly Ash Bricks-White">Fly Ash Bricks-White</option>
+                    <option value="Fly Ash Bricks-Brown">Fly Ash Bricks-Brown</option>
+                    <option value="Fly Ash Bricks-Normal">Fly Ash Bricks-Normal</option>
+                    <option value="Solid Bricks-8">Solid Bricks-8"</option>
+                    <option value="Solid Bricks-6">Solid Bricks-6"</option>
+                  </select>
+                </td>
+                <td className="border border-gray-300 p-2">
+                  <input type="number" name="qty" value={item.qty} onChange={(e) => handleItemChange(index, e)} className="w-full p-1" />
+                </td>
+                <td className="border border-gray-300 p-2">
+                  <input type="number" name="rate" value={item.rate} onChange={(e) => handleItemChange(index, e)} className="w-full p-1" />
+                </td>
+                <td className="border border-gray-300 p-2">{item.amount.toFixed(2)}</td>
+                <td className="border border-gray-300 p-2">{item.Cgst}</td>
+                <td className="border border-gray-300 p-2">{item.Sgst}</td>
+                <td className="border border-gray-300 p-2">{item.ctax.toFixed(2)}</td>
+                <td className="border border-gray-300 p-2">{item.stax.toFixed(2)}</td>
+                <td className="border border-gray-300 p-2">{item.totalTax.toFixed(2)}</td>
+                <td className="border border-gray-300 p-2">{item.grossAmount.toFixed(2)}</td>
+                {index === 0 && ( // Only show buttons in the first row
+                  <td className="border border-gray-300 p-2">
+                    <div className="flex space-x-2">
+                      <button type="button" onClick={addItemRow} className="bg-green-500 text-white px-4 py-2 rounded">Add New</button>
+                      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Print</button>
+                    </div>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </form>
   );
 };
