@@ -1,163 +1,127 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setInvoiceData } from './invoiceSlice';
+import { useSelector } from 'react-redux';
 
 const Firstrow = () => {
-  const dispatch = useDispatch();
-  const formData = useSelector((state) => state.invoice);
+  const invoiceData = useSelector((state) => state.invoice.invoiceData);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    dispatch(setInvoiceData({ ...formData, [name]: value }));
+  const spanStyle = {
+    display: 'inline-block',
+    paddingLeft: '3px',
+    height: '8px',
+    lineHeight: '8px',
+    width: '100%',
+    textAlign: 'left',
   };
-  console.log(formData)
-  const { add1, street1, street2, town, state,pin, date, invoiceNo, transportMode, paymentMode,companyname } = useSelector((state) => state.invoice);
+
+  // Function to format date as dd-mm-yy
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Date';
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+    return `${day}-${month}-${year}`;
+  };
+
   return (
     <div>
-      {/* Address and Date */}
+      {/* Company Name and Date */}
       <div className="grid grid-cols-7 my-border">
         <div className="col-span-5">
-        <input
-                type="text"
-                name="companyname"
-                value={formData.companyname}
-                onChange={handleChange}
-                className="w-full p-3 h-8"
-                placeholder="Name of the Company"
-              />
+          <span style={spanStyle}>
+            {invoiceData.companyname || 'Name of the Company'}
+          </span>
         </div>
         <div className="col-span-2 font-semibold">
           <div className="grid grid-cols-[30%_70%]">
             <div className="text-left">Date</div>
             <div>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                className="w-full p-3 h-8"
-                placeholder="Date"
-              />
+              <span style={spanStyle}>
+                {formatDate(invoiceData.date)}
+              </span>
             </div>
           </div>
         </div>
       </div>
-      {/* Address and Blank */}
+
+      {/* Address 1 */}
       <div className="grid grid-cols-7">
-        <div className="col-span-5 b">
-          <input
-            type="text"
-            name="address2"
-            value={formData.add1}
-            onChange={handleChange}
-            className="w-full p-3 h-8"
-            placeholder="Address 1"
-          />
+        <div className="col-span-5">
+          <span style={spanStyle}>
+            {invoiceData.add1 || 'Address 1'}
+          </span>
         </div>
-        <div className="col-span-2 font-semibold text-center">
-          <div className="grid grid-cols-[30%_70%]"></div>
-        </div>
+        <div className="col-span-2 font-semibold text-center"></div>
       </div>
-      {/* Address and Invoice No */}
-      <div className="grid grid-cols-7 b my-border">
-        <div className="col-span-5 b">
-          <input
-            type="text"
-            name="address3"
-            value={formData.street1}
-            onChange={handleChange}
-            className="w-full h-8 p-3"
-            placeholder="Address 2"
-          />
+
+      {/* Address 2 and Invoice No */}
+      <div className="grid grid-cols-7 my-border">
+        <div className="col-span-5">
+          <span style={spanStyle}>
+            {invoiceData.street1 || 'Address 2'}
+          </span>
         </div>
         <div className="col-span-2 font-semibold">
           <div className="grid grid-cols-[30%_70%]">
-            <div className="b text-left">Invoice No:-</div>
-            <div className="b">
-              <input
-                type="text"
-                name="invoiceNo"
-                value={formData.invoiceNo}
-                className="w-full h-9"
-                placeholder="Invoice No"
-              />
+            <div className="text-left">Invoice No:</div>
+            <div>
+              <span style={spanStyle}>
+                {invoiceData.invoiceNo || 'Invoice No'}
+              </span>
             </div>
           </div>
         </div>
       </div>
-      {/* Address and Delivery Mode */}
-      <div className="grid grid-cols-7 b">
-        <div className="col-span-5 b">
-          <input
-            type="text"
-            name="address4"
-            value={formData.street2}
-            onChange={handleChange}
-            className="w-full h-8 p-3"
-            placeholder="Address 3"
-          />
+
+      {/* Address 3 and Delivery Mode */}
+      <div className="grid grid-cols-7">
+        <div className="col-span-5">
+          <span style={spanStyle}>
+            {invoiceData.street2 || 'Address 3'}
+          </span>
         </div>
         <div className="col-span-2 font-semibold">
           <div className="grid grid-cols-[30%_70%]">
-            <div className="b text-left">Delivery Mode:-</div>
-            <div className="b">
-            <input
-                type="text"
-                name="invoiceNo"
-                value={formData.transport}
-                className="w-full h-9 "
-                
-              />
+            <div className="text-left">Delivery Mode:</div>
+            <div>
+              <span style={spanStyle}>
+                {invoiceData.transport || 'Delivery Mode'}
+              </span>
             </div>
           </div>
         </div>
       </div>
-      {/* Address 4 and Payment */}
+
+      {/* Town and Payment Mode */}
       <div className="grid grid-cols-7 my-border">
-        <div className="col-span-5 b">
-          <input
-            type="text"
-            name="address6"
-            value={formData.town}
-            onChange={handleChange}
-            className="w-full h-8 p-3"
-            placeholder="town"
-          />
+        <div className="col-span-5">
+          <span style={spanStyle}>
+            {invoiceData.town || 'Town'}
+          </span>
         </div>
         <div className="col-span-2 font-semibold">
           <div className="grid grid-cols-[30%_70%]">
-            <div className="b text-left">Payment Mode:-</div>
-            <input
-                type="text"
-                name="invoiceNo"
-                value={formData.payment}
-                className="w-full h-9"
-               
-              />
+            <div className="text-left">Payment Mode:</div>
+            <div>
+              <span style={spanStyle}>
+                {invoiceData.payment || 'Payment Mode'}
+              </span>
+            </div>
           </div>
         </div>
       </div>
-      {/* Pin and Blank */}
+
+      {/* Pin Code */}
       <div className="grid grid-cols-7 my-border">
-        <div className="col-span-5 b">
-          <input
-            type="text"
-            name="Pin"
-            value={formData.pin}
-            onChange={handleChange}
-            className="w-full h-8 p-3"
-            placeholder="Pin Code"
-          />
+        <div className="col-span-5">
+          <span style={spanStyle}>
+            {invoiceData.pin || 'Pin Code'}
+          </span>
         </div>
-        <div className="col-span-2 font-semibold">
-          <div className="grid grid-cols-[30%_70%]">
-            <div className="b text-left"></div>
-          
-          </div>
-        </div>
+        <div className="col-span-2 font-semibold"></div>
       </div>
     </div>
   );
-                };
+};
 
-                export default Firstrow;
+export default Firstrow;

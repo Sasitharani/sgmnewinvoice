@@ -3,44 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 export default function Calc() {
-  const dispatch = useDispatch();
+  const {totalTax, totalAmount,grossAmount,SgstAmount,CgstAmount,Cgst,Sgst } = useSelector((state) => state.invoice);
+  const formData1 = useSelector((state) => state.invoice);
 
-  // const { finalAmount, totalTax, totalAmount,grossAmount,cgstAmount,sgstAmount,ctax,stax} = useSelector((state) => state.invoice);
- 
-
-
-  
-    const {
-      invoiceData: {
-        date,
-        invoiceNo,
-        address,
-        companyname,
-        add1,
-        street1,
-        street2,
-        town,
-        state,
-        pin,
-        transport,
-        payment,
-        items,
-        finalAmount,
-        totalTax,
-        Ctax: ctax,
-        Stax: stax,
-        rate,
-        qty,
-        totalAmount,
-        grossAmount ,
-      },
-      numItems,
-      totalGrossAmount,
-      CgstAmount: cgstAmount,
-      SgstAmount: sgstAmount,
-    } = useSelector((state) => state.invoice);
-
-  console.log(cgstAmount+"---cgstAmount in calc")
+  console.log(formData1)
+  console.log(Sgst+"--formData Sgst")
+  console.log(totalAmount+"---totalAmount in calc")
 
   const [formData, setFormData] = useState({
     address1: '',
@@ -135,39 +103,58 @@ export default function Calc() {
               {/* Outline of the amounts starting */}
               <div className="grid grid-cols-[40%_30%_30%]">
                 <div>
+                <div className="border border-black font-bold text-left h-8">Gross Amount:</div>
                   <div className="border border-black font-bold text-left h-8">CGST %:</div>
                   <div className="border border-black font-bold text-left h-8">SGST %:</div>
                   <div className="border border-black font-bold text-left h-8">Total Tax:</div>
-                  <div className="border border-black font-bold text-left h-8">Gross Amount:</div>
                   <div className="border border-black font-bold text-left h-8">Total Amount:</div>
                 </div>
                 <div>
                   <div className="border border-black font-bold text-left h-8">
-                    <input
+                  <input
                       type="text"
-                      name="cgstPercent"
-                      // value={Cgst}
-                      className="w-full h-8 border border-black"
+                      name="grossAmount"
+                      value=""
+                      readOnly
+                      className="w-full h-8 border font-bold"
                     />
-                  </div>
+                    </div>
                   <div className="border border-black font-bold text-left h-8">
                     <input
                       type="text"
-                      name="sgstPercent"
-                      // value={Sgst}
-                      className="w-full h-8 border border-black"
+                      name="CgstPercent"
+                      value={Cgst+"%"}
+                      className="w-full h-8 border"
                     />
                   </div>
-                  <div className="h-8"></div>
+                  <div className="h-8">
+                  <div className="border border-black font-bold text-left h-8">
+                    <input
+                      type="text"
+                      name="CgstPercent"
+                      value={Sgst+"%"}
+                      className="w-full h-8 border"
+                    />
+                  </div>
+                  </div>
                   <div className="h-8"></div>
                   <div className="h-8"></div>
                 </div>
                 <div>
+                <div className="h-8">
+                <input
+                      type="text"
+                      name="SgstPercent"
+                      value={grossAmount}
+                      readOnly
+                      className="w-full h-8 border font-bold"
+                    />
+                  </div>
                   <div className="h-8">
                     <input
                       type="text"
                       name="sgstPercent"
-                      value={cgstAmount}
+                      value={CgstAmount}
                       onChange={handleTaxChange}
                       className="w-full h-8 border"
                     />
@@ -176,7 +163,7 @@ export default function Calc() {
                     <input
                       type="text"
                       name="sgstPercent"
-                      value={sgstAmount}
+                      value={SgstAmount}
                       onChange={handleTaxChange}
                       className="w-full h-8 border"
                     />
@@ -191,20 +178,12 @@ export default function Calc() {
                       placeholder="Total Tax"
                     />
                   </div>
-                  <div className="h-8">
-                    <input
-                      type="text"
-                      name="totalAmount"
-                      value={totalAmount}
-                      readOnly
-                      className="w-full h-8 border font-bold"
-                    />
-                  </div>
+          
                   <div className="h-8">
                     <input
                       type="text"
                       name="grossAmount"
-                      value={grossAmount}
+                      value={totalAmount}
                       readOnly
                       className="w-full h-8 border font-bold"
                     />
@@ -223,12 +202,13 @@ export default function Calc() {
           <input
             type="text"
             name="totalTaxInWords"
-            value={numberToWords(finalAmount)}
+            value={numberToWords(totalAmount)}
             readOnly
             className="w-full h-9 font-bold"
             placeholder="Total Amount in Words"
           />
         </div>
+
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+// invoiceSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -17,51 +18,40 @@ const initialState = {
     payment: '',
     finalAmount: 0,
     totalTax: 0,
-    Cgst: 0,
-    Sgst: 0,
     Ctax: 0,
     Stax: 0,
     items: [{ name: '', qty: '', rate: 0, amount: 0, Cgst: 0, Sgst: 0, ctax: 0, stax: 0, totalTax: 0, grossAmount: 0 }],
   },
   numItems: 1,
   totalGrossAmount: 0,
-  grossAmount:0,
+  grossAmount: 0,
   totalTax: 0,
   CgstAmount: 0,
   SgstAmount: 0,
+  Cgst: 0,
+  Sgst: 0,
 };
 
 const invoiceSlice = createSlice({
   name: 'invoice',
   initialState,
   reducers: {
-    setInvoiceData: (state, action) => {
-      state.invoiceData = action.payload;
-    },
-    setNumItems: (state, action) => {
-      state.numItems = action.payload;
-    },
+    setInvoiceData: (state, action) => { state.invoiceData = { ...state.invoiceData, ...action.payload }; },
+    setNumItems: (state, action) => { state.numItems = action.payload; },
     updateItem: (state, action) => {
-      
       const { index, item } = action.payload;
       state.invoiceData.items[index] = item;
-      console.log(item)
     },
-    setTotalGrossAmount: (state, action) => {
-      state.grossAmount = action.payload;
-    },
-    setTotalTax: (state, action) => {
-      state.totalTax = action.payload;
-    },
-    setCgstAmount: (state, action) => {
-      state.CgstAmount = action.payload;
-    },
-    setSgstAmount: (state, action) => {
-      state.SgstAmount = action.payload;
-    },
+    setTotalGrossAmount: (state, action) => { state.grossAmount = action.payload; },
+    setTotalAmount: (state, action) => { state.totalAmount = action.payload; },
+    setTotalTax: (state, action) => { state.totalTax = action.payload; },
+    setCgstAmount: (state, action) => { state.CgstAmount = action.payload; },
+    setSgstAmount: (state, action) => { state.SgstAmount = action.payload; },
+    setCgst: (state, action) => { state.Cgst = action.payload; },
+    setSgst: (state, action) => { state.Sgst = action.payload; },
   },
 });
 
-export const { setInvoiceData, setNumItems, updateItem, setTotalGrossAmount, setTotalTax, setCgstAmount, setSgstAmount } = invoiceSlice.actions;
+export const { setInvoiceData, setNumItems, updateItem, setTotalGrossAmount, setTotalTax, setCgstAmount, setSgstAmount, setTotalAmount, setSgst, setCgst } = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;

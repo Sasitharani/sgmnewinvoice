@@ -13,28 +13,36 @@ import Footer from './Footer';
 import InvoiceEntry from './InvoiceEntry';
 import SliceDetails from './sliceDetails';
 
-
 const InvoicePage = () => {
-  const invoiceData = useSelector((state) => state.invoice);
+  const invoiceData = useSelector((state) => state.invoice.invoiceData);
   const componentRef = React.useRef();
 
-  const handleSaveAsPDF = () => {
+  const handleSaveAsPDF = async () => {
     const input = componentRef.current;
-    const invoiceNo = formData.invoiceNo;
-    const currentYear = new Date().getFullYear();
-    const financialYear = `${currentYear}-${currentYear + 1}`;
-  
-    html2canvas(input, { scale: 2, useCORS: true }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`${invoiceNo}Invoice${financialYear}.pdf`);
-    });
+
+    if (input) {
+      const invoiceNo = invoiceData.invoiceNo; // Make sure invoiceNo is correctly accessed
+      const currentYear = new Date().getFullYear();
+      const financialYear = `${currentYear}-${currentYear + 1}`;
+
+      try {
+        const canvas = await html2canvas(input, { scale: 2, useCORS: true });
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`${invoiceNo}Invoice${financialYear}.pdf`);
+      } catch (error) {
+        console.error("Error generating PDF:", error);
+        Swal.fire("Error", "Could not generate PDF.", "error");
+      }
+    } else {
+      Swal.fire("Error", "Could not find the invoice component.", "error");
+    }
   };
-  
 
   return (
     <div className="center-content">
@@ -51,13 +59,16 @@ const InvoicePage = () => {
                   <Firstrow />
                   <Desctable />
                   <Calc />
+                  <Footer />
                 </div>
               </div>
-              <Footer />
             </div>
           </form>
         </div>
-        <button onClick={handleSaveAsPDF} className="px-4 py-2 bg-green-500 text-white rounded">
+        <button
+          onClick={handleSaveAsPDF}
+          className="px-4 py-2 bg-green-500 text-white rounded mt-4"
+        >
           Save as PDF
         </button>
       </div>

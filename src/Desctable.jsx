@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateItem } from './invoiceSlice';
 
 const Desctable = () => {
-
-
-
     const {
       invoiceData: {
         date,
@@ -38,17 +35,11 @@ const Desctable = () => {
 
 
   const dispatch = useDispatch();
-
-  console.log(state.invoice+"-----Items Array")
-
-
+  useEffect(() => { items.forEach((item, index) => { console.log(`${index + 1}: ${JSON.stringify(item)} -----Items Array`); }); }, [items]);
 
   const handleItemChange = (index, e) => {
     const { name, value } = e.target;
     const updatedItem = { ...items[index], [name]: value };
-
-
-
     dispatch(updateItem({ index, item: updatedItem }));
   };
 
@@ -83,7 +74,7 @@ const Desctable = () => {
               name="Sno"
               value={index + 1}
               readOnly
-              className="w-full h-6"
+              className="w-full h-8"
               placeholder=""
             />
           </div>
@@ -93,7 +84,7 @@ const Desctable = () => {
               name="description"
               value={item.name}
               readOnly
-              className="w-full h-6"
+              className="w-full h-8"
               placeholder=""
             />
           </div>
@@ -103,7 +94,7 @@ const Desctable = () => {
               name="pack"
               value={item.pack}
               readOnly
-              className="w-full h-6"
+              className="w-full h-8"
               placeholder=""
             />
           </div>
@@ -113,7 +104,7 @@ const Desctable = () => {
               name="hsn"
               value={item.hsn}
               readOnly
-              className="w-full h-6"
+              className="w-full h-8"
               placeholder=""
             />
           </div>
@@ -143,7 +134,7 @@ const Desctable = () => {
               name="amount"
               value={item.amount}
               readOnly
-              className="w-full h-6"
+              className="w-full h-8"
               placeholder={"Amount"}
             />
           </div>
@@ -163,7 +154,7 @@ const Desctable = () => {
                 name="Sno"
                 value=""
                 readOnly
-                className="w-full h-6"
+                className="w-full h-8"
                 placeholder=""
               />
             </div>
@@ -173,7 +164,7 @@ const Desctable = () => {
                 name="description"
                 value={item.name}
                 readOnly
-                className="w-full h-6"
+                className="w-full h-8"
                 placeholder=""
               />
             </div>
@@ -183,7 +174,7 @@ const Desctable = () => {
                 name="pack"
                 value={item.pack}
                 readOnly
-                className="w-full h-6"
+                className="w-full h-8"
                 placeholder=""
               />
             </div>
@@ -193,7 +184,7 @@ const Desctable = () => {
                 name="hsn"
                 value={item.hsn}
                 readOnly
-                className="w-full h-6"
+                className="w-full h-8"
                 placeholder=""
               />
             </div>
@@ -203,7 +194,7 @@ const Desctable = () => {
                 name="qty"
                 value={qty}
                 readOnly
-                className="w-full h-6"
+                className="w-full h-8"
                 placeholder=""
               />
             </div>
@@ -221,9 +212,9 @@ const Desctable = () => {
               <input
                 type="text"
                 name="amount"
-                value={totalAmount}
+                value=""
                 readOnly
-                className="w-full h-6"
+                className="w-full h-8"
                 placeholder=""
               />
             </div>
