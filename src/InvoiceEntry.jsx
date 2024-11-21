@@ -45,7 +45,7 @@ const InvoiceEntry = () => {
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
-    axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
+    axios.get('http://localhost:5000/api/invoices')
       .then(response => {
         const invoiceData = response.data[0]; // Assuming you want to display the first invoice
         setFormState({
@@ -86,6 +86,7 @@ const InvoiceEntry = () => {
     dispatch(updateAddress(address));
     setFormState({
       ...formState,
+      address: address, // Update the address in the form state
       street1: address.street1,
       street2: address.street2,
       town: address.townCity,
@@ -206,6 +207,17 @@ const InvoiceEntry = () => {
     dispatch(openModal());
   };
 
+  const saveInvoice = () => {
+    axios.post('http://localhost:5000/api/invoices', formState)
+      .then(response => {
+        console.log('Invoice saved:', response.data);
+        // Optionally, you can reset the form or navigate to another page
+      })
+      .catch(error => {
+        console.error('Error saving invoice:', error);
+      });
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="w-full max-w-screen-xl mx-auto mt-10 p-6 border border-gray-300 rounded shadow" style={{ margin: '30px' }}>
@@ -274,7 +286,7 @@ const InvoiceEntry = () => {
                     <td className="border border-gray-300 p-2">
                       <div className="flex space-x-2">
                         <button type="button" onClick={addItemRow} className="bg-green-500 text-white px-4 py-2 rounded">Add New</button>
-                        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Print</button>
+                        <button type="button" onClick={saveInvoice} className="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
                       </div>
                     </td>
                   )}
