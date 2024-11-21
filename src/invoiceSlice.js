@@ -30,6 +30,15 @@ const initialState = {
   SgstAmount: 0,
   Cgst: 0,
   Sgst: 0,
+  address: {
+    flatDoorNo: '',
+    street1: '',
+    street2: '',
+    townCity: '',
+    state: '',
+    pin: ''
+  },
+  savedAddresses: []
 };
 
 const invoiceSlice = createSlice({
@@ -49,9 +58,19 @@ const invoiceSlice = createSlice({
     setSgstAmount: (state, action) => { state.SgstAmount = action.payload; },
     setCgst: (state, action) => { state.Cgst = action.payload; },
     setSgst: (state, action) => { state.Sgst = action.payload; },
+    updateAddress: (state, action) => {
+      state.address = action.payload;
+      state.savedAddresses.push(action.payload);
+    },
+    openModal: (state) => {
+      state.isModalOpen = true;
+    },
+    closeModal: (state) => {
+      state.isModalOpen = false;
+    }
   },
 });
 
-export const { setInvoiceData, setNumItems, updateItem, setTotalGrossAmount, setTotalTax, setCgstAmount, setSgstAmount, setTotalAmount, setSgst, setCgst } = invoiceSlice.actions;
+export const { setInvoiceData, setNumItems, updateItem, setTotalGrossAmount, setTotalTax, setCgstAmount, setSgstAmount, setTotalAmount, setSgst, setCgst, updateAddress,closeModal,openModal  } = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;

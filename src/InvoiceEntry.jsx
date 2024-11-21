@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setCgst,
   setSgst,
@@ -11,8 +11,11 @@ import {
   setCgstAmount,
   setTotalAmount,
   setSgstAmount,
+  updateAddress,
+  openModal // Import the openModal action
 } from './invoiceSlice';
 import { useNavigate } from 'react-router-dom';
+import AddressModal from './AddressModal';
 
 const InvoiceEntry = () => {
   const dispatch = useDispatch();
@@ -33,13 +36,33 @@ const InvoiceEntry = () => {
     payment: '',
     finalAmount: 0,
     totalTax: 0,
-    Cgst: 0,
-    Sgst: 0,
-    Ctax: 0,
-    Stax: 0,
-    totalAmount: 0,
-    items: [{ name: '', qty: '', rate: '', amount: 0, Cgst: 0, Sgst: 0, ctax: 0, stax: 0, totalTax: 0, grossAmount: 0 }],
+    items: [{ name: '', quantity: 0, rate: 0, amount: 0, cgst: 0, sgst: 0, ctax: 0, stax: 0, totalTax: 0, grossAmount: 0 }]
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [addressAdded, setAddressAdded] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleAddressSubmit = (address) => {
+    dispatch(updateAddress(address));
+    setFormState({
+      ...formState,
+      street1: address.street1,
+      street2: address.street2,
+      town: address.townCity,
+      state: address.state,
+      pin: address.pin
+    });
+    setAddressAdded(true);
+    handleCloseModal();
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +74,7 @@ const InvoiceEntry = () => {
     setFormState({
       ...formState,
       numItems,
-      items: Array(numItems).fill({ name: '', qty: '', rate: '', amount: 0, Cgst: 0, Sgst: 0, ctax: 0, stax: 0, totalTax: 0, grossAmount: 0 }),
+      items: Array(numItems).fill({ name: '', quantity: 0, rate: 0, amount: 0, cgst: 0, sgst: 0, ctax: 0, stax: 0, totalTax: 0, grossAmount: 0 }),
     });
     dispatch(setNumItems(numItems));
   };
@@ -147,77 +170,90 @@ const InvoiceEntry = () => {
     navigate('/invoice');
   };
 
+  const addAddress = () => {
+    dispatch(openModal());
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-screen-xl mx-auto mt-10 p-6 border border-gray-300 rounded shadow" style={{ margin: '30px' }}>
-      <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse border border-gray-300">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 p-2">Date</th>
-              <th className="border border-gray-300 p-2">Invoice No</th>
-              <th className="border border-gray-300 p-2">Item Name</th>
-              <th className="border border-gray-300 p-2">Quantity</th>
-              <th className="border border-gray-300 p-2">Rate</th>
-              <th className="border border-gray-300 p-2">Amount</th>
-              <th className="border border-gray-300 p-2">CGST (%)</th>
-              <th className="border border-gray-300 p-2">SGST (%)</th>
-              <th className="border border-gray-300 p-2">CTax</th>
-              <th className="border border-gray-300 p-2">STax</th>
-              <th className="border border-gray-300 p-2">Total Tax</th>
-              <th className="border border-gray-300 p-2">Gross Amount</th>
-              <th className="border border-gray-300 p-2">Actions</th> {/* Added Actions header */}
-            </tr>
-          </thead>
-          <tbody>
-            {formState.items.map((item, index) => (
-              <tr key={index}>
-            
-                  <>
-                    <td className="border border-gray-300 p-2">
-                      <input type="date" name="date" value={formState.date} onChange={handleChange} className="w-full p-1" />
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      <input type="text" name="invoiceNo" value={formState.invoiceNo} onChange={handleChange} className="w-full p-1" />
-                    </td>
-                  </>
-                
-                <td className="border border-gray-300 p-2">
-                  <select name="name" value={item.name} onChange={(e) => handleItemChange(index, e)} className="w-full">
-                    <option value="" disabled>Select Item</option>
-                    <option value="Fly Ash Bricks-White">Fly Ash Bricks-White</option>
-                    <option value="Fly Ash Bricks-Brown">Fly Ash Bricks-Brown</option>
-                    <option value="Fly Ash Bricks-Normal">Fly Ash Bricks-Normal</option>
-                    <option value="Solid Bricks-8">Solid Bricks-8"</option>
-                    <option value="Solid Bricks-6">Solid Bricks-6"</option>
-                  </select>
-                </td>
-                <td className="border border-gray-300 p-2">
-                  <input type="number" name="qty" value={item.qty} onChange={(e) => handleItemChange(index, e)} className="w-full p-1" />
-                </td>
-                <td className="border border-gray-300 p-2">
-                  <input type="number" name="rate" value={item.rate} onChange={(e) => handleItemChange(index, e)} className="w-full p-1" />
-                </td>
-                <td className="border border-gray-300 p-2">{item.amount.toFixed(2)}</td>
-                <td className="border border-gray-300 p-2">{item.Cgst}</td>
-                <td className="border border-gray-300 p-2">{item.Sgst}</td>
-                <td className="border border-gray-300 p-2">{item.ctax.toFixed(2)}</td>
-                <td className="border border-gray-300 p-2">{item.stax.toFixed(2)}</td>
-                <td className="border border-gray-300 p-2">{item.totalTax.toFixed(2)}</td>
-                <td className="border border-gray-300 p-2">{item.grossAmount.toFixed(2)}</td>
-                {index === 0 && ( // Only show buttons in the first row
-                  <td className="border border-gray-300 p-2">
-                    <div className="flex space-x-2">
-                      <button type="button" onClick={addItemRow} className="bg-green-500 text-white px-4 py-2 rounded">Add New</button>
-                      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Print</button>
-                    </div>
-                  </td>
-                )}
+    <div>
+      <form onSubmit={handleSubmit} className="w-full max-w-screen-xl mx-auto mt-10 p-6 border border-gray-300 rounded shadow" style={{ margin: '30px' }}>
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse border border-gray-300">
+            <thead>
+              <tr>
+                <th className="border border-gray-300 p-2">Date</th>
+                <th className="border border-gray-300 p-2">Invoice No</th>
+                <th className="border border-gray-300 p-2">Add Address</th> {/* New column for Add Address */}
+                <th className="border border-gray-300 p-2">Item Name</th>
+                <th className="border border-gray-300 p-2">Quantity</th>
+                <th className="border border-gray-300 p-2">Rate</th>
+                <th className="border border-gray-300 p-2">Amount</th>
+                <th className="border border-gray-300 p-2">CGST (%)</th>
+                <th className="border border-gray-300 p-2">SGST (%)</th>
+                <th className="border border-gray-300 p-2">CTax</th>
+                <th className="border border-gray-300 p-2">STax</th>
+                <th className="border border-gray-300 p-2">Total Tax</th>
+                <th className="border border-gray-300 p-2">Gross Amount</th>
+                <th className="border border-gray-300 p-2">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </form>
+            </thead>
+            <tbody>
+              {formState.items.map((item, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-300 p-2">
+                    <input type="date" name="date" value={formState.date} onChange={handleChange} className="w-full p-1" />
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    <input type="text" name="invoiceNo" value={formState.invoiceNo} onChange={handleChange} className="w-full p-1" />
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {addressAdded ? (
+                      <div className="p-2 bg-green-100 border border-green-500 rounded">
+                        <span className="text-green-700">{`${formState.street1}, ${formState.street2}, ${formState.town}, ${formState.state}, ${formState.pin}`}</span>
+                      </div>
+                    ) : (
+                      <button type="button" onClick={addAddress} className="w-full p-1 bg-green-500 text-white rounded">Add Address</button>
+                    )}
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    <select name="name" value={item.name} onChange={(e) => handleItemChange(index, e)} className="w-full">
+                      <option value="" disabled>Select Item</option>
+                      <option value="Fly Ash Bricks-White">Fly Ash Bricks-White</option>
+                      <option value="Fly Ash Bricks-Brown">Fly Ash Bricks-Brown</option>
+                      <option value="Fly Ash Bricks-Normal">Fly Ash Bricks-Normal</option>
+                      <option value="Solid Bricks-8">Solid Bricks-8"</option>
+                      <option value="Solid Bricks-6">Solid Bricks-6"</option>
+                    </select>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    <input type="number" name="qty" value={item.qty} onChange={(e) => handleItemChange(index, e)} className="w-full p-1" />
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    <input type="number" name="rate" value={item.rate} onChange={(e) => handleItemChange(index, e)} className="w-full p-1" />
+                  </td>
+                  <td className="border border-gray-300 p-2">{item.amount.toFixed(2)}</td>
+                  <td className="border border-gray-300 p-2">{item.Cgst}</td>
+                  <td className="border border-gray-300 p-2">{item.Sgst}</td>
+                  <td className="border border-gray-300 p-2">{item.ctax.toFixed(2)}</td>
+                  <td className="border border-gray-300 p-2">{item.stax.toFixed(2)}</td>
+                  <td className="border border-gray-300 p-2">{item.totalTax.toFixed(2)}</td>
+                  <td className="border border-gray-300 p-2">{item.grossAmount.toFixed(2)}</td>
+                  {index === 0 && ( // Only show buttons in the first row
+                    <td className="border border-gray-300 p-2">
+                      <div className="flex space-x-2">
+                        <button type="button" onClick={addItemRow} className="bg-green-500 text-white px-4 py-2 rounded">Add New</button>
+                        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Print</button>
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </form>
+      <AddressModal />
+    </div>
   );
 };
 
