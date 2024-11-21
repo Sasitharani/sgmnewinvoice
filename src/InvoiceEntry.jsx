@@ -207,7 +207,7 @@ const InvoiceEntry = () => {
   };
 
   const saveInvoice = () => {
-    axios.post('http://localhost:5000/api/invoices', formState)
+    axios.post('https://sgmnewinvoice.onrender.com/api/invoices', formState)
       .then(response => {
         console.log('Invoice saved:', response.data);
         // Optionally, you can reset the form or navigate to another page

@@ -16,7 +16,7 @@ app.use(express.json()); // Middleware to parse JSON bodies
 // Serve static files from the React app
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Log when the server starts
 console.log('Server is starting...');
