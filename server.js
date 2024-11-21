@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import { db } from './db.js'; // Import the database connection pool
 
 dotenv.config(); // Load environment variables from .env file
@@ -12,11 +13,6 @@ const PORT = process.env.PORT || 5000; // Use the port from environment variable
 
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Middleware to parse JSON bodies
-
-// Serve static files from the React app
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, 'build')));
 
 // Log when the server starts
 console.log('Server is starting...');
@@ -49,19 +45,6 @@ app.get('/api/invoices', (req, res) => {
     res.status(200).json(results);
   });
 });
-// Get all invoices iN THE BEGINING
-app.get('/', (req, res) => {
-    console.log('GET /api/invoices endpoint hit');
-    const query = 'SELECT * FROM invoice';
-    db.query(query, (err, results) => {
-      if (err) {
-        console.error('Error fetching data:', err);
-        res.status(500).send('Error fetching data');
-        return;
-      }
-      res.status(200).json(results);
-    });
-  });
 
 // Get a single invoice by ID
 app.get('/api/invoices/:id', (req, res) => {
@@ -121,11 +104,15 @@ app.delete('/api/invoices/:id', (req, res) => {
   });
 });
 
-// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
+// Serve static files from the React app
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
