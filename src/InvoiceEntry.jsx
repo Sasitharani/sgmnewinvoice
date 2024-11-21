@@ -45,7 +45,7 @@ const InvoiceEntry = () => {
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
-    axios.get('http://localhost:5000/api/invoices')
+    axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
       .then(response => {
         const invoiceData = response.data[0]; // Assuming you want to display the first invoice
         setFormState({
@@ -86,7 +86,6 @@ const InvoiceEntry = () => {
     dispatch(updateAddress(address));
     setFormState({
       ...formState,
-      address: address, // Update the address in the form state
       street1: address.street1,
       street2: address.street2,
       town: address.townCity,
