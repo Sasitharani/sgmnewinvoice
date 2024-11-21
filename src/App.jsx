@@ -11,7 +11,7 @@ import Desctable from './Desctable';
 import Calc from './Calc';
 import Footer from './Footer';
 import InvoiceEntry from './InvoiceEntry';
-import SliceDetails from './sliceDetails';
+// import SliceDetails from './sliceDetails';
 
 const InvoicePage = () => {
   const invoiceData = useSelector((state) => state.invoice.invoiceData);
@@ -82,7 +82,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<InvoiceEntry />} />
         <Route path="/invoice" element={<InvoicePage />} />
-        <Route path="/sliceDetails" element={<SliceDetails />} />
+        {/* <Route path="/sliceDetails" element={<SliceDetails />} /> */}
       </Routes>
     </Router>
   );
