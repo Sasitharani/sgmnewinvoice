@@ -1,6 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { db } from './db.js'; // Import the database connection pool
 
 dotenv.config(); // Load environment variables from .env file
@@ -10,6 +12,11 @@ const PORT = process.env.PORT || 5000; // Use the port from environment variable
 
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Middleware to parse JSON bodies
+
+// Serve static files from the React app
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, 'build')));
 
 // Log when the server starts
 console.log('Server is starting...');
@@ -99,6 +106,11 @@ app.delete('/api/invoices/:id', (req, res) => {
     }
     res.status(200).send('Invoice deleted successfully');
   });
+});
+
+// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {
