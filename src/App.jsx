@@ -11,6 +11,7 @@ import Desctable from './Desctable';
 import Calc from './Calc';
 import Footer from './Footer';
 import InvoiceEntry from './InvoiceEntry';
+
 // import SliceDetails from './sliceDetails';
 
 const InvoicePage = () => {

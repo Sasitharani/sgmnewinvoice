@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import {
   setCgst,
   setSgst,
@@ -41,6 +42,37 @@ const InvoiceEntry = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addressAdded, setAddressAdded] = useState(false);
+
+  useEffect(() => {
+    // Fetch data from the API when the component mounts
+    axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
+      .then(response => {
+        const invoiceData = response.data[0]; // Assuming you want to display the first invoice
+        setFormState({
+          ...formState,
+          date: invoiceData.date,
+          invoiceNo: invoiceData.invoiceNo,
+          address: invoiceData.address,
+          companyname: invoiceData.companyname,
+          add1: invoiceData.add1,
+          street1: invoiceData.address.street1,
+          street2: invoiceData.address.street2,
+          town: invoiceData.address.townCity,
+          state: invoiceData.address.state,
+          pin: invoiceData.address.pin,
+          numItems: invoiceData.items.length,
+          transport: invoiceData.transport,
+          payment: invoiceData.payment,
+          finalAmount: invoiceData.totalAmount,
+          totalTax: invoiceData.totalTax,
+          items: invoiceData.items
+        });
+        setAddressAdded(true);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -252,7 +284,7 @@ const InvoiceEntry = () => {
           </table>
         </div>
       </form>
-      <AddressModal />
+      <AddressModal isOpen={isModalOpen} onClose={handleCloseModal} onSubmit={handleAddressSubmit} />
     </div>
   );
 };
