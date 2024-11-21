@@ -49,6 +49,19 @@ app.get('/api/invoices', (req, res) => {
     res.status(200).json(results);
   });
 });
+// Get all invoices iN THE BEGINING
+app.get('/', (req, res) => {
+    console.log('GET /api/invoices endpoint hit');
+    const query = 'SELECT * FROM invoice';
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error fetching data:', err);
+        res.status(500).send('Error fetching data');
+        return;
+      }
+      res.status(200).json(results);
+    });
+  });
 
 // Get a single invoice by ID
 app.get('/api/invoices/:id', (req, res) => {
