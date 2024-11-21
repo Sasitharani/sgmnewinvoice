@@ -29,3 +29,9 @@ Currently, two official plugins are available:
   Rate CHAR(50),
   Amount CHAR(50),
   AmountWords CHAR(255)
+
+
+  21-11-2024
+  not able to save the data i guess some data is missing
+  so start with create a sweet alert showing all the values that will be entered in the database
+  if required save it in a slice and retrive vlaue from there while inserting into the database
