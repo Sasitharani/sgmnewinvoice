@@ -17,32 +17,6 @@ app.use(express.json()); // Middleware to parse JSON bodies
 // Log when the server starts
 console.log('Server is starting...');
 
-
-
-// Read invoice by name
-app.get('/api/invoice', (req, res) => {
-  console.log('GET /api/invoice endpoint hit');
-  const { name } = req.query; // Get the username from query parameters
-  let query = 'SELECT * FROM invoice';
-  const queryParams = [];
-
-  if (name && name.trim() !== '') { // Check if name is defined and not empty
-    query += ' WHERE name = ?';
-    queryParams.push(name);
-  }
-
-  db.query(query, queryParams, (err, results) => {
-    if (err) {
-      console.error('Error fetching data:', err);
-      res.status(500).send('Error fetching data');
-      return;
-    }
-    res.status(200).send(results);
-  });
-});
-
-
-
 // Create a new invoice
 app.post('/api/invoices', (req, res) => {
   console.log('POST /api/invoices endpoint hit');
@@ -72,11 +46,28 @@ app.get('/api/invoices', (req, res) => {
   });
 });
 
-
+// Get a single invoice by ID
+app.get('/api/invoices/:id', (req, res) => {
+  console.log('GET /api/invoices/:id endpoint hit');
+  const { id } = req.params;
+  const query = 'SELECT * FROM invoice WHERE id = ?';
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      res.status(500).send('Error fetching data');
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).send('Invoice not found');
+      return;
+    }
+    res.status(200).json(results[0]);
+  });
+});
 
 // Update an invoice by ID
-app.put('/api/invoice/:id', (req, res) => {
-  console.log('PUT /api/invoice/:id endpoint hit');
+app.put('/api/invoices/:id', (req, res) => {
+  console.log('PUT /api/invoices/:id endpoint hit');
   const { id } = req.params;
   const { invoiceNo, date, address, items, totalAmount, totalTax } = req.body;
   const query = 'UPDATE invoice SET invoiceNo = ?, date = ?, address = ?, items = ?, totalAmount = ?, totalTax = ? WHERE id = ?';
@@ -95,8 +86,8 @@ app.put('/api/invoice/:id', (req, res) => {
 });
 
 // Delete an invoice by ID
-app.delete('/api/invoice/:id', (req, res) => {
-  console.log('DELETE /api/invoice/:id endpoint hit');
+app.delete('/api/invoices/:id', (req, res) => {
+  console.log('DELETE /api/invoices/:id endpoint hit');
   const { id } = req.params;
   const query = 'DELETE FROM invoice WHERE id = ?';
   db.query(query, [id], (err, results) => {
