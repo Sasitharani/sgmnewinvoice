@@ -11,3 +11,21 @@ Currently, two official plugins are available:
 ## start from adding address to the database
 
 ## Currently waiting for simple application to practice model 
+
+
+## column names in database
+  InvoiceNo INT,
+  CompanyName CHAR(255),
+  Date CHAR(10),
+  Gst CHAR(15),
+  DoorNo CHAR(50),
+  Street1 CHAR(255),
+  Street2 CHAR(255),
+  Town CHAR(255),
+  City CHAR(255),
+  State CHAR(255),
+  Pincode CHAR(10),
+  Quantity CHAR(50),
+  Rate CHAR(50),
+  Amount CHAR(50),
+  AmountWords CHAR(255)
