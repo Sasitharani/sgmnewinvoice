@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import {
   setCgst,
   setSgst,
@@ -86,6 +87,7 @@ const InvoiceEntry = () => {
     dispatch(updateAddress(address));
     setFormState({
       ...formState,
+      address: address, // Update the address in the form state
       street1: address.street1,
       street2: address.street2,
       town: address.townCity,
@@ -207,14 +209,44 @@ const InvoiceEntry = () => {
   };
 
   const saveInvoice = () => {
-    axios.post('https://sgmnewinvoice.onrender.com/api/invoices', formState)
-      .then(response => {
-        console.log('Invoice saved:', response.data);
-        // Optionally, you can reset the form or navigate to another page
-      })
-      .catch(error => {
-        console.error('Error saving invoice:', error);
-      });
+    Swal.fire({
+      title: 'Confirm Save',
+      html: `
+        <p><strong>Invoice No:</strong> ${formState.invoiceNo}</p>
+        <p><strong>Company Name:</strong> ${formState.companyname}</p>
+        <p><strong>Date:</strong> ${formState.date}</p>
+        <p><strong>GST:</strong> ${formState.gst}</p>
+        <p><strong>Door No:</strong> ${formState.doorNo}</p>
+        <p><strong>Street 1:</strong> ${formState.street1}</p>
+        <p><strong>Street 2:</strong> ${formState.street2}</p>
+        <p><strong>Town:</strong> ${formState.town}</p>
+        <p><strong>City:</strong> ${formState.city}</p>
+        <p><strong>State:</strong> ${formState.state}</p>
+        <p><strong>Pincode:</strong> ${formState.pin}</p>
+        <p><strong>Quantity:</strong> ${formState.quantity}</p>
+        <p><strong>Rate:</strong> ${formState.rate}</p>
+        <p><strong>Amount:</strong> ${formState.amount}</p>
+        <p><strong>Amount in Words:</strong> ${formState.amountWords}</p>
+        <p><strong>Address:</strong> ${JSON.stringify(formState.address)}</p>
+        <p><strong>Items:</strong> ${JSON.stringify(formState.items)}</p>
+        <p><strong>Total Amount:</strong> ${formState.totalAmount}</p>
+        <p><strong>Total Tax:</strong> ${formState.totalTax}</p>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.post('https://sgmnewinvoice.onrender.com/api/invoices', formState)
+          .then(response => {
+            console.log('Invoice saved:', response.data);
+            // Optionally, you can reset the form or navigate to another page
+          })
+          .catch(error => {
+            console.error('Error saving invoice:', error);
+          });
+      }
+    });
   };
 
   return (
