@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateItem } from './invoiceSlice';
+// import { updateItem } from './invoiceSlice';
 
 const Desctable = () => {
     const {

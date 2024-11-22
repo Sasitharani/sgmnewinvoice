@@ -30,8 +30,17 @@ Currently, two official plugins are available:
   Amount CHAR(50),
   AmountWords CHAR(255)
 
+## the entry point InvoiceEntry.jsx -->all values store in -->invoiceSlice.js
+
+
 
   21-11-2024
   not able to save the data i guess some data is missing
   so start with create a sweet alert showing all the values that will be entered in the database
   if required save it in a slice and retrive vlaue from there while inserting into the database
+
+  the adress modal must sent the value to slice details
+
+
+  #To Do
+  check addItemRow i dont think so it is correct it is using array which we dont want now
