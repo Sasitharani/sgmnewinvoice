@@ -166,8 +166,8 @@ app.post('/api/insertInvoice', (req, res) => {
   const invoice = req.body;
 
   const query = `
-  INSERT INTO invoice (InvoiceNo, Date,CompanyName,  Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount, AmountWords)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+  INSERT INTO invoice (InvoiceNo, Date,CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount, AmountWords)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 
   const values = [
