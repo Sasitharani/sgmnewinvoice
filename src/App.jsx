@@ -11,7 +11,7 @@ import Desctable from './Desctable';
 import Calc from './Calc';
 import Footer from './Footer';
 import InvoiceEntry from './InvoiceEntry';
-import InsertDb from './InsertDb';
+import InsertDb from './insertDb';
 
 // import SliceDetails from './sliceDetails';
 
