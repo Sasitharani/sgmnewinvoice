@@ -169,46 +169,7 @@ app.post('/api/insertInvoice', (req, res) => {
   console.log(invoice)
 
   const query = `
-  INSERT INTO invoice (
-  InvoiceNo, 
-   Date, 
-   CompanyName, 
-   Gst, 
-   DoorNo,
-   Street1, 
-   Street2, 
-   Town, 
-   City, 
-   State, 
-   Pincode,   
-   Quantity, 
-   Rate, 
-   cgst, 
-   sgst, 
-   ctax, 
-   stax, 
-   Amount)
-  VALUES (
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
-  ?, 
- )
-`;
+  INSERT INTO invoice (InvoiceNo,Date,CompanyName,Gst, DoorNo,Street1,Street2,Town,City,State, Pincode,Quantity,Rate,cgst,sgst, ctax,stax,Amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`
 
   const values = [
     null, // SrNo is auto-incremented
@@ -229,7 +190,7 @@ app.post('/api/insertInvoice', (req, res) => {
     invoice.Sgst,
     invoice.ctax,
     invoice.stax,
-    invoice.amount,
+    invoice.amount
     //invoice.amountWords // Assuming amountWords is part of the formState
   ];
 

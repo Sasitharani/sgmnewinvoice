@@ -48,6 +48,7 @@ Currently, two official plugins are available:
 25-11-2024
   #Company details in addressAddmodal 
    Date,CompanyName,  Gst, DoorNo, Street1, Street2, Town, City, State, Pincode,
+   --->Inserting Item in database
    ---->slice the value of itemName
    ---->these details needs to be shown in address modal
    ---->there is also amountInWords in Database which needs to be inserted
