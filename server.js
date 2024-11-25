@@ -169,8 +169,46 @@ app.post('/api/insertInvoice', (req, res) => {
   console.log(invoice)
 
   const query = `
-  INSERT INTO invoice (InvoiceNo, Date,CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  INSERT INTO invoice (
+  InvoiceNo, //1
+   Date, //2
+   CompanyName, //3 
+   Gst, // 4
+   DoorNo, //5
+   Street1, //6
+   Street2, //7
+   Town, //8
+   City, //9
+   State, //10
+   Pincode, //11  
+   Quantity, //12
+   Rate, //13
+   cgst, //14
+   sgst, //15
+   ctax, //16
+   stax, //17
+   Amount)//18
+  VALUES (
+  ?, //1
+  ?, //2
+  ?, //3
+  ?, //4
+  ?, //5
+  ?, //6
+  ?, //7
+  ?, //8
+  ?, //9
+  ?, //10
+  ?, //11
+  ?, //12
+  ?, //13
+  ?, //14
+  ?, //15
+  ?, //16
+  ?, //17
+  ?, //18
+
+  ?)
 `;
 
   const values = [
