@@ -11,6 +11,7 @@ import Desctable from './Desctable';
 import Calc from './Calc';
 import Footer from './Footer';
 import InvoiceEntry from './InvoiceEntry';
+import InsertDb from './InsertDb';
 
 // import SliceDetails from './sliceDetails';
 
@@ -83,6 +84,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<InvoiceEntry />} />
         <Route path="/invoice" element={<InvoicePage />} />
+        <Route path="/insertDB" element={<InsertDb />} />
         {/* <Route path="/sliceDetails" element={<SliceDetails />} /> */}
       </Routes>
     </Router>

@@ -10,3 +10,79 @@
     width: 100%;
   }
   
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .details {
+    font-size: 18px;
+  }
+  
+  .details p {
+    margin: 10px 0;
+  }
+  
+  .details strong {
+    color: #333;
+  }
+
+  .invoice-table {
+    width: 100%;
+  }
+
+  .invoice-table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ccc; /* Add border similar to AddressModal */
+    border-radius: 8px; /* Add border radius similar to AddressModal */
+    padding: 10px; /* Add padding similar to AddressModal */
+    background-color: #f9f9f9; /* Add background color similar to AddressModal */
+  }
+
+  
+  @media (max-width: 768px) {
+    .invoice-table thead {
+      display: none;
+    }
+  
+    .invoice-table, .invoice-table tbody, .invoice-table tr, .invoice-table td {
+      display: block;
+      width: 100%;
+      text-align: center; /* Center the text */
+    }
+  
+    .invoice-table tr {
+      margin-bottom: 15px;
+      border: 1px solid #ccc; /* Add border similar to AddressModal */
+      border-radius: 8px; /* Add border radius similar to AddressModal */
+      padding: 10px; /* Add padding similar to AddressModal */
+      background-color: #f9f9f9; /* Add background color similar to AddressModal */
+    }
+  
+
+    .invoice-table td {
+      text-align: center; /* Center the text */
+      padding-left: 0; /* Remove padding */
+      position: relative;
+    }
+  
+    .invoice-table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 100%;
+      padding-left: 0; /* Remove padding */
+      font-weight: bold;
+      text-align: center; /* Center the text */
+    }
+  }

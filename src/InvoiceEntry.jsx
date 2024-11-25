@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import './index.css'; // Import the CSS file
+
 import {
 
   setTotalTax,
@@ -11,367 +13,223 @@ import {
   setNumItems,
   setTransport,
   setPayment,
-  setFinalAmount,
+  setAmount,
   setCtax,
   setStax,
   setGrossAmount, 
   openModal,
-
+  setQty,
+  setRate,
+  setCgst,
+  setSgst
 
 } from './invoiceSlice';
 import { useNavigate } from 'react-router-dom';
 import AddressModal from './AddressModal';
+import e from 'cors';
 
 const InvoiceEntry = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const formStateOld = useSelector((state) => state.invoice); // Use the Redux state
- let [isModalOpen, setIsModalOpen] = useState(false); // Define setIsModalOpen
- const [selectedItem, setSelectedItem] = useState({});
- const [rate,setRate ] = useState({});
- const [qty,setQty ] = useState({});
- const [cgst,setCgstS ] = useState({});
- const [sgst,setSgstS ] = useState({});
- const [ctax,setcstax ] = useState({});
- const [stax,setstax ] = useState({});
- const [taxamount,settaxamount ] = useState({});
- const [grossAmount,setgrossAmount ] = useState({});
- const [amount,setAmount ] = useState({});
+  const formState = useSelector((state) => state.invoice); // Use the Redux state
 
   const [addressAdded, setAddressAdded] = useState(false);
-  const [formState, setFormState] = useState({
-    totalGrossAmount: 0,
-    cgstAmount: 0,
-    sgstAmount: 0,
-    cgst: 0,
-    sgst: 0,
-    totalTax: 0,
-    totalAmount: 0,
-    date: '',
-    invoiceNo: '',
-    companyname: '',
-    gst: '',
-    flatDoorNo: '',
-    street1: '',
-    street2: '',
-    townCity: '',
-    state: '',
-    pin: '',
-    numItems: 1,
-    transport: '',
-    payment: '',
-    finalAmount: 0,
-    Ctax: 0,
-    Stax: 0,
-    totalGrossAmount: 0,
-    grossAmount: 0,
-    CgstAmount: 0,
-    SgstAmount: 0,
-    Cgst: 0,
-    Sgst: 0,
-    savedAddresses: []
-  });
-  // useEffect(() => {
-  //   // Fetch data from the API when the component mounts
-  //   axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
-  //     .then(response => {
-  //       const invoiceData = response.data[0]; // Assuming you want to display the first invoice
-  //       if (invoiceData && invoiceData.address) {
-  //         setFormState({
-  //           ...formState,
-  //           date: invoiceData.date,
-  //           invoiceNo: invoiceData.invoiceNo,
-  //           address: invoiceData.address,
-  //           companyname: invoiceData.companyname,
-  //           add1: invoiceData.add1,
-  //           street1: invoiceData.address.street1,
-  //           street2: invoiceData.address.street2,
-  //           town: invoiceData.address.townCity,
-  //           state: invoiceData.address.state,
-  //           pin: invoiceData.address.pin,
-  //           numItems: invoiceData.items.length,
-  //           transport: invoiceData.transport,
-  //           payment: invoiceData.payment,
-  //           finalAmount: invoiceData.totalAmount,
-  //           totalTax: invoiceData.totalTax,
-  //           amount: invoiceData.amount,
-  //           rate: invoiceData.rate,
-  //           qty: invoiceData.qty,
-  //           cgst: invoiceData.cgst,
-  //           sgst: invoiceData.sgst,
-  //           ctax: invoiceData.ctax,
-  //           stax: invoiceData.stax,
-  //         });
-  //         setAddressAdded(true);
-  //       } else {
-  //         console.error('Error');
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, [dispatch]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
+  const [rate, setRateS] = useState(0);
+  const [qty, setRQtyS] = useState(0);
+  const [amount, setAmountS] = useState(0);
+  let [cgst,setCgstS] = useState(0);
+  let [sgst,setSgstS] = useState(0);
+  let [ctax,setCtaxS] = useState(0);
+  let [stax,setStaxS] = useState(0);
+  let [totalTax,setTotalTaxS] = useState(0);
+  let [grossAmount,setGrossAmountS] = useState(0);
+  
+
 
   useEffect(() => {
-    const tempSample = () => {
-      setFormState({
-        date: "2023-01-01",
-        invoiceNo: "INV123",
-        address: "123 Sample Street",
-        companyname: "Sample Company",
-        gst: "1234567890",
-        flatDoorNo: "123",
-        street1: "Sample Street 1",
-        street2: "Sample Street 2",
-        townCity: "Sample Town",
-        state: "Sample State",
-        pin: "123456",
-        numItems: 1,
-        transport: "Sample Transport",
-        payment: "Sample Payment",
-        finalAmount: 0,
-        totalTax: 0,
-        name: "",
-        qty: 2000,
-        rate: 7,
-        amount: 0,
-        cgst: 0,
-        sgst: 0,
-        ctax: 0,
-        stax: 0,
-        totalTax: 0,
-        grossAmount: 0,
+    // Fetch data from the API when the component mounts
+    axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
+      .then(response => {
+        const invoiceData = response.data[0]; // Assuming you want to display the first invoice
+        if (invoiceData && invoiceData.address) {
+          setFormState({
+            ...formState,
+            date: invoiceData.date,
+            invoiceNo: invoiceData.invoiceNo,
+            address: invoiceData.address,
+            companyname: invoiceData.companyname,
+            add1: invoiceData.add1,
+            street1: invoiceData.address.street1,
+            street2: invoiceData.address.street2,
+            town: invoiceData.address.townCity,
+            state: invoiceData.address.state,
+            pin: invoiceData.address.pin,
+            numItems: invoiceData.items.length,
+            transport: invoiceData.transport,
+            payment: invoiceData.payment,
+            finalAmount: invoiceData.totalAmount,
+            totalTax: invoiceData.totalTax,
+            amount: invoiceData.amount,
+            rate: invoiceData.rate,
+            qty: invoiceData.qty,
+            cgst: invoiceData.cgst,
+            sgst: invoiceData.sgst,
+            ctax: invoiceData.ctax,
+            stax: invoiceData.stax,
+          });
+          setAddressAdded(true);
+        } else {
+          console.error('Error');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
       });
-    };
-  
-    tempSample();
-  }, []);
+  }, [dispatch]);
+
 
   const handleOpenModal = () => {
-    isModalOpen=true;
+    setIsModalOpen(true);
     dispatch(openModal());
   };
 
+
   const handleCloseModal = () => {
-    isModalOpen=false;
+    setIsModalOpen(false);
     dispatch(closeModal());
   };
 
   const handleAddressSubmit = (address) => {
-    dispatch(updateAddress(address));
+    console.log(address)
+    // dispatch(setCompanyName(address.companyname));
+    // dispatch(setGst(address.gst));
+    // dispatch(setFlatDoorNo(address.flatDoorNo));
+    // dispatch(setStreet1(address.street1));
+    // dispatch(setStreet2(address.street2));
+    // dispatch(setTownCity(address.townCity));
+    // dispatch(setState(address.state));
+    // dispatch(setPin(address.pin));
     setAddressAdded(true);
     setIsModalOpen(false); // Close the modal
     dispatch(closeModal());
   };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    dispatch(setDate(value));
-    dispatch(setInvoiceNo(value));
-    dispatch(setCompanyName(value));
-    dispatch(setGst(value));
-    dispatch(setFlatDoorNo(value));
-    dispatch(setStreet1(value));
-    dispatch(setStreet2(value));
-    dispatch(setTownCity(value));
-    dispatch(setState(value));
-    dispatch(setPin(value));
-    dispatch(setTransport(value));
-    dispatch(setPayment(value));
-    dispatch(setFinalAmount(value));
-    dispatch(setCtax(value));
-    dispatch(setStax(value));
-    dispatch(setGrossAmount(value));
-    dispatch(setSavedAddresses(value));
-  };
-
-  const dateChange = (e) => {}
-  const invoiceNoChange = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-  // const  = (e) => {}
-
-  const handleNumItemsChange = (e) => {
-    const numItems = parseInt(e.target.value, 10) || 1;
-    dispatch(setNumItems(numItems));
-  };
-
+/// Change the tax rates as per your requirement
   const taxRates = {
     'Fly Ash Bricks-White': { cgst: 6, sgst: 6 },
     'Fly Ash Bricks-Brown': { cgst: 6, sgst: 6 },
     'Fly Ash Bricks-Normal': { cgst: 6, sgst: 6 },
     'Solid Bricks-8': { cgst: 18, sgst: 18 },
-    'Solid Bricks-6': { cgst: 18, sgst: 18 },
+    'Solid Bricks-6': { cgst: 18, sgst: 18 }
   };
 
-  const handleItemChange = (e) => {
-    const { name, value } = e.target;
-    if(name==='name') {
-      const selectedItem = taxRates[value];
-      setSelectedItem(selectedItem);
-      setCgstS( selectedItem.cgst);
-      setSgstS( selectedItem.sgst);
-    }
-
-
-    if(name==='rate') {setRate(value)}
-
-    if(name==='qty' ) {setQty(value)}
-
-    if (name === 'qty' || name === 'rate') {
-      let amount = qty * rate || 0;
-      let ctax = amount * cgst * 0.01;
-      let stax = amount * sgst * 0.01;
-      let taxamount = ctax + stax;
-      let grossAmount = amount + taxamount;
-
-      // setAmount(amount);
-      // setcstax(ctax);
-      // setstax(stax);
-      // settaxamount(taxamount);
-      // setgrossAmount(grossAmount);
-   
-      dispatch(setRate(rate));
-      dispatch(setAmount(amount));
-      dispatch(setCtax(ctax));
-      dispatch(setStax(stax));
-      dispatch(setTotalTax(totalTax));
-      dispatch(setGrossAmount(grossAmount));
-    }
-
+//When Item name is selected, the tax rates are fetched from the taxRates object
+  const handleItemNameChange = (e) => {
+    const { value } = e.target;
+    const selectedItem = taxRates[value];
+    setSelectedItem(selectedItem);
+    setCgstS(selectedItem.cgst)
+    setSgstS(selectedItem.sgst)
+    console.log(selectedItem)
   };
 
   const addItemRow = () => {
-    dispatch(updateItem({
-      name: 'items',
-      value: [
-        {
-          date: '',
-          invoiceNo: '',
-          address: '',
-          companyname: '',
-          gst: '',
-          flatDoorNo: '',
-          street1: '',
-          street2: '',
-          townCity: '',
-          state: '',
-          pin: '',
-          numItems: 1,
-          transport: '',
-          payment: '',
-          finalAmount: 0,
-          totalTax: 0,
-          name: '',
-          quantity: 0,
-          rate: 0,
-          amount: 0,
-          cgst: 0, 
-          sgst: 0,
-          ctax: 0, 
-          stax: 0,
-          totalTax: 0,
-          grossAmount: 0,
-        },
-      ],
-    }));
+    const newItem = {
+      name: '',
+      qty: 0,
+      rate: 0,
+      amount: 0,
+      cgst: 0,
+      sgst: 0,
+      ctax: 0,
+      stax: 0,
+      totalTax: 0,
+      grossAmount: 0
+    };
+    dispatch(setNumItems(formState.numItems + 1));
+    dispatch(updateItem([...formState.items, newItem]));
+  };
+  
+  
+  const handleItemChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'name') {
+      const selectedItem = taxRates[value];
+      setSelectedItem(selectedItem);
+    }
+
+    if (name === 'rate') {
+      setRateS(value);
+    }
+
+    if (name === 'qty') {
+      setRQtyS(value);
+    }
+
+if (name === 'qty' || name === 'rate') {
+  const newQty = name === 'qty' ? value : qty;
+  const newRate = name === 'rate' ? value : rate;
+  const newAmount = newQty * newRate || 0;
+  const newCtax = newAmount * cgst * 0.01;
+  const newStax = newAmount * sgst * 0.01;
+  const newTotalTax = newCtax + newStax;
+  const newGrossAmount = newAmount + newTotalTax;
+
+  setTotalAmount(newAmount);
+  setCtaxS(newCtax);
+  setStaxS(newStax);
+  setTotalTaxS(newTotalTax);
+  setGrossAmountS(newGrossAmount);
+  setQty(newQty);
+
+  dispatch(setAmount(newAmount));
+  dispatch(setCtax(newCtax));
+  dispatch(setStax(newStax));
+  dispatch(setTotalTax(newTotalTax));
+  dispatch(setGrossAmount(newGrossAmount));
+  dispatch(setQty(newQty));
+  dispatch(setRate(newRate));
+  dispatch(setCgst(cgst));
+  dispatch(setSgst(sgst));
+}
   };
 
-  const handleSubmit = (e) => {
+  const saveInvoice = (e) => {
     e.preventDefault();
-    dispatch(setTotalAmount(formState.finalAmount));
-    dispatch(setInvoiceData(formState));
-    dispatch(setTotalTax(formState.totalTax));
-    navigate('/invoice');
-  };
-
-  const addAddress = () => {
-    setIsModalOpen(true)
-    dispatch(openModal());
-  };
-
-  const saveInvoice = () => {
-    Swal.fire({
-      title: 'Confirm Save',
-      html: `
-        <p><strong>Invoice No:</strong> ${formState.invoiceNo}</p>
-        <p><strong>Company Name:</strong> ${formState.companyname}</p>
-        <p><strong>Date:</strong> ${formState.date}</p>
-        <p><strong>GST:</strong> ${formState.gst}</p>
-        <p><strong>Door No:</strong> ${formState.flatDoorNo}</p>
-        <p><strong>Street 1:</strong> ${formState.street1}</p>
-        <p><strong>Street 2:</strong> ${formState.street2}</p>
-        <p><strong>Town:</strong> ${formState.townCity}</p>
-        <p><strong>City:</strong> ${formState.city}</p>
-        <p><strong>State:</strong> ${formState.state}</p>
-        <p><strong>Pincode:</strong> ${formState.pin}</p>
-        <p><strong>Amount:</strong> ${formState.amount}</p>
-        <p><strong>Amount:</strong> ${formState.rate}</p>
-        <p><strong>Amount:</strong> ${formState.qty}</p>
-        <p><strong>Amount:</strong> ${formState.ctax}</p>
-        <p><strong>Amount:</strong> ${formState.stax}</p>
-
-        <p><strong>Total Amount:</strong> ${formState.totalAmount}</p>
-        <p><strong>Total Tax:</strong> ${formState.totalTax}</p>
-        <p><strong>Total Gross Amount:</strong> ${formState.totalGrossAmount}</p>
-      `,
-      showCancelButton: true,
-      confirmButtonText: 'Save',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios.post('https://sgmnewinvoice.onrender.com/api/invoices', formState)
-          .then(response => {
-            console.log('Invoice saved:', response.data);
-            // Optionally, you can reset the form or navigate to another page
-          })
-          .catch(error => {
-            console.error('Error saving invoice:', error);
-          });
-      }
-    });
+    navigate('/insertDB');
+ 
   };
 
   return (
     <div>
-      {console.log(formState)}
       <form
-        onSubmit={handleSubmit}
+        onSubmit={saveInvoice}
         className="w-full max-w-screen-xl mx-auto mt-10 p-6 border border-gray-300 rounded shadow"
         style={{ margin: "30px" }}
       >
         <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse border border-gray-300">
+          <table className="min-w-full border-collapse border border-gray-300 invoice-table">
             <thead>
               <tr>
                 <th className="border border-gray-300 p-2">Date</th>
                 <th className="border border-gray-300 p-2">Invoice No</th>
                 <th className="border border-gray-300 p-2">
                   Add Company details
-                </th>{" "}
-                {/* New column for Add Address */}
+                </th>
                 <th className="border border-gray-300 p-2">Transport</th>
                 <th className="border border-gray-300 p-2">Payment</th>
                 <th className="border border-gray-300 p-2">Item Name</th>
                 <th className="border border-gray-300 p-2">Quantity</th>
                 <th className="border border-gray-300 p-2">Rate</th>
-                <td className="border border-gray-300 p-2">Amount</td>
-                <td className="border border-gray-300 p-2">Cgst</td>
-                <td className="border border-gray-300 p-2">Sgst</td>
-                <td className="border border-gray-300 p-2">Ctax</td>
-                <td className="border border-gray-300 p-2">Stax</td>
-                <td className="border border-gray-300 p-2">Total Tax</td>
-                <td className="border border-gray-300 p-2">Gross Amount</td>
+                <th className="border border-gray-300 p-2">Amount</th>
+                <th className="border border-gray-300 p-2">CGST (%)</th>
+                <th className="border border-gray-300 p-2">SGST (%)</th>
+                <th className="border border-gray-300 p-2">CTax</th>
+                <th className="border border-gray-300 p-2">STax</th>
+                <th className="border border-gray-300 p-2">Total Tax</th>
+                <th className="border border-gray-300 p-2">Gross Amount</th>
+                <th className="border border-gray-300 p-2">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -380,7 +238,7 @@ const InvoiceEntry = () => {
                   <input
                     type="date"
                     name="date"
-                    onChange={dateChange}
+                    onChange={(e) => dispatch(setDate(e.target.value))}
                     className="w-full p-1"
                   />
                 </td>
@@ -388,7 +246,7 @@ const InvoiceEntry = () => {
                   <input
                     type="text"
                     name="invoiceNo"
-                    onChange={invoiceNoChange}
+                    onChange={(e) => dispatch(setInvoiceNo(e.target.value))}
                     className="w-full p-1"
                   />
                 </td>
@@ -400,20 +258,48 @@ const InvoiceEntry = () => {
                   ) : (
                     <button
                       type="button"
-                      onClick={addAddress}
+                      onClick={handleOpenModal}
                       className="w-full p-1 bg-green-500 text-white rounded"
                     >
-                      Add{" "}
+                      Add
                     </button>
                   )}
                 </td>
                 <td className="border border-gray-300 p-2">
+
                   <select
-                    name="name"
-                    onChange={handleItemChange}
+                    name="transport"
+                    onChange={(e) => dispatch(setTransport(e.target.value))}
                     className="w-full"
                   >
-                    <option value="" disabled>
+
+                    <option value="" disabled selected>
+                      Select Transport
+                    </option>
+                    <option value="SGM">SGM</option>
+                    <option value="Own">Own</option>
+                  </select>
+                </td>
+                <td className="border border-gray-300 p-2">
+                  <select
+                    name="payment"
+                    onChange={(e) => dispatch(setPayment(e.target.value))}
+                    className="w-full"
+                  >
+                    <option value="" disabled  selected>
+                      Select Payment
+                    </option>
+                    <option value="Cash">Cash</option>
+                    <option value="Online/Gpay">Online/Gpay</option>
+                  </select>
+                </td>
+                <td className="border border-gray-300 p-2">
+                  <select
+                    name="name"
+                    onChange={handleItemNameChange}
+                    className="w-full"
+                  >
+                    <option value="" disabled selected>
                       Select Item
                     </option>
                     <option value="Fly Ash Bricks-White">
@@ -446,14 +332,14 @@ const InvoiceEntry = () => {
                   />
                 </td>
                 <td className="border border-gray-300 p-2">
-                  {amount.toFixed(2)}
+                  {(amount).toFixed(2)}
                 </td>
                 <td className="border border-gray-300 p-2">
-                  {selectedItem.cgst}
-                  </td>
+                  {cgst}
+                </td>
                 <td className="border border-gray-300 p-2">
-                  {selectedItem.sgst}
-                  </td>
+                  {sgst}
+                </td>
                 <td className="border border-gray-300 p-2">
                   {ctax.toFixed(2)}
                 </td>
@@ -461,31 +347,29 @@ const InvoiceEntry = () => {
                   {stax.toFixed(2)}
                 </td>
                 <td className="border border-gray-300 p-2">
-                  {taxamount.toFixed(2)}
+                  {totalTax.toFixed(2)}
                 </td>
                 <td className="border border-gray-300 p-2">
                   {grossAmount.toFixed(2)}
                 </td>
-           
-                  <td className="border border-gray-300 p-2">
-                    <div className="flex space-x-2">
-                      <button
-                        type="button"
-                        onClick={addItemRow}
-                        className="bg-green-500 text-white px-4 py-2 rounded"
-                      >
-                        Add New
-                      </button>
-                      <button
-                        type="button"
-                        onClick={saveInvoice}
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </td>
-                
+                <td className="border border-gray-300 p-2">
+                  <div className="flex space-x-2">
+                    <button
+                      type="button"
+                      onClick={addItemRow}
+                      className="bg-green-500 text-white px-4 py-2 rounded"
+                    >
+                      Add New
+                    </button>
+                    <button
+                      type="button"
+                      onClick={saveInvoice}
+                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>

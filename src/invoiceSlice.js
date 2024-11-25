@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  totalGrossAmount: 0,
+  grossAmount: 0,
   cgstAmount: 0,
   sgstAmount: 0,
   cgst: 0,
@@ -27,22 +27,27 @@ const initialState = {
   transport: '',
   payment: '',
   finalAmount: 0,
-  totalTax: 0,
-  Ctax: 0,
-  Stax: 0,
-  totalGrossAmount: 0,
+  ctax: 0,
+  stax: 0,
   grossAmount: 0,
   CgstAmount: 0,
   SgstAmount: 0,
   Cgst: 0,
   Sgst: 0,
-  savedAddresses: []
-};
+  savedAddresses: [],
+  qty: 0,
+  totalAmount: 0,
+  rate: 0,
+  amount:0,
 
+};
 const invoiceSlice = createSlice({
   name: 'invoice',
   initialState,
   reducers: {
+    setQty :(state, action) => {
+      state.qty = action.payload;
+    },
     setRate :(state, action) => {
       state.rate = action.payload;
     },
@@ -113,10 +118,10 @@ const invoiceSlice = createSlice({
       state.finalAmount = action.payload;
     },
     setCtax: (state, action) => {
-      state.Ctax = action.payload;
+      state.ctax = action.payload;
     },
     setStax: (state, action) => {
-      state.Stax = action.payload;
+      state.stax = action.payload;
     },
     setGrossAmount: (state, action) => {
       state.grossAmount = action.payload;
@@ -174,7 +179,8 @@ export const {
   openModal,
   closeModal,
   setRate,
-  setAmount
+  setAmount,
+  setQty
 } = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+
 
 import {
   setCompanyName,
@@ -13,8 +16,9 @@ import {
 
 
 const AddressModal = ({ isOpen, onClose, onSubmit, initialValues }) => {
+  const dispatch = useDispatch();
   const [address, setAddress] = useState({
-    companyname: '',
+    companyName: '',
     gst: '',
     flatDoorNo: '',
     street1: '',
@@ -42,24 +46,43 @@ const AddressModal = ({ isOpen, onClose, onSubmit, initialValues }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAddress({ ...address, [name]: value });
+    console.log(address)
   };
 
 
 
-  const handleSubmit = () => {
-    onSubmit(address);
-    dispatch(setCompanyName(address.companyname));
-    dispatch(setGst(address.gst));
-    dispatch(setFlatDoorNo(address.flatDoorNo));
-    dispatch(setStreet1(address.street1));
-    dispatch(setStreet2(address.street2));
-    dispatch(setTownCity(address.townCity));
-    dispatch(setState(address.state));
-    dispatch(setPin(address.pin));
-    onClose();
-  };
+  // const handleSubmit = () => {
+  //   onSubmit(address);
+  //   dispatch(setCompanyName(address.companyname));
+  //   dispatch(setGst(address.gst));
+  //   dispatch(setFlatDoorNo(address.flatDoorNo));
+  //   dispatch(setStreet1(address.street1));
+  //   dispatch(setStreet2(address.street2));
+  //   dispatch(setTownCity(address.townCity));
+  //   dispatch(setState(address.state));
+  //   dispatch(setPin(address.pin));
+  //   onClose();
+  // };
 
-  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Address',
+      text: `Company Name: ${address.companyName}, GST: ${address.gst}, Flat/Door No: ${address.flatDoorNo}, Street 1: ${address.street1}, Street 2: ${address.street2}, Town/City: ${address.townCity}, State: ${address.state}`,
+      icon: 'info',
+      confirmButtonText: 'OK'
+    }).then(() => {
+      dispatch(setCompanyName(address.companyName));
+      dispatch(setGst(address.gst));
+      dispatch(setFlatDoorNo(address.flatDoorNo));
+      dispatch(setStreet1(address.street1));
+      dispatch(setStreet2(address.street2));
+      dispatch(setTownCity(address.townCity));
+      dispatch(setState(address.state));
+      dispatch(setPin(address.pin));
+      onClose();
+    });
+  };
 
   if (!isOpen) return null;
 
@@ -69,9 +92,9 @@ const AddressModal = ({ isOpen, onClose, onSubmit, initialValues }) => {
         <span className="close cursor-pointer text-xl font-bold" onClick={onClose}>&times;</span>
         <h2 className="text-2xl mb-4">Enter Address Details</h2>
         <input
-          name="companyname"
+          name="companyName"
           placeholder="Company Name"
-          value={address.companyname}
+          value={address.companyName}
           onChange={handleChange}
           className="input-box w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
         />
