@@ -48,6 +48,10 @@
     padding: 10px; /* Add padding similar to AddressModal */
     background-color: #f9f9f9; /* Add background color similar to AddressModal */
   }
+  .common-td {
+    border: 1px solid #3f3d3d;
+    padding: 0.5rem;
+  }
 
   
   @media (max-width: 768px) {
@@ -84,5 +88,10 @@
       padding-left: 0; /* Remove padding */
       font-weight: bold;
       text-align: center; /* Center the text */
+    }
+
+    .common-td {
+      border: 1px solid #3f3d3d;
+      padding: 0.5rem;
     }
   }

@@ -44,3 +44,10 @@ Currently, two official plugins are available:
 
   #To Do
   check addItemRow i dont think so it is correct it is using array which we dont want now
+
+25-11-2024
+  #Company details in addressAddmodal 
+   Date,CompanyName,  Gst, DoorNo, Street1, Street2, Town, City, State, Pincode,
+   ---->these details needs to be shown in address modal
+   ---->there is also amountInWords in Database which needs to be inserted
+

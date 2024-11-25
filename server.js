@@ -27,7 +27,7 @@ console.log('Server is starting...');
 // Get all invoices
 app.get('/api/invoices', (req, res) => {
   console.log('GET /api/invoices endpoint hit');
-  const query = 'SELECT * FROM invoice';
+  const query = 'SELECT InvoiceNo, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount FROM invoice';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error fetching data:', err);
@@ -161,13 +161,13 @@ app.delete('/api/invoices/:id', (req, res) => {
   });
 });
 
-// Insert a new invoice with additional fields
+// Insert a new invoice with additional fields working 
 app.post('/api/insertInvoice', (req, res) => {
   const invoice = req.body;
 
   const query = `
-  INSERT INTO invoice (InvoiceNo, CompanyName, Date, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctsx, stax, Amount, AmountWords)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  INSERT INTO invoice (InvoiceNo, Date,CompanyName,  Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount, AmountWords)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
 `;
 
   const values = [

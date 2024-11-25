@@ -4,6 +4,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import './index.css'; // Import the CSS file
 
+
+//import from SLices
 import {
 
   setTotalTax,
@@ -24,6 +26,8 @@ import {
   setSgst
 
 } from './invoiceSlice';
+
+//for Navigating between pages also update in App.js
 import { useNavigate } from 'react-router-dom';
 import AddressModal from './AddressModal';
 import e from 'cors';
@@ -33,6 +37,8 @@ const InvoiceEntry = () => {
   const navigate = useNavigate();
   const formState = useSelector((state) => state.invoice); // Use the Redux state
 
+
+  //defining the state variables for universal access of variable
   const [addressAdded, setAddressAdded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
@@ -47,49 +53,20 @@ const InvoiceEntry = () => {
   let [grossAmount,setGrossAmountS] = useState(0);
 
   
-
+  const [invoices, setInvoices] = useState([]); //State for fetching data from API
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
     axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
       .then(response => {
-        const invoiceData = response.data[0]; // Assuming you want to display the first invoice
-        if (invoiceData && invoiceData.address) {
-          setFormState({
-            ...formState,
-            date: invoiceData.date,
-            invoiceNo: invoiceData.invoiceNo,
-            address: invoiceData.address,
-            companyname: invoiceData.companyname,
-            add1: invoiceData.add1,
-            street1: invoiceData.address.street1,
-            street2: invoiceData.address.street2,
-            town: invoiceData.address.townCity,
-            state: invoiceData.address.state,
-            pin: invoiceData.address.pin,
-            numItems: invoiceData.items.length,
-            transport: invoiceData.transport,
-            payment: invoiceData.payment,
-            finalAmount: invoiceData.totalAmount,
-            totalTax: invoiceData.totalTax,
-            amount: invoiceData.amount,
-            rate: invoiceData.rate,
-            qty: invoiceData.qty,
-            cgst: invoiceData.cgst,
-            sgst: invoiceData.sgst,
-            ctax: invoiceData.ctax,
-            stax: invoiceData.stax,
-          });
-          setAddressAdded(true);
-        } else {
-          console.error('Error');
-        }
+        setInvoices(response.data); // Store fetched invoices in state
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, [dispatch]);
+  }, []);
 
+  const numberOfRows = invoices.length;
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -205,6 +182,7 @@ if (name === 'qty' || name === 'rate') {
 
   return (
     <div>
+      {console.log("No of rows from database:--" + numberOfRows)}
       <form
         onSubmit={saveInvoice}
         className="w-full max-w-screen-xl mx-auto mt-10 p-6 border border-gray-300 rounded shadow"
@@ -234,9 +212,50 @@ if (name === 'qty' || name === 'rate') {
                 <th className="border border-gray-300 p-2">Actions</th>
               </tr>
             </thead>
+
             <tbody>
+              {Array.from({ length: numberOfRows }).map((_, index) => (
+                <tr key={index}>
+                  <td className="common-td">{invoices[index]?.InvoiceNo}</td>
+                  <td className="common-td">{invoices[index]?.CompanyName}</td>
+                  <td className="common-td">{invoices[index]?.Date}</td>
+                  <td className="common-td">{invoices[index]?.Gst}</td>
+                  <td className="common-td">{invoices[index]?.DoorNo}</td>
+                  <td className="common-td">{invoices[index]?.Street1}</td>
+                  <td className="common-td">{invoices[index]?.Street2}</td>
+                  <td className="common-td">{invoices[index]?.Town}</td>
+                  <td className="common-td">{invoices[index]?.City}</td>
+                  <td className="common-td">{invoices[index]?.State}</td>
+                  <td className="common-td">{invoices[index]?.Pincode}</td>
+                  <td className="common-td">{invoices[index]?.itemName}</td>
+                  <td className="common-td">{invoices[index]?.Quantity}</td>
+                  <td className="common-td">{invoices[index]?.Rate}</td>
+                  <td className="common-td">{invoices[index]?.cgst}</td>
+                  <td className="common-td">{invoices[index]?.sgst}</td>
+                  <td className="common-td">{invoices[index]?.ctsx}</td>
+                  <td className="common-td">{invoices[index]?.stax}</td>
+                  <td className="common-td">{invoices[index]?.Amount}</td>
+                  <td className="common-td">{invoices[index]?.AmountWords}</td>
+                  <td className="common-td">
+                    <button
+                      type="button"
+                      className="bg-yellow-500 text-white px-2 py-1 rounded"
+                      onClick={() => handleUpdate(invoices[index])}
+                    >
+                      Update
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-red-500 text-white px-2 py-1 rounded ml-2"
+                      onClick={() => handleDelete(invoices[index].SrNo)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
               <tr>
-                <td className="border border-gray-300 p-2">
+                <td className="common-td">
                   <input
                     type="date"
                     name="date"
@@ -244,7 +263,7 @@ if (name === 'qty' || name === 'rate') {
                     className="w-full p-1"
                   />
                 </td>
-                <td className="border border-gray-300 p-2">
+                <td className="common-td">
                   <input
                     type="text"
                     name="invoiceNo"
@@ -252,7 +271,7 @@ if (name === 'qty' || name === 'rate') {
                     className="w-full p-1"
                   />
                 </td>
-                <td className="border border-gray-300 p-2">
+                <td className="common-td">
                   {addressAdded ? (
                     <div className="p-2 bg-green-100 border border-green-500 rounded">
                       <span className="text-green-700"></span>
@@ -267,14 +286,12 @@ if (name === 'qty' || name === 'rate') {
                     </button>
                   )}
                 </td>
-                <td className="border border-gray-300 p-2">
-
+                <td className="common-td">
                   <select
                     name="transport"
                     onChange={(e) => dispatch(setTransport(e.target.value))}
                     className="w-full"
                   >
-
                     <option value="" disabled selected>
                       Select Transport
                     </option>
@@ -282,20 +299,20 @@ if (name === 'qty' || name === 'rate') {
                     <option value="Own">Own</option>
                   </select>
                 </td>
-                <td className="border border-gray-300 p-2">
+                <td className="common-td">
                   <select
                     name="payment"
                     onChange={(e) => dispatch(setPayment(e.target.value))}
                     className="w-full"
                   >
-                    <option value="" disabled  selected>
+                    <option value="" disabled selected>
                       Select Payment
                     </option>
                     <option value="Cash">Cash</option>
                     <option value="Online/Gpay">Online/Gpay</option>
                   </select>
                 </td>
-                <td className="border border-gray-300 p-2">
+                <td className="common-td">
                   <select
                     name="name"
                     onChange={handleItemNameChange}
@@ -317,7 +334,7 @@ if (name === 'qty' || name === 'rate') {
                     <option value="Solid Bricks-6">Solid Bricks-6"</option>
                   </select>
                 </td>
-                <td className="border border-gray-300 p-2">
+                <td className="common-td">
                   <input
                     type="number"
                     name="qty"
@@ -325,7 +342,7 @@ if (name === 'qty' || name === 'rate') {
                     className="w-full p-1"
                   />
                 </td>
-                <td className="border border-gray-300 p-2">
+                <td className="common-td">
                   <input
                     type="number"
                     name="rate"
@@ -333,28 +350,14 @@ if (name === 'qty' || name === 'rate') {
                     className="w-full p-1"
                   />
                 </td>
-                <td className="border border-gray-300 p-2">
-                  {(amount).toFixed(2)}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {cgst}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {sgst}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {ctax.toFixed(2)}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {stax.toFixed(2)}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {totalTax.toFixed(2)}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {amount.toFixed(0)}
-                </td>
-                <td className="border border-gray-300 p-2">
+                <td className="common-td">{amount.toFixed(2)}</td>
+                <td className="common-td">{cgst}</td>
+                <td className="common-td">{sgst}</td>
+                <td className="common-td">{ctax.toFixed(2)}</td>
+                <td className="common-td">{stax.toFixed(2)}</td>
+                <td className="common-td">{totalTax.toFixed(2)}</td>
+                <td className="common-td">{amount.toFixed(0)}</td>
+                <td className="common-td">
                   <div className="flex space-x-2">
                     <button
                       type="button"
