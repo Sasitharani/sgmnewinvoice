@@ -45,6 +45,7 @@ const InvoiceEntry = () => {
   let [stax,setStaxS] = useState(0);
   let [totalTax,setTotalTaxS] = useState(0);
   let [grossAmount,setGrossAmountS] = useState(0);
+
   
 
 
@@ -176,7 +177,8 @@ if (name === 'qty' || name === 'rate') {
   const newTotalTax = newCtax + newStax;
   const newGrossAmount = newAmount + newTotalTax;
 
-  setTotalAmount(newAmount);
+
+  setAmountS(newAmount);
   setCtaxS(newCtax);
   setStaxS(newStax);
   setTotalTaxS(newTotalTax);
@@ -350,7 +352,7 @@ if (name === 'qty' || name === 'rate') {
                   {totalTax.toFixed(2)}
                 </td>
                 <td className="border border-gray-300 p-2">
-                  {grossAmount.toFixed(2)}
+                  {amount.toFixed(0)}
                 </td>
                 <td className="border border-gray-300 p-2">
                   <div className="flex space-x-2">

@@ -166,9 +166,9 @@ app.post('/api/insertInvoice', (req, res) => {
   const invoice = req.body;
 
   const query = `
-    INSERT INTO invoice (SrNo, InvoiceNo, CompanyName, Date, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctsx, stax, Amount, AmountWords)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `;
+  INSERT INTO invoice (InvoiceNo, CompanyName, Date, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctsx, stax, Amount, AmountWords)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
 
   const values = [
     null, // SrNo is auto-incremented
