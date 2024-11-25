@@ -10,6 +10,7 @@ const InsertDb = () => {
   
   const handleInsert = async () => {
     try {
+        console.log('formState:', JSON.stringify(formState, null, 2));
      const response = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', formState);
     
       console.log(response.data);
@@ -24,7 +25,6 @@ const InsertDb = () => {
     <div className="container">
       <h1 className="title">Invoice Details</h1>
       <div className="details">
-        {console.log(formState)}
         <p><strong>Date:</strong> {formState.date}</p>
         <p><strong>Invoice No:</strong> {formState.invoiceNo}</p>
         <p><strong>Company Name:</strong> {formState.company[0].companyname}</p>
