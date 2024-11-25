@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import './index.css'; // Assuming you have a CSS file for styling
 import axios from 'axios';
+import cors from 'cors'; // Import cors
 
 const InsertDb = () => {
   const formState = useSelector((state) => state.invoice); // Access the Redux state
@@ -9,7 +10,8 @@ const InsertDb = () => {
   
   const handleInsert = async () => {
     try {
-      const response = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', formState);
+     const response = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', formState);
+    
       console.log(response.data);
       alert('Data inserted successfully');
     } catch (error) {

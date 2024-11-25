@@ -6,7 +6,9 @@ import { fileURLToPath } from 'url';
 import { db } from './db.js'; // Import the database connection pool
 import bodyParser from 'body-parser';
 
+
 dotenv.config(); // Load environment variables from .env file
+
 
 const app = express(); // Initialize app
 const PORT = process.env.PORT || 5000; // Use the port from environment variables or default to 5000
@@ -164,6 +166,7 @@ app.delete('/api/invoices/:id', (req, res) => {
 // Insert a new invoice with additional fields working 
 app.post('/api/insertInvoice', (req, res) => {
   const invoice = req.body;
+  console.log(invoice)
 
   const query = `
   INSERT INTO invoice (InvoiceNo, Date,CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount, AmountWords)
