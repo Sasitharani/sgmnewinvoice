@@ -66,22 +66,15 @@ const AddressModal = ({ isOpen, onClose, onSubmit, initialValues }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Swal.fire({
-      title: 'Address',
-      text: `Company Name: ${address.companyName}, GST: ${address.gst}, Flat/Door No: ${address.flatDoorNo}, Street 1: ${address.street1}, Street 2: ${address.street2}, Town/City: ${address.townCity}, State: ${address.state}`,
-      icon: 'info',
-      confirmButtonText: 'OK'
-    }).then(() => {
-      dispatch(setCompanyName(address.companyName));
-      dispatch(setGst(address.gst));
-      dispatch(setFlatDoorNo(address.flatDoorNo));
-      dispatch(setStreet1(address.street1));
-      dispatch(setStreet2(address.street2));
-      dispatch(setTownCity(address.townCity));
-      dispatch(setState(address.state));
-      dispatch(setPin(address.pin));
-      onClose();
-    });
+    dispatch(setCompanyName(address.companyName));
+    dispatch(setGst(address.gst));
+    dispatch(setFlatDoorNo(address.flatDoorNo));
+    dispatch(setStreet1(address.street1));
+    dispatch(setStreet2(address.street2));
+    dispatch(setTownCity(address.townCity));
+    dispatch(setState(address.state));
+    dispatch(setPin(address.pin));
+    onClose();
   };
 
   if (!isOpen) return null;
