@@ -169,8 +169,8 @@ app.post('/api/insertInvoice', (req, res) => {
   console.log(invoice)
 
   const query = `
-INSERT INTO invoice (SrNo, Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, Transport, Payment, itemName, Quantity, Rate, NetRate, cgst, sgst, ctax, stax, TotalTax, Amount, AmountWords)
-VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  INSERT INTO invoice (SrNo, Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, State, Pincode, Transport, Payment, itemName, Quantity, Rate, NetRate, cgst, sgst, ctax, stax, TotalTax, Amount, AmountWords)
+  VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 
 const values = [
@@ -198,7 +198,6 @@ const values = [
   invoice.amount,
   invoice.amountWords // Assuming amountWords is part of the formState
 ];
-  
     console.log('InvoiceNo:', invoice.invoiceNo);
     console.log('Date:', invoice.date);
     console.log('GST:', invoice.company[0].gst);
