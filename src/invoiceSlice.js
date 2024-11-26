@@ -53,6 +53,12 @@ const invoiceSlice = createSlice({
     setItemName:(state, action)=>{
       state.itemName = action.payload;
     },
+    setPayment:(state, action)=>{
+      state.payment = action.payload;
+    },
+    setTransport:(state, action)=>{
+      state.transport = action.payload;
+    },
     setRate :(state, action) => {
       state.rate = action.payload;
     },
@@ -112,12 +118,6 @@ const invoiceSlice = createSlice({
     },
     setNumItems: (state, action) => {
       state.company[0].numItems = action.payload;
-    },
-    setTransport: (state, action) => {
-      state.transport = action.payload;
-    },
-    setPayment: (state, action) => {
-      state.payment = action.payload;
     },
     setFinalAmount: (state, action) => {
       state.finalAmount = action.payload;

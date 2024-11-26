@@ -169,32 +169,36 @@ app.post('/api/insertInvoice', (req, res) => {
   console.log(invoice)
 
   const query = `
-    INSERT INTO invoice (InvoiceNo, Date, CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount, AmountWords)
+    INSERT INTO invoice (InvoiceNo, Date, CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, Transport, Payment, itemName, Quantity, Rate,NetRate cgst, sgst, ctax, stax,TotalTax, Amount, AmountWords)
     VALUES (
-      '${invoice.invoiceNo}',
-      '${invoice.date}',
-      '${invoice.companyName}',
-      '${invoice.gst}',
-      '${invoice.doorNo}',
-      '${invoice.street1}',
-      '${invoice.street2}',
-      '${invoice.town}',
-      '${invoice.city}',
-      '${invoice.state}',
-      '${invoice.pincode}',
-      '${invoice.itemName}',
+      ${invoice.invoiceNo},
+      ${invoice.date},
+      ${invoice.companyName},
+      ${invoice.gst},
+      ${invoice.doorNo},
+      ${invoice.street1},
+      ${invoice.street2},
+      ${invoice.town},
+      ${invoice.city},
+      ${invoice.state},
+      ${invoice.pincode},
+      ${invoice.transport},
+      ${invoice.payment},
+      ${invoice.itemName},
       ${invoice.qty},
       ${invoice.rate},
+      ${invoice.totalAmount},
       ${invoice.cgst},
       ${invoice.sgst},
       ${invoice.ctax},
       ${invoice.stax},
+      ${invoice.totalTax},
       ${invoice.amount},
-      '${invoice.amountWords}'
+      NULL
     )
   `;
   
-     console.log('Item Name:', invoice.itemName);
+    // console.log('InvoiceNo:', invoice.invoiceNo);
     // console.log('Date:', invoice.date);
     // console.log('GST:', invoice.company[0].gst);
     // console.log('DoorNo:', invoice.company[0].flatDoorNo);
