@@ -32,6 +32,7 @@ import {
 //for Navigating between pages also update in App.js
 import { useNavigate } from 'react-router-dom';
 import AddressModal from './AddressModal';
+import ViewCompanyDetails from './ViewCompanyDetails';
 import e from 'cors';
 
 
@@ -81,6 +82,9 @@ const InvoiceEntry = () => {
   
   const [invoices, setInvoices] = useState([]); //State for fetching data from API
 
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+
   useEffect(() => {
     // Fetch data from the API when the component mounts
     axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
@@ -106,19 +110,20 @@ const InvoiceEntry = () => {
     //dispatch(closeModal());
   };
 
+    //Add the Company details Modal
   const handleAddressSubmit = (address) => {
-    console.log(address)
-    // dispatch(setCompanyName(address.companyname));
-    // dispatch(setGst(address.gst));
-    // dispatch(setFlatDoorNo(address.flatDoorNo));
-    // dispatch(setStreet1(address.street1));
-    // dispatch(setStreet2(address.street2));
-    // dispatch(setTownCity(address.townCity));
-    // dispatch(setState(address.state));
-    // dispatch(setPin(address.pin));
     setAddressAdded(true);
     setIsModalOpen(false); // Close the modal
-    dispatch(closeModal());
+  };
+
+
+  //View the Company details Modal
+  const handleViewCompanyModal = () => {
+    isViewModalOpen(true); // Close the modal
+  };
+
+  const closeViewCompanyModal = () => {
+    isViewModalOpen(false); // Close the modal
   };
 /// Change the tax rates as per your requirement
   const taxRates = {
@@ -155,7 +160,18 @@ const InvoiceEntry = () => {
     dispatch(setNumItems(formState.numItems + 1));
     dispatch(updateItem([...formState.items, newItem]));
   };
+
+  let [SelectedInvoice,setSelectedInvoice] = useState(0);
+
+  const handleOpenViewModal = (InvoiceNo) => {
+    setSelectedInvoice(InvoiceNo);
+    setIsViewModalOpen(true);
+  };
+
+  const handleCloseViewModal = () => {
+    setIsViewModalOpen(false);
   
+  };
   
   const handleItemChange = (e) => {
     const { name, value } = e.target;
@@ -249,10 +265,16 @@ if (name === 'qty' || name === 'rate') {
             <tbody>
               {Array.from({ length: numberOfRows }).map((_, index) => (
                 <tr key={index}>
-                  <td className="common-td">{invoices[index]?.InvoiceNo}</td>
                   <td className="common-td">{invoices[index]?.Date}</td>
                   <td className="common-td">{invoices[index]?.InvoiceNo}</td>
-                  <td className="common-td">Add later</td>
+                  <td className="common-td">
+                    <a
+                      href="#"
+                      onClick={() => handleOpenViewModal(invoices[index])}
+                    >
+                      {invoices[index]?.CompanyName}
+                    </a>
+                  </td>
                   <td className="common-td">{invoices[index]?.Transport}</td>
                   <td className="common-td">{invoices[index]?.Payment}</td>
                   <td className="common-td">{invoices[index]?.itemName}</td>
@@ -417,6 +439,12 @@ if (name === 'qty' || name === 'rate') {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onSubmit={handleAddressSubmit}
+        initialValues={formState}
+      />
+      <ViewCompanyDetails
+        isOpen={isViewModalOpen}
+        onClose={handleCloseViewModal}
+        onSubmit={handleViewCompanyModal}
         initialValues={formState}
       />
     </div>

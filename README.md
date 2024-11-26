@@ -56,7 +56,7 @@ Currently, two official plugins are available:
    ---->When empty data is entered it throws error handle it---Yet to do
 23-11-2024
   ----->Ctax and Stax not entering into database(C and S is  not capitalised which was fixed)
-  ----->No need to Display Company details only name of Company to be Displayed 
+  ----->No need to Display Company details only name of Company to be Displayed ------------------Done
   --------->
    ---->Data is not selected properly ---- working on it
    ---->When empty data is entered it throws error handle it---Yet to do
