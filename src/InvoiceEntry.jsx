@@ -23,7 +23,8 @@ import {
   setQty,
   setRate,
   setCgst,
-  setSgst
+  setSgst,
+  setItemName,
 
 } from './invoiceSlice';
 
@@ -50,7 +51,7 @@ const InvoiceEntry = () => {
   let [ctax,setCtaxS] = useState(0);
   let [stax,setStaxS] = useState(0);
   let [totalTax,setTotalTaxS] = useState(0);
-  let [itemName,setItemName] = useState(0);
+
 
   
   const [invoices, setInvoices] = useState([]); //State for fetching data from API
@@ -76,7 +77,7 @@ const InvoiceEntry = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    dispatch(closeModal());
+    //dispatch(closeModal());
   };
 
   const handleAddressSubmit = (address) => {
@@ -109,7 +110,7 @@ const InvoiceEntry = () => {
     setSelectedItem(selectedItem);
     setCgstS(selectedItem.cgst)
     setSgstS(selectedItem.sgst)
-    console.log(selectedItem)
+    dispatch(setItemName(value));
   };
 
   const addItemRow = () => {
@@ -132,8 +133,11 @@ const InvoiceEntry = () => {
   
   const handleItemChange = (e) => {
     const { name, value } = e.target;
+  
     if (name === 'name') {
       const selectedItem = taxRates[value];
+
+
       setSelectedItem(selectedItem);
     }
 
@@ -159,7 +163,7 @@ if (name === 'qty' || name === 'rate') {
   setCtaxS(newCtax);
   setStaxS(newStax);
   setTotalTaxS(newTotalTax);
-  setGrossAmountS(newGrossAmount);
+  //setGrossAmountS(newGrossAmount);
   setQty(newQty);
 
   dispatch(setAmount(newAmount));

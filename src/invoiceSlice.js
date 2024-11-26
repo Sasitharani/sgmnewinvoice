@@ -185,7 +185,8 @@ export const {
   closeModal,
   setRate,
   setAmount,
-  setQty
+  setQty,
+  setItemName
 } = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;

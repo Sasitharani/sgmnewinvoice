@@ -183,7 +183,7 @@ app.post('/api/insertInvoice', (req, res) => {
       '${invoice.state}',
       '${invoice.pincode}',
       '${invoice.itemName}',
-      ${invoice.quantity},
+      ${invoice.qty},
       ${invoice.rate},
       ${invoice.cgst},
       ${invoice.sgst},
@@ -194,7 +194,7 @@ app.post('/api/insertInvoice', (req, res) => {
     )
   `;
   
-    // console.log('InvoiceNo:', invoice.invoiceNo);
+     console.log('Item Name:', invoice.itemName);
     // console.log('Date:', invoice.date);
     // console.log('GST:', invoice.company[0].gst);
     // console.log('DoorNo:', invoice.company[0].flatDoorNo);
