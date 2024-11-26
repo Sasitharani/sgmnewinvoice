@@ -67,5 +67,10 @@ Currently, two official plugins are available:
    ---->Company Modal Opening CLosing displaying data---Currently Working
    ---->Company Name not entered into the database---->Currenlty Working
    -------------->Problem is either is slice/state
+   -------------->Resolved-In slice it was name and in selector it was companyName which was changed
+
+
+   --------------------------------------------Next---------------------------------------------------------------------
+    Company Model should be viewed
 
 
