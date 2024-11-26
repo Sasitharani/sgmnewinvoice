@@ -36,7 +36,8 @@ const InsertDb = () => {
         <p><strong>State:</strong> {formState.company[0].state}</p>
         <p><strong>PIN:</strong> {formState.company[0].pin}</p>
         <p><strong>Transport:</strong> {formState.transport}</p>
-        <p><strong>Payment:</strong> {formState.payment}</p>
+        <p><strong>Payment:</strong> {formState.itemName}</p>
+        <p><strong>Item Name:</strong> {formState.itemName}</p>
         <p><strong>Amount:</strong> {formState.amount}</p>
         <p><strong>Rate:</strong> {formState.rate}</p>
         <p><strong>Quantity:</strong> {formState.qty}</p>

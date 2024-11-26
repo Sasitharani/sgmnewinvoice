@@ -50,7 +50,7 @@ const InvoiceEntry = () => {
   let [ctax,setCtaxS] = useState(0);
   let [stax,setStaxS] = useState(0);
   let [totalTax,setTotalTaxS] = useState(0);
-  let [grossAmount,setGrossAmountS] = useState(0);
+  let [itemName,setItemName] = useState(0);
 
   
   const [invoices, setInvoices] = useState([]); //State for fetching data from API

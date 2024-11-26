@@ -39,14 +39,19 @@ const initialState = {
   totalAmount: 0,
   rate: 0,
   amount:0,
+  itemName:0,
 
 };
 const invoiceSlice = createSlice({
   name: 'invoice',
   initialState,
   reducers: {
+ 
     setQty :(state, action) => {
       state.qty = action.payload;
+    },
+    setItemName:(state, action)=>{
+      state.itemName = action.payload;
     },
     setRate :(state, action) => {
       state.rate = action.payload;
