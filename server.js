@@ -200,6 +200,7 @@ const values = [
 ];
     console.log('InvoiceNo:', invoice.invoiceNo);
     console.log('Date:', invoice.date);
+    console.log('GST:', invoice.company[0].companyname);
     console.log('GST:', invoice.company[0].gst);
     console.log('DoorNo:', invoice.company[0].flatDoorNo);
     console.log('Street1:', invoice.company[0].street1);

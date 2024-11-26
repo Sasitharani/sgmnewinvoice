@@ -64,4 +64,5 @@ Currently, two official plugins are available:
   --------->
    ---->Data is not selected properly ---- DOne
    ---->When empty data is entered it throws error handle it---Yet to do
-   ---->Company Modal Opening CLosing displaying data---currently Working
+   ---->Company Modal Opening CLosing displaying data---Currently Working
+   ---->Company Name not entered into the database---->Currenlty Working
