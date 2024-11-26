@@ -115,9 +115,6 @@ const invoiceSlice = createSlice({
     setPin: (state, action) => {
       state.company[0].pin = action.payload;
     },
-    setNumItems: (state, action) => {
-      state.company[0].numItems = action.payload;
-    },
     setFinalAmount: (state, action) => {
       state.finalAmount = action.payload;
     },

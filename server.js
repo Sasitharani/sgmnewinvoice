@@ -189,7 +189,7 @@ const values = [
   invoice.itemName,
   invoice.qty,
   invoice.rate,
-  invoice.netRate,
+  invoice.amount,
   invoice.cgst,
   invoice.sgst,
   invoice.ctax,
@@ -210,6 +210,7 @@ const values = [
     console.log('Transport:', invoice.transport);
     console.log('Payment:', invoice.payment);
     console.log('ItemName:', invoice.itemName);
+    console.log('ItemName:', invoice.amount);
     console.log('Quantity:', invoice.qty);
     console.log('Rate:', invoice.rate);
     console.log('CGST:', invoice.Cgst);
