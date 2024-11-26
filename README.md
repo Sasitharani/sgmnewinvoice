@@ -54,10 +54,14 @@ Currently, two official plugins are available:
    ---->these details needs to be shown in address modal-----------DONE
    ---->there is also amountInWords in Database which needs to be inserted----------DOne
    ---->When empty data is entered it throws error handle it---Yet to do
+
+
+
+
 23-11-2024
   ----->Ctax and Stax not entering into database(C and S is  not capitalised which was fixed)
   ----->No need to Display Company details only name of Company to be Displayed ------------------Done
   --------->
-   ---->Data is not selected properly ---- working on it
+   ---->Data is not selected properly ---- DOne
    ---->When empty data is entered it throws error handle it---Yet to do
-   ---->Company Modal Opening CLosing displaying data
+   ---->Company Modal Opening CLosing displaying data---currently Working
