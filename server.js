@@ -169,9 +169,34 @@ app.post('/api/insertInvoice', (req, res) => {
   console.log(invoice)
 
   const query = `
-    INSERT INTO invoice (SrNo, Date, InvoiceNo,CompanyName, Gst, DoorNo, Street1, Street2, Town,City, State, Pincod, Transport, Payment, itemName, Quantity, Rate, NetRate, cgst, sgst, ctax, stax, TotalTax, Amount, AmountWords) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
+    INSERT INTO invoice (InvoiceNo, Date, CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, Transport, Payment, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount, AmountWords)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
+
+  const values = [
+    invoice.invoiceNo,
+    invoice.date,
+    invoice.company[0].companyname,
+    invoice.company[0].gst,
+    invoice.company[0].flatDoorNo,
+    invoice.company[0].street1,
+    invoice.company[0].street2,
+    invoice.company[0].townCity,
+    invoice.company[0].townCity, // Assuming Town and City are the same
+    invoice.company[0].state,
+    invoice.company[0].pin,
+    invoice.transport,
+    invoice.payment,
+    invoice.itemName,
+    invoice.qty,
+    invoice.rate,
+    invoice.cgst,
+    invoice.sgst,
+    invoice.ctax,
+    invoice.stax,
+    invoice.amount,
+    invoice.amountWords // Assuming amountWords is part of the formState
+  ];
   
     console.log('InvoiceNo:', invoice.invoiceNo);
     console.log('Date:', invoice.date);
