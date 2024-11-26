@@ -25,6 +25,7 @@ import {
   setCgst,
   setSgst,
   setItemName,
+  SetAmountWords
 
 } from './invoiceSlice';
 
@@ -32,6 +33,29 @@ import {
 import { useNavigate } from 'react-router-dom';
 import AddressModal from './AddressModal';
 import e from 'cors';
+
+
+const numberToWords = (num) => {
+  const a = [
+    '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+    'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
+  ];
+  const b = [
+    '', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'
+  ];
+  if ((num = num.toString()).length > 9) return 'Overflow';
+  const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{1})$/);
+  if (!n) return;
+
+  let str = '';
+  str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + ' Crore ' : '';
+  str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + ' Lakh ' : '';
+  str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + ' Thousand ' : '';
+  str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + ' Hundred ' : '';
+  str += (n[5] != 0) ? ((str != '') ? 'And ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' Only/- ' : '';
+  return str.trim();
+};
+
 
 const InvoiceEntry = () => {
   const dispatch = useDispatch();
@@ -51,6 +75,7 @@ const InvoiceEntry = () => {
   let [ctax,setCtaxS] = useState(0);
   let [stax,setStaxS] = useState(0);
   let [totalTax,setTotalTaxS] = useState(0);
+  let [grossAmount,setGrossAmountS] = useState(0);
 
 
   
@@ -163,9 +188,10 @@ if (name === 'qty' || name === 'rate') {
   setCtaxS(newCtax);
   setStaxS(newStax);
   setTotalTaxS(newTotalTax);
-  //setGrossAmountS(newGrossAmount);
+  setGrossAmountS(newGrossAmount);
   setQty(newQty);
-
+  let words=numberToWords(newGrossAmount);
+  dispatch(SetAmountWords(words));
   dispatch(setAmount(newAmount));
   dispatch(setCtax(newCtax));
   dispatch(setStax(newStax));
@@ -183,6 +209,8 @@ if (name === 'qty' || name === 'rate') {
     navigate('/insertDB');
  
   };
+
+ 
 
   return (
     <div>
@@ -360,7 +388,7 @@ if (name === 'qty' || name === 'rate') {
                 <td className="common-td">{ctax.toFixed(2)}</td>
                 <td className="common-td">{stax.toFixed(2)}</td>
                 <td className="common-td">{totalTax.toFixed(2)}</td>
-                <td className="common-td">{amount.toFixed(0)}</td>
+                <td className="common-td">{grossAmount.toFixed(0)}</td>
                 <td className="common-td">
                   <div className="flex space-x-2">
                     <button

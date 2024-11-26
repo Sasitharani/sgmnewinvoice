@@ -194,7 +194,7 @@ app.post('/api/insertInvoice', (req, res) => {
       ${invoice.stax},
       ${invoice.totalTax},
       ${invoice.amount},
-      'Sasi'  // Hardcoded values for testing
+       ${invoice.AmountWords},
     )
   `;
   
@@ -219,7 +219,7 @@ app.post('/api/insertInvoice', (req, res) => {
     console.log('STax:', invoice.stax);
     console.log('STax:', invoice.totalTax);
     console.log('Amount:', invoice.amount);
-    //invoice.amountWords // Assuming amountWords is part of the formState
+    console.log('Amount:', invoice.AmountWords);
 
 
   db.query(query, values, (err, results) => {

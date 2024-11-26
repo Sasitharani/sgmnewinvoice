@@ -21,6 +21,7 @@ const InsertDb = () => {
     }
   };
 
+
   return (
     <div className="container">
       <h1 className="title">Invoice Details</h1>
@@ -47,6 +48,7 @@ const InsertDb = () => {
         <p><strong>STax:</strong> {formState.stax}</p>
         <p><strong>Total Tax:</strong> {formState.totalTax}</p>
         <p><strong>Gross Amount:</strong> {formState.grossAmount}</p>
+        <p><strong> Amount In Words:</strong> {formState.AmountWords}</p>
       </div>
       <button onClick={handleInsert} className="btn btn-primary">Insert into DB</button>
     </div>

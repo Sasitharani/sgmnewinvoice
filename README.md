@@ -49,7 +49,7 @@ Currently, two official plugins are available:
   #Company details in addressAddmodal 
    Date,CompanyName,  Gst, DoorNo, Street1, Street2, Town, City, State, Pincode,
    --->TOmmoroow Inserting Item in database from running git in Render 
-   ---->slice the value of itemName
-   ---->these details needs to be shown in address modal
-   ---->there is also amountInWords in Database which needs to be inserted
+   ---->slice the value of itemName-----------DONE
+   ---->these details needs to be shown in address modal-----------DONE
+   ---->there is also amountInWords in Database which needs to be inserted----------Working
    ---->When empty data is entered it throws error handle it

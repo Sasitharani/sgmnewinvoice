@@ -1,6 +1,5 @@
 // invoiceSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-
 const initialState = {
   grossAmount: 0,
   cgstAmount: 0,
@@ -151,7 +150,11 @@ const invoiceSlice = createSlice({
     },
     closeModal: (state) => {
       state.isModalOpen = false;
+    },
+    SetAmountWords: (state,action) => {
+      state.AmountWords = action.payload;
     }
+
   }
 });
 
@@ -186,7 +189,8 @@ export const {
   setRate,
   setAmount,
   setQty,
-  setItemName
+  setItemName,
+  SetAmountWords
 } = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;
