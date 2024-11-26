@@ -169,33 +169,8 @@ app.post('/api/insertInvoice', (req, res) => {
   console.log(invoice)
 
   const query = `
-    INSERT INTO invoice (InvoiceNo, Date, CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, Transport, Payment, itemName, Quantity, Rate,NetRate cgst, sgst, ctax, stax,TotalTax, Amount, AmountWords)
-    VALUES (
-      ${invoice.invoiceNo},
-      ${invoice.date},
-      ${invoice.companyName},
-      ${invoice.gst},
-      ${invoice.doorNo},
-      ${invoice.street1},
-      ${invoice.street2},
-      ${invoice.town},
-      ${invoice.city},
-      ${invoice.state},
-      ${invoice.pincode},
-      ${invoice.transport},
-      ${invoice.payment},
-      ${invoice.itemName},
-      ${invoice.qty},
-      ${invoice.rate},
-      ${invoice.totalAmount},
-      ${invoice.cgst},
-      ${invoice.sgst},
-      ${invoice.ctax},
-      ${invoice.stax},
-      ${invoice.totalTax},
-      ${invoice.amount},
-       ${invoice.AmountWords},
-    )
+    INSERT INTO invoice (SrNo, Date, InvoiceNo,CompanyName, Gst, DoorNo, Street1, Street2, Town,City, State, Pincod, Transport, Payment, itemName, Quantity, Rate, NetRate, cgst, sgst, ctax, stax, TotalTax, Amount, AmountWords) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', NULL, NULL, '', '', '', '', '', '', NULL, NULL);
+
   `;
   
     console.log('InvoiceNo:', invoice.invoiceNo);
