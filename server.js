@@ -212,7 +212,7 @@ app.post('/api/insertInvoice', (req, res) => {
     console.log('STax:', invoice.stax);
     console.log('Amount:', invoice.amount);
     //invoice.amountWords // Assuming amountWords is part of the formState
-  ];
+
 
   db.query(query, values, (err, results) => {
     if (err) {
