@@ -50,20 +50,6 @@ const AddressModal = ({ isOpen, onClose, onSubmit, initialValues }) => {
   };
 
 
-
-  // const handleSubmit = () => {
-  //   onSubmit(address);
-  //   dispatch(setCompanyName(address.companyname));
-  //   dispatch(setGst(address.gst));
-  //   dispatch(setFlatDoorNo(address.flatDoorNo));
-  //   dispatch(setStreet1(address.street1));
-  //   dispatch(setStreet2(address.street2));
-  //   dispatch(setTownCity(address.townCity));
-  //   dispatch(setState(address.state));
-  //   dispatch(setPin(address.pin));
-  //   onClose();
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(setCompanyName(address.companyName));

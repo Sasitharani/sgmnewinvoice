@@ -28,7 +28,7 @@ const InsertDb = () => {
       <div className="details">
         <p><strong>Date:</strong> {formState.date}</p>
         <p><strong>Invoice No:</strong> {formState.invoiceNo}</p>
-        <p><strong>Company Name:</strong> {formState.company[0].companyname}</p>
+        <p><strong>Company Name:</strong> {formState.company[0].name}</p>
         <p><strong>GST:</strong> {formState.company[0].gst}</p>
         <p><strong>Flat/Door No:</strong> {formState.company[0].flatDoorNo}</p>
         <p><strong>Street 1:</strong> {formState.company[0].street1}</p>

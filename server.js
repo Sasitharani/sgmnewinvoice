@@ -176,7 +176,7 @@ app.post('/api/insertInvoice', (req, res) => {
 const values = [
   invoice.date,
   invoice.invoiceNo,
-  invoice.company[0].companyname,
+  invoice.company[0].name,
   invoice.company[0].gst,
   invoice.company[0].flatDoorNo,
   invoice.company[0].street1,
@@ -200,7 +200,7 @@ const values = [
 ];
     console.log('InvoiceNo:', invoice.invoiceNo);
     console.log('Date:', invoice.date);
-    console.log('GST:', invoice.company[0].companyname);
+    console.log('GST:', invoice.company[0].name);
     console.log('GST:', invoice.company[0].gst);
     console.log('DoorNo:', invoice.company[0].flatDoorNo);
     console.log('Street1:', invoice.company[0].street1);

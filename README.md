@@ -66,3 +66,6 @@ Currently, two official plugins are available:
    ---->When empty data is entered it throws error handle it---Yet to do
    ---->Company Modal Opening CLosing displaying data---Currently Working
    ---->Company Name not entered into the database---->Currenlty Working
+   -------------->Problem is either is slice/state
+
+
