@@ -29,7 +29,7 @@ console.log('Server is starting...');
 // Get all invoices
 app.get('/api/invoices', (req, res) => {
   console.log('GET /api/invoices endpoint hit');
-  const query = 'SELECT Date,InvoiceNo,Transport,Payment, itemName, Quantity, Rate, cgst, sgst, ctax, stax,TotalTax, Amount FROM invoice';
+  const query = 'SrNo, Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, State, Pincode, Transport, Payment, itemName, Quantity, Rate, NetRate, cgst, sgst, ctax, stax, TotalTax, Amount, AmountWords';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error fetching data:', err);

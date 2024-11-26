@@ -268,12 +268,13 @@ if (name === 'qty' || name === 'rate') {
                   <td className="common-td">{invoices[index]?.Date}</td>
                   <td className="common-td">{invoices[index]?.InvoiceNo}</td>
                   <td className="common-td">
-                    <a
-                      href="#"
-                      onClick={() => handleOpenViewModal(invoices[index])}
+                    <button
+                      type="button"
+                      onClick={() => handleOpenViewModal(invoices[index].InvoiceNo)}
+                      className="bg-blue-500 text-white px-2 py-1 rounded"
                     >
                       {invoices[index]?.CompanyName}
-                    </a>
+                    </button>
                   </td>
                   <td className="common-td">{invoices[index]?.Transport}</td>
                   <td className="common-td">{invoices[index]?.Payment}</td>

@@ -60,3 +60,4 @@ Currently, two official plugins are available:
   --------->
    ---->Data is not selected properly ---- working on it
    ---->When empty data is entered it throws error handle it---Yet to do
+   ---->Company Modal Opening CLosing displaying data
