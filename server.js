@@ -190,7 +190,27 @@ app.post('/api/insertInvoice', (req, res) => {
     invoice.Sgst,
     invoice.ctax,
     invoice.stax,
-    invoice.amount
+      invoice.amount
+    ];
+  
+    console.log('InvoiceNo:', invoice.invoiceNo);
+    console.log('Date:', invoice.date);
+    console.log('GST:', invoice.company[0].gst);
+    console.log('DoorNo:', invoice.company[0].flatDoorNo);
+    console.log('Street1:', invoice.company[0].street1);
+    console.log('Street2:', invoice.company[0].street2);
+    console.log('Town:', invoice.company[0].townCity);
+    console.log('City:', invoice.company[0].townCity);
+    console.log('State:', invoice.company[0].state);
+    console.log('Pincode:', invoice.company[0].pin);
+    console.log('ItemName:', invoice.itemName);
+    console.log('Quantity:', invoice.qty);
+    console.log('Rate:', invoice.rate);
+    console.log('CGST:', invoice.Cgst);
+    console.log('SGST:', invoice.Sgst);
+    console.log('CTax:', invoice.ctax);
+    console.log('STax:', invoice.stax);
+    console.log('Amount:', invoice.amount);
     //invoice.amountWords // Assuming amountWords is part of the formState
   ];
 
