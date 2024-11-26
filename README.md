@@ -48,6 +48,7 @@ Currently, two official plugins are available:
 25-11-2024
   #Company details in addressAddmodal 
    Date,CompanyName,  Gst, DoorNo, Street1, Street2, Town, City, State, Pincode,
+   !!!!!!!!!!!!----------Data adding Sucessfully-----------!!!!!!!!!!!!
    --->TOmmoroow Inserting Item in database from running git in Render 
    ---->slice the value of itemName-----------DONE
    ---->these details needs to be shown in address modal-----------DONE
