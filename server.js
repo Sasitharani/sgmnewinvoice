@@ -169,34 +169,36 @@ app.post('/api/insertInvoice', (req, res) => {
   console.log(invoice)
 
   const query = `
-    INSERT INTO invoice (InvoiceNo, Date, CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, Transport, Payment, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount, AmountWords)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `;
+  INSERT INTO invoice (SrNo, Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, Transport, Payment, itemName, Quantity, Rate, NetRate, cgst, sgst, ctax, stax, TotalTax, Amount, AmountWords)
+  VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
 
-  const values = [
-    invoice.invoiceNo,
-    invoice.date,
-    invoice.company[0].companyname,
-    invoice.company[0].gst,
-    invoice.company[0].flatDoorNo,
-    invoice.company[0].street1,
-    invoice.company[0].street2,
-    invoice.company[0].townCity,
-    invoice.company[0].townCity, // Assuming Town and City are the same
-    invoice.company[0].state,
-    invoice.company[0].pin,
-    invoice.transport,
-    invoice.payment,
-    invoice.itemName,
-    invoice.qty,
-    invoice.rate,
-    invoice.cgst,
-    invoice.sgst,
-    invoice.ctax,
-    invoice.stax,
-    invoice.amount,
-    invoice.amountWords // Assuming amountWords is part of the formState
-  ];
+const values = [
+  invoice.date,
+  invoice.invoiceNo,
+  invoice.company[0].companyname,
+  invoice.company[0].gst,
+  invoice.company[0].flatDoorNo,
+  invoice.company[0].street1,
+  invoice.company[0].street2,
+  invoice.company[0].townCity,
+  invoice.company[0].townCity, // Assuming Town and City are the same
+  invoice.company[0].state,
+  invoice.company[0].pin,
+  invoice.transport,
+  invoice.payment,
+  invoice.itemName,
+  invoice.qty,
+  invoice.rate,
+  invoice.netRate,
+  invoice.cgst,
+  invoice.sgst,
+  invoice.ctax,
+  invoice.stax,
+  invoice.totalTax,
+  invoice.amount,
+  invoice.amountWords // Assuming amountWords is part of the formState
+];
   
     console.log('InvoiceNo:', invoice.invoiceNo);
     console.log('Date:', invoice.date);
@@ -206,7 +208,7 @@ app.post('/api/insertInvoice', (req, res) => {
     console.log('Street2:', invoice.company[0].street2);
     console.log('Town:', invoice.company[0].townCity);
     console.log('City:', invoice.company[0].townCity);
-    console.log('State:', invoice.company[0].state);
+    console.otalTaxlog('State:', invoice.company[0].state);
     console.log('Pincode:', invoice.company[0].pin);
     console.log('Transport:', invoice.transport);
     console.log('Payment:', invoice.payment);
