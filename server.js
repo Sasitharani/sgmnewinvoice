@@ -194,7 +194,7 @@ app.post('/api/insertInvoice', (req, res) => {
       ${invoice.stax},
       ${invoice.totalTax},
       ${invoice.amount},
-      NULL
+      'Sasi'  // Hardcoded values for testing
     )
   `;
   
