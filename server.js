@@ -169,49 +169,50 @@ app.post('/api/insertInvoice', (req, res) => {
   console.log(invoice)
 
   const query = `
-  INSERT INTO invoice (InvoiceNo,Date,CompanyName,Gst, DoorNo,Street1,Street2,Town,City,State, Pincode,Quantity,Rate,cgst,sgst, ctax,stax,Amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`
-
-  const values = [
-    null, // SrNo is auto-incremented
-    invoice.invoiceNo,
-    invoice.date,
-    invoice.company[0].gst,
-    invoice.company[0].flatDoorNo,
-    invoice.company[0].street1,
-    invoice.company[0].street2,
-    invoice.company[0].townCity,
-    invoice.company[0].townCity, // Assuming Town and City are the same
-    invoice.company[0].state,
-    invoice.company[0].pin,
-    invoice.itemName,
-    invoice.qty,
-    invoice.rate,
-    invoice.Cgst,
-    invoice.Sgst,
-    invoice.ctax,
-    invoice.stax,
-      invoice.amount
-    ];
+    INSERT INTO invoice (InvoiceNo, Date, CompanyName, Gst, DoorNo, Street1, Street2, Town, City, State, Pincode, itemName, Quantity, Rate, cgst, sgst, ctax, stax, Amount, AmountWords)
+    VALUES (
+      '${invoice.invoiceNo}',
+      '${invoice.date}',
+      '${invoice.companyName}',
+      '${invoice.gst}',
+      '${invoice.doorNo}',
+      '${invoice.street1}',
+      '${invoice.street2}',
+      '${invoice.town}',
+      '${invoice.city}',
+      '${invoice.state}',
+      '${invoice.pincode}',
+      '${invoice.itemName}',
+      ${invoice.quantity},
+      ${invoice.rate},
+      ${invoice.cgst},
+      ${invoice.sgst},
+      ${invoice.ctax},
+      ${invoice.stax},
+      ${invoice.amount},
+      '${invoice.amountWords}'
+    )
+  `;
   
-    console.log('InvoiceNo:', invoice.invoiceNo);
-    console.log('Date:', invoice.date);
-    console.log('GST:', invoice.company[0].gst);
-    console.log('DoorNo:', invoice.company[0].flatDoorNo);
-    console.log('Street1:', invoice.company[0].street1);
-    console.log('Street2:', invoice.company[0].street2);
-    console.log('Town:', invoice.company[0].townCity);
-    console.log('City:', invoice.company[0].townCity);
-    console.log('State:', invoice.company[0].state);
-    console.log('Pincode:', invoice.company[0].pin);
-    console.log('ItemName:', invoice.itemName);
-    console.log('Quantity:', invoice.qty);
-    console.log('Rate:', invoice.rate);
-    console.log('CGST:', invoice.Cgst);
-    console.log('SGST:', invoice.Sgst);
-    console.log('CTax:', invoice.ctax);
-    console.log('STax:', invoice.stax);
-    console.log('Amount:', invoice.amount);
-    //invoice.amountWords // Assuming amountWords is part of the formState
+    // console.log('InvoiceNo:', invoice.invoiceNo);
+    // console.log('Date:', invoice.date);
+    // console.log('GST:', invoice.company[0].gst);
+    // console.log('DoorNo:', invoice.company[0].flatDoorNo);
+    // console.log('Street1:', invoice.company[0].street1);
+    // console.log('Street2:', invoice.company[0].street2);
+    // console.log('Town:', invoice.company[0].townCity);
+    // console.log('City:', invoice.company[0].townCity);
+    // console.log('State:', invoice.company[0].state);
+    // console.log('Pincode:', invoice.company[0].pin);
+    // console.log('ItemName:', invoice.itemName);
+    // console.log('Quantity:', invoice.qty);
+    // console.log('Rate:', invoice.rate);
+    // console.log('CGST:', invoice.Cgst);
+    // console.log('SGST:', invoice.Sgst);
+    // console.log('CTax:', invoice.ctax);
+    // console.log('STax:', invoice.stax);
+    // console.log('Amount:', invoice.amount);
+    // //invoice.amountWords // Assuming amountWords is part of the formState
 
 
   db.query(query, values, (err, results) => {
