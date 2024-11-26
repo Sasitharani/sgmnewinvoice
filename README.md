@@ -52,5 +52,9 @@ Currently, two official plugins are available:
    --->TOmmoroow Inserting Item in database from running git in Render 
    ---->slice the value of itemName-----------DONE
    ---->these details needs to be shown in address modal-----------DONE
-   ---->there is also amountInWords in Database which needs to be inserted----------Working
-   ---->When empty data is entered it throws error handle it
+   ---->there is also amountInWords in Database which needs to be inserted----------DOne
+   ---->When empty data is entered it throws error handle it---Yet to do
+23-11-2024
+  ----->Ctax and Stax not entering into database(C and S is  not capitalised which was fixed)
+   ---->Data is not selected properly ---- working on it
+   ---->When empty data is entered it throws error handle it---Yet to do

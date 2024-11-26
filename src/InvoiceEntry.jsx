@@ -93,6 +93,7 @@ const InvoiceEntry = () => {
   }, []);
 
   const numberOfRows = invoices.length;
+  console.log('Invoice values from database:--' + JSON.stringify(invoices, null, 2));
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
