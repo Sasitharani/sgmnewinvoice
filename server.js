@@ -41,11 +41,11 @@ app.get('/api/invoices', (req, res) => {
 });
 
 // Get a single invoice by ID
-app.get('/api/invoices/:id', (req, res) => {
-  console.log('GET /api/invoices/:id endpoint hit');
-  const { id } = req.params;
-  const query = 'SELECT * FROM invoice WHERE id = ?';
-  db.query(query, [id], (err, results) => {
+app.get('/api/invoices/:SrNo', (req, res) => {
+  console.log('GET /api/invoices/:SrNo endpoint hit');
+  const { SrNo } = req.params;
+  const query = 'SELECT * FROM invoice WHERE SrNo = ?';
+  db.query(query, [SrNo], (err, results) => {
     if (err) {
       console.error('Error fetching data:', err);
       res.status(500).send('Error fetching data');
@@ -60,76 +60,41 @@ app.get('/api/invoices/:id', (req, res) => {
 });
 
 // Update an invoice by ID
-app.put('/api/invoices/:id', (req, res) => {
-  console.log('PUT /api/invoices/:id endpoint hit');
-  const { id } = req.params;
-  const {
-    invoiceNo,
-    companyName,
-    date,
-    gst,
-    doorNo,
-    street1,
-    street2,
-    town,
-    city,
-    state,
-    pincode,
-    quantity,
-    rate,
-    amount,
-    amountWords,
-    address,
-    items,
-    totalAmount,
-    totalTax
-  } = req.body;
+app.put('/api/invoices/:SrNo', (req, res) => {
+  console.log('PUT /api/invoices/:SrNo endpoint hit');
+  const { SrNo } = req.params;
+  const invoice = req.body;
 
   const query = `
     UPDATE invoice SET
-      InvoiceNo = ?,
-      CompanyName = ?,
-      Date = ?,
-      Gst = ?,
-      DoorNo = ?,
-      Street1 = ?,
-      Street2 = ?,
-      Town = ?,
-      City = ?,
-      State = ?,
-      Pincode = ?,
-      Quantity = ?,
-      Rate = ?,
-      Amount = ?,
-      AmountWords = ?,
-      Address = ?,
-      Items = ?,
-      TotalAmount = ?,
-      TotalTax = ?
-    WHERE id = ?
+SrNo, Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, State, Pincode, Transport, Payment, itemName, Quantity, Rate, NetRate, cgst, sgst, ctax, stax, TotalTax, Amount, AmountWord
+    WHERE SrNo = ?
   `;
 
   db.query(query, [
-    invoiceNo,
-    companyName,
-    date,
-    gst,
-    doorNo,
-    street1,
-    street2,
-    town,
-    city,
-    state,
-    pincode,
-    quantity,
-    rate,
-    amount,
-    amountWords,
-    JSON.stringify(address),
-    JSON.stringify(items),
-    totalAmount,
-    totalTax,
-    id
+  invoice.date,
+  invoice.invoiceNo,
+  invoice.company[0].name,
+  invoice.company[0].gst,
+  invoice.company[0].flatDoorNo,
+  invoice.company[0].street1,
+  invoice.company[0].street2,
+  invoice.company[0].townCity,
+  invoice.company[0].state,
+  invoice.company[0].pin,
+  invoice.transport,
+  invoice.payment,
+  invoice.itemName,
+  invoice.qty,
+  invoice.rate,
+  invoice.amount,
+  invoice.Cgst,
+  invoice.Sgst,
+  invoice.ctax,
+  invoice.stax,
+  invoice.totalTax,
+  invoice.amount,
+  invoice.amountWords
   ], (err, results) => {
     if (err) {
       console.error('Error updating data:', err);
@@ -174,7 +139,7 @@ app.post('/api/insertInvoice', (req, res) => {
 `;
 
 const values = [
-  invoice.date,
+   invoice.date,
   invoice.invoiceNo,
   invoice.company[0].name,
   invoice.company[0].gst,
@@ -196,7 +161,7 @@ const values = [
   invoice.stax,
   invoice.totalTax,
   invoice.amount,
-  invoice.amountWords // Assuming amountWords is part of the formState
+  invoice.amountWords// Assuming amountWords is part of the formState
 ];
     console.log('InvoiceNo:', invoice.invoiceNo);
     console.log('Date:', invoice.date);

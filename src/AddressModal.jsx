@@ -66,8 +66,8 @@ const AddressModal = ({ isOpen, onClose, onSubmit, initialValues }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="modal-content bg-white p-6 rounded-lg shadow-lg w-96">
+    <div className="modal ">
+      <div className="modal-content ">
         <span className="close cursor-pointer text-xl font-bold" onClick={onClose}>&times;</span>
         <h2 className="text-2xl mb-4">Enter Address Details</h2>
         <input
@@ -75,56 +75,56 @@ const AddressModal = ({ isOpen, onClose, onSubmit, initialValues }) => {
           placeholder="Company Name"
           value={address.companyName}
           onChange={handleChange}
-          className="input-box w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
+          className="inside-modal"
         />
         <input
           name="gst"
           placeholder="GST"
           value={address.gst}
           onChange={handleChange}
-          className="input-box w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
+          className="inside-modal"
         />
         <input
           name="flatDoorNo"
           placeholder="Flat Door No"
           value={address.flatDoorNo}
           onChange={handleChange}
-          className="input-box w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
+          className="inside-modal"
         />
         <input
           name="street1"
           placeholder="Street 1"
           value={address.street1}
           onChange={handleChange}
-          className="input-box w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
+          className="inside-modal"
         />
         <input
           name="street2"
           placeholder="Street 2"
           value={address.street2}
           onChange={handleChange}
-          className="input-box w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
+          className="inside-modal"
         />
         <input
           name="townCity"
           placeholder="Town/City"
           value={address.townCity}
           onChange={handleChange}
-          className="input-box w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
+          className="inside-modal"
         />
         <input
           name="state"
           placeholder="State"
           value={address.state}
           onChange={handleChange}
-          className="input-box w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
+          className="inside-modal"
         />
         <input
           name="pin"
           placeholder="Pincode"
           value={address.pin}
           onChange={handleChange}
-          className="input-box w-full p-2 mb-2 border border-gray-300 rounded bg-gray-100"
+          className="inside-modal"
         />
         <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
       </div>

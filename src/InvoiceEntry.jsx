@@ -97,7 +97,7 @@ const InvoiceEntry = () => {
   }, []);
 
   const numberOfRows = invoices.length;
-  console.log('Invoice values from database:--' + JSON.stringify(invoices, null, 2));
+  // console.log('Invoice values from database:--' + JSON.stringify(invoices, null, 2));
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -164,7 +164,8 @@ const InvoiceEntry = () => {
   let [SelectedInvoice,setSelectedInvoice] = useState(0);
 
   const handleOpenViewModal = (InvoiceNo) => {
-    setSelectedInvoice(InvoiceNo);
+    console.log(InvoiceNo)
+    setSelectedInvoice(SrNo);
     setIsViewModalOpen(true);
   };
 
@@ -446,7 +447,7 @@ if (name === 'qty' || name === 'rate') {
         isOpen={isViewModalOpen}
         onClose={handleCloseViewModal}
         onSubmit={handleViewCompanyModal}
-        initialValues={formState}
+        initialValues={SelectedInvoice}
       />
     </div>
   );
