@@ -64,13 +64,18 @@ Currently, two official plugins are available:
   --------->
    ---->Data is not selected properly ---- DOne
    ---->When empty data is entered it throws error handle it---Yet to do
-   ---->Company Modal Opening CLosing displaying data---Currently Working
-   ---->Company Name not entered into the database---->Currenlty Working
+   ---->Company Modal Opening CLosing displaying data--->Done
+   ---->Company Name not entered into the database---->Done
    -------------->Problem is either is slice/state
    -------------->Resolved-In slice it was name and in selector it was companyName which was changed
 
 
    --------------------------------------------Next---------------------------------------------------------------------
     Company Model should be viewed
+
+    
+   --------------------------------------------27-11-2024---------------------------------------------------------------------
+    1)Company Model should be viewed----Done
+    2)Make design Changes
 
 

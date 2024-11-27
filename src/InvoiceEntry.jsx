@@ -163,8 +163,8 @@ const InvoiceEntry = () => {
 
   let [SelectedInvoice,setSelectedInvoice] = useState(0);
 
-  const handleOpenViewModal = (InvoiceNo) => {
-    console.log(InvoiceNo)
+  const handleOpenViewModal = (SrNo) => {
+    console.log(SrNo)
     setSelectedInvoice(SrNo);
     setIsViewModalOpen(true);
   };
@@ -271,7 +271,7 @@ if (name === 'qty' || name === 'rate') {
                   <td className="common-td">
                     <button
                       type="button"
-                      onClick={() => handleOpenViewModal(invoices[index].InvoiceNo)}
+                      onClick={() => handleOpenViewModal(invoices[index].SrNo)}
                       className="bg-blue-500 text-white px-2 py-1 rounded"
                     >
                       {invoices[index]?.CompanyName}
