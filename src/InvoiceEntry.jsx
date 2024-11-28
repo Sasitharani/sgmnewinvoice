@@ -235,40 +235,40 @@ if (name === 'qty' || name === 'rate') {
       {console.log("No of rows from database:--" + numberOfRows)}
       <form
         onSubmit={saveInvoice}
-        className="w-full max-w-screen-xl mx-auto mt-10 p-6 border border-gray-300 rounded shadow"
-        style={{ margin: "30px" }}
+        className="w-screen mx-auto mt-2 p-2  rounded-sm shadow"
+        style={{ margin: "10px" }}
       >
-        <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse border border-gray-300 invoice-table">
-            <thead>
+        <div className="overflow-x-auto ">
+          <table className="">
+            <thead className='bg-black rounded-sm text-white text-left p-10'>
               <tr>
-                <th className="border border-gray-300 p-2">Date</th>
-                <th className="border border-gray-300 p-2">Invoice No</th>
-                <th className="border border-gray-300 p-2">
+                <th className=" ">Date</th>
+                <th className=" ">Invoice No</th>
+                <th className=" ">
                   Add Company details
                 </th>
-                <th className="border border-gray-300 p-2">Transport</th>
-                <th className="border border-gray-300 p-2">Payment</th>
-                <th className="border border-gray-300 p-2">Item Name</th>
-                <th className="border border-gray-300 p-2">Quantity</th>
-                <th className="border border-gray-300 p-2">Rate</th>
-                <th className="border border-gray-300 p-2">Amount</th>
-                <th className="border border-gray-300 p-2">CGST (%)</th>
-                <th className="border border-gray-300 p-2">SGST (%)</th>
-                <th className="border border-gray-300 p-2">CTax</th>
-                <th className="border border-gray-300 p-2">STax</th>
-                <th className="border border-gray-300 p-2">Total Tax</th>
-                <th className="border border-gray-300 p-2">Gross Amount</th>
-                <th className="border border-gray-300 p-2">Actions</th>
+                <th className=" ">Transport</th>
+                <th className=" ">Payment</th>
+                <th className=" ">Item Name</th>
+                <th className=" ">Quantity</th>
+                <th className=" ">Rate</th>
+                <th className=" ">Amount</th>
+                <th className=" ">CGST (%)</th>
+                <th className=" ">SGST (%)</th>
+                <th className="">CTax</th>
+                <th className=" ">STax</th>
+                <th className=" ">Total Tax</th>
+                <th className=" ">Gross Amount</th>
+                <th className=" ">Actions</th>
               </tr>
             </thead>
 
             <tbody>
               {Array.from({ length: numberOfRows }).map((_, index) => (
                 <tr key={index}>
-                  <td className="common-td">{invoices[index]?.Date}</td>
-                  <td className="common-td">{invoices[index]?.InvoiceNo}</td>
-                  <td className="common-td">
+                  <td className="excel-view">{invoices[index]?.Date}</td>
+                  <td className="excel-view">{invoices[index]?.InvoiceNo}</td>
+                  <td className="excel-view">
                     <button
                       type="button"
                       onClick={() => handleOpenViewModal(invoices[index].SrNo)}
@@ -277,23 +277,19 @@ if (name === 'qty' || name === 'rate') {
                       {invoices[index]?.CompanyName}
                     </button>
                   </td>
-                  <td className="common-td">{invoices[index]?.Transport}</td>
-                  <td className="common-td">{invoices[index]?.Payment}</td>
-                  <td className="common-td">{invoices[index]?.itemName}</td>
-                  <td className="common-td">{invoices[index]?.Quantity}</td>
-                  <td className="common-td">{invoices[index]?.Rate}</td>
-                  <td className="common-td">{invoices[index]?.State}</td>
-                  <td className="common-td">{invoices[index]?.cgst}</td>
-                  <td className="common-td">{invoices[index]?.sgst}</td>
-                  <td className="common-td">{invoices[index]?.ctax}</td>
-                  <td className="common-td">{invoices[index]?.stax}</td>
-                  <td className="common-td">{invoices[index]?.Amount}</td>
-                  <td className="common-td">{invoices[index]?.sgst}</td>
-                  <td className="common-td">{invoices[index]?.ctax}</td>
-                  <td className="common-td">{invoices[index]?.stax}</td>
-                  <td className="common-td">{invoices[index]?.TotalTax}</td>
-                  <td className="common-td">{invoices[index]?.Amount}</td>
-                  <td className="common-td">
+                  <td className="excel-view">{invoices[index]?.Transport}</td>
+                  <td className="excel-view">{invoices[index]?.Payment}</td>
+                  <td className="excel-view">{invoices[index]?.itemName}</td>
+                  <td className="excel-view">{invoices[index]?.Quantity}</td>
+                  <td className="excel-view">{invoices[index]?.Rate}</td>
+                  <td className="excel-view">{invoices[index]?.Amount}</td>
+                  <td className="excel-view">{invoices[index]?.cgst}</td>
+                  <td className="excel-view">{invoices[index]?.sgst}</td>
+                  <td className="excel-view">{invoices[index]?.ctax}</td>
+                  <td className="excel-view">{invoices[index]?.stax}</td>
+                  <td className="excel-view">{invoices[index]?.TotalTax}</td>
+                  <td className="excel-view">{invoices[index]?.Amount}</td>
+                  <td className="excel-view">
                     <button
                       type="button"
                       className="bg-yellow-500 text-white px-2 py-1 rounded"
@@ -312,7 +308,7 @@ if (name === 'qty' || name === 'rate') {
                 </tr>
               ))}
               <tr>
-                <td className="common-td">
+                <td className="excel-view">
                   <input
                     type="date"
                     name="date"
@@ -320,7 +316,7 @@ if (name === 'qty' || name === 'rate') {
                     className="w-full p-1"
                   />
                 </td>
-                <td className="common-td">
+                <td className="excel-view">
                   <input
                     type="text"
                     name="invoiceNo"
@@ -328,7 +324,7 @@ if (name === 'qty' || name === 'rate') {
                     className="w-full p-1"
                   />
                 </td>
-                <td className="common-td">
+                <td className="excel-view">
                   {addressAdded ? (
                     <div className="p-2 bg-green-100 border border-green-500 rounded">
                       <span className="text-green-700"></span>
@@ -343,7 +339,7 @@ if (name === 'qty' || name === 'rate') {
                     </button>
                   )}
                 </td>
-                <td className="common-td">
+                <td className="excel-view">
                   <select
                     name="transport"
                     onChange={(e) => dispatch(setTransport(e.target.value))}
@@ -356,7 +352,7 @@ if (name === 'qty' || name === 'rate') {
                     <option value="Own">Own</option>
                   </select>
                 </td>
-                <td className="common-td">
+                <td className="excel-view">
                   <select
                     name="payment"
                     onChange={(e) => dispatch(setPayment(e.target.value))}
@@ -369,7 +365,7 @@ if (name === 'qty' || name === 'rate') {
                     <option value="Online/Gpay">Online/Gpay</option>
                   </select>
                 </td>
-                <td className="common-td">
+                <td className="excel-view">
                   <select
                     name="name"
                     onChange={handleItemNameChange}
@@ -391,7 +387,7 @@ if (name === 'qty' || name === 'rate') {
                     <option value="Solid Bricks-6">Solid Bricks-6"</option>
                   </select>
                 </td>
-                <td className="common-td">
+                <td className="excel-view">
                   <input
                     type="number"
                     name="qty"
@@ -399,7 +395,7 @@ if (name === 'qty' || name === 'rate') {
                     className="w-full p-1"
                   />
                 </td>
-                <td className="common-td">
+                <td className="excel-view">
                   <input
                     type="number"
                     name="rate"
@@ -407,14 +403,14 @@ if (name === 'qty' || name === 'rate') {
                     className="w-full p-1"
                   />
                 </td>
-                <td className="common-td">{amount.toFixed(2)}</td>
-                <td className="common-td">{cgst}</td>
-                <td className="common-td">{sgst}</td>
-                <td className="common-td">{ctax.toFixed(2)}</td>
-                <td className="common-td">{stax.toFixed(2)}</td>
-                <td className="common-td">{totalTax.toFixed(2)}</td>
-                <td className="common-td">{grossAmount.toFixed(0)}</td>
-                <td className="common-td">
+                <td className="excel-view">{amount.toFixed(2)}</td>
+                <td className="excel-view">{cgst}</td>
+                <td className="excel-view">{sgst}</td>
+                <td className="excel-view">{ctax.toFixed(2)}</td>
+                <td className="excel-view">{stax.toFixed(2)}</td>
+                <td className="excel-view">{totalTax.toFixed(2)}</td>
+                <td className="excel-view">{grossAmount.toFixed(0)}</td>
+                <td className="excel-view">
                   <div className="flex space-x-2">
                     <button
                       type="button"

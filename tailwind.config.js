@@ -79,6 +79,10 @@ export default {
           borderRadius: '0.375rem', // rounded
           backgroundColor: '#f3f4f6', // bg-gray-100
         },
+        '.excel-view': {
+          border: '1px solid #d1d5db', // border-gray-300
+          padding: '0.5rem', // p-2
+        },
       });
     },
   ],
