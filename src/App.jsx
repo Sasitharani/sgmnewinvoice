@@ -80,7 +80,7 @@ const InvoicePage = () => {
 
 const App = () => {
   return (
-    <Router basename="/invoice">
+    <Router>
       <Routes>
         <Route path="/" element={<InvoiceEntry />} />
         <Route path="/invoice" element={<InvoicePage />} />
