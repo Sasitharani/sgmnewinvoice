@@ -34,6 +34,8 @@ import { useNavigate } from 'react-router-dom';
 import AddressModal from './AddressModal';
 import ViewCompanyDetails from './ViewCompanyDetails';
 import e from 'cors';
+import EditRow from './editRow';
+import { data } from 'autoprefixer';
 
 
 const numberToWords = (num) => {
@@ -62,6 +64,8 @@ const InvoiceEntry = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const formState = useSelector((state) => state.invoice); // Use the Redux state
+  const [editIndex, setEditIndex] = useState(null);
+ 
 
 
   //defining the state variables for universal access of variable
@@ -78,11 +82,15 @@ const InvoiceEntry = () => {
   let [totalTax,setTotalTaxS] = useState(0);
   let [grossAmount,setGrossAmountS] = useState(0);
 
+  const newValuesFromDb = useSelector((state) => state.invoice); // Access the Redux state
+
 
   
   const [invoices, setInvoices] = useState([]); //State for fetching data from API
 
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+
 
 
   useEffect(() => {
@@ -144,22 +152,6 @@ const InvoiceEntry = () => {
     dispatch(setItemName(value));
   };
 
-  const addItemRow = () => {
-    const newItem = {
-      name: '',
-      qty: 0,
-      rate: 0,
-      amount: 0,
-      cgst: 0,
-      sgst: 0,
-      ctax: 0,
-      stax: 0,
-      totalTax: 0,
-      grossAmount: 0
-    };
-    dispatch(setNumItems(formState.numItems + 1));
-    dispatch(updateItem([...formState.items, newItem]));
-  };
 
   let [SelectedInvoice,setSelectedInvoice] = useState(0);
 
@@ -222,21 +214,35 @@ if (name === 'qty' || name === 'rate') {
 }
   };
 
-  const saveInvoice = (e) => {
-    e.preventDefault();
-    navigate('/insertDB');
- 
+  const handleInsert = async () => {
+    try {
+      console.log('newValuesFromDb:', JSON.stringify(formState, null, 2));
+      const newValues = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', newValuesFromDb);
+      console.log(newValues.data);
+      alert('Data inserted successfully');
+    } catch (error) {
+      console.error('Error inserting data:', error);
+      alert('Error inserting data');
+    }
   };
 
- 
+  const saveInvoice = async (e) => {
+    e.preventDefault();
+    await handleInsert();
+    window.location.reload(); // Refresh the page
+  };
 
+  const handleEdit = (srNo) => {
+    console.log("Editing SrNo:--" + srNo);
+    navigate('/edit/' + srNo);
+  };
+  
   return (
     <div>
       {console.log("No of rows from database:--" + numberOfRows)}
       <form
         onSubmit={saveInvoice}
         className="w-screen mx-auto mt-2 p-2  rounded-sm shadow"
-        style={{ margin: "10px" }}
       >
         <div className="overflow-x-auto ">
           <table className="">
@@ -265,7 +271,7 @@ if (name === 'qty' || name === 'rate') {
 
             <tbody>
               {Array.from({ length: numberOfRows }).map((_, index) => (
-                <tr key={index}>
+                <tr key={index} className="table-row table-row-gap table-column-gap">
                   <td className="excel-view">{invoices[index]?.Date}</td>
                   <td className="excel-view">{invoices[index]?.InvoiceNo}</td>
                   <td className="excel-view">
@@ -293,9 +299,9 @@ if (name === 'qty' || name === 'rate') {
                     <button
                       type="button"
                       className="bg-yellow-500 text-white px-2 py-1 rounded"
-                      onClick={() => handleUpdate(invoices[index])}
+                      onClick={() => handleEdit(invoices[index].SrNo)}
                     >
-                      Update
+                      Edit
                     </button>
                     <button
                       type="button"
@@ -414,18 +420,13 @@ if (name === 'qty' || name === 'rate') {
                   <div className="flex space-x-2">
                     <button
                       type="button"
-                      onClick={addItemRow}
-                      className="bg-green-500 text-white px-4 py-2 rounded"
-                    >
-                      Add New
-                    </button>
-                    <button
-                      type="button"
                       onClick={saveInvoice}
                       className="bg-blue-500 text-white px-4 py-2 rounded"
                     >
                       Save
                     </button>
+                    
+                  
                   </div>
                 </td>
               </tr>

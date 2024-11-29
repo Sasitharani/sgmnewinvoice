@@ -79,3 +79,8 @@ Currently, two official plugins are available:
     2)Make design Changes
 
 
+   --------------------------------------------29-11-2024---------------------------------------------------------------------
+
+Start with the writing a query for update in the server.js
+Design edit more
+ Show loading until the database is displayed

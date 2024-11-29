@@ -24,38 +24,6 @@ export default {
   plugins: [
     function ({ addUtilities }) {
       addUtilities({
-        '.my-center': {
-          display: 'flex',
-          justifyContent: 'center',
-        },
-        '.my-border': {
-          border: '2px solid black',
-        },
-        '.border1': {
-          border: '1px solid black',
-        },
-        '.thin-border': {
-          boxShadow: '0px 0px 2px 0 #000000',
-        },
-        '.my-border-left': {
-          boxShadow: '-2px 0 3px -2px #000000',
-        },
-        '.my-border-right': {
-          boxShadow: '2px 0 3px -2px #000000',
-        },
-        '.my-border-top': {
-          boxShadow: '0 -2px 3px -3px #000000',
-        },
-        '.my-border-bottom': {
-          boxShadow: '0 2px 3px -2px #000000',
-        },
-        '.my-vertical-center': {
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh', // Ensure the container takes full height
-          textAlign: 'center', // Center text horizontally
-        },
         '.modal': {
           position: 'fixed',
           inset: '0',
@@ -80,8 +48,21 @@ export default {
           backgroundColor: '#f3f4f6', // bg-gray-100
         },
         '.excel-view': {
-          border: '1px solid #d1d5db', // border-gray-300
-          padding: '0.5rem', // p-2
+          border: '0.5px solid #d1d5db', // border-gray-300
+          padding: '1px', // p-2
+          borderRadius: '2px', // rounded
+        },
+        '.table-row:nth-child(odd)': {
+          backgroundColor: '#e0f7fa', // Lighter blue
+        },
+        '.table-row:nth-child(even)': {
+          backgroundColor: '#e0fce0', // Lighter green
+        },
+        '.table-row-gap': {
+          marginBottom: '0.5rem', // Add gap between table rows
+        },
+        '.table-column-gap': {
+          marginleft: '0.5rem', // Add gap between table rows
         },
       });
     },

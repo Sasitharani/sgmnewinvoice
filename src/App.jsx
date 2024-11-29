@@ -11,7 +11,8 @@ import Desctable from './Desctable';
 import Calc from './Calc';
 import Footer from './Footer';
 import InvoiceEntry from './InvoiceEntry';
-import InsertDb from './insertDb';
+import InsertDb from './editRow';
+import EditRow from './editRow';
 
 // import SliceDetails from './sliceDetails';
 
@@ -84,7 +85,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<InvoiceEntry />} />
         <Route path="/invoice" element={<InvoicePage />} />
-        <Route path="/insertDB" element={<InsertDb />} />
+        <Route path="/edit/:srNo" element={<EditRow />} /> {/* Update the route to include srNo parameter */}
         {/* <Route path="/sliceDetails" element={<SliceDetails />} /> */}
       </Routes>
     </Router>
