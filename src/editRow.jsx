@@ -10,7 +10,7 @@ const EditRow = () => {
   useEffect(() => {
     const fetchInvoiceData = async () => {
       try {
-        const response = await axios.get(`https://sgmnewinvoice.onrender.com/api/invoices/${srNo}`);
+        const response = await axios.get(`https://sasi.azure-api.net/api/invoices/:srNo`);
         setInvoiceData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
