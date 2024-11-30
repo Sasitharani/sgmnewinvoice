@@ -26,6 +26,39 @@ app.use(express.static(path.join(__dirname, 'dist')));
 console.log('Server is starting...');
 
 
+// Update an invoice by SrNo
+app.put('/api/invoices/:srNo', (req, res) => {
+  const { srNo } = req.params;
+  const {
+    date, invoiceNo, companyName, gst, flatDoorNo, street1, street2, townCity, state, pin,
+    transport, payment, itemName, amount, rate, qty, cgst, sgst, ctax, stax, totalTax, grossAmount, amountWords
+  } = req.body;
+
+  const query = `
+    UPDATE invoice SET 
+      Date = ?, InvoiceNo = ?, CompanyName = ?, Gst = ?, DoorNo = ?, Street1 = ?, Street2 = ?, Town = ?, State = ?, Pincode = ?, 
+      Transport = ?, Payment = ?, ItemName = ?, Amount = ?, Rate = ?, Quantity = ?, Cgst = ?, Sgst = ?, Ctax = ?, Stax = ?, 
+      TotalTax = ?, GrossAmount = ?, AmountWords = ? 
+    WHERE SrNo = ?
+  `;
+  const values = [
+    date, invoiceNo, companyName, gst, flatDoorNo, street1, street2, townCity, state, pin,
+    transport, payment, itemName, amount, rate, qty, cgst, sgst, ctax, stax, totalTax, grossAmount, amountWords, srNo
+  ];
+
+  db.query(query, values, (err, results) => {
+    if (err) {
+      console.error('Error updating data:', err);
+      res.status(500).send('Error updating data');
+      return;
+    }
+    res.send({
+      message: 'Invoice updated successfully',
+      results: results // Include the results in the response
+    });
+  });
+});
+
 // Get all invoices
 app.get('/api/invoices', (req, res) => {
   console.log('GET /api/invoices endpoint hit');
