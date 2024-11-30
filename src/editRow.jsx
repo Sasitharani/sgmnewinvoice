@@ -10,12 +10,15 @@ const EditRow = () => {
   useEffect(() => {
     const fetchInvoiceData = async () => {
       try {
-        const response = await axios.get(`https://sgmnewinvoice.onrender.com/invoices/:srNo`);
+        const response = await axios.get(`https://sgmnewinvoice.onrender.com/api/invoices/${srNo}`);
         setInvoiceData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
+  
+    fetchInvoiceData();
+  }, [srNo]);
 
     fetchInvoiceData();
   }, [srNo]);
@@ -30,13 +33,13 @@ const EditRow = () => {
 
   const handleInsert = async () => {
     try {
-      const response = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', invoiceData);
+      const response = await axios.put(`https://sgmnewinvoice.onrender.com/api/invoices/${invoiceData.SrNo}`, invoiceData);
       console.log(response.data);
-      alert('Data inserted successfully');
+      alert('Data updated successfully');
       navigate('/'); // Navigate to InvoiceEntry
     } catch (error) {
-      console.error('Error inserting data:', error);
-      alert('Error inserting data');
+      console.error('Error updating data:', error);
+      alert('Error updating data');
     }
   };
 
