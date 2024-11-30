@@ -20,9 +20,6 @@ const EditRow = () => {
     fetchInvoiceData();
   }, [srNo]);
 
-    fetchInvoiceData();
-  }, [srNo]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInvoiceData({
