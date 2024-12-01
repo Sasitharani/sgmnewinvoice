@@ -106,7 +106,12 @@ app.put('/api/invoices/:SrNo', (req, res) => {
   db.query(query, values, (err, results) => {
     if (err) {
       console.error('Error updating data:', err);
-      res.status(500).send('Error updating data');
+      res.status(500).send({
+        message: 'Error updating data',
+        error: err,
+        query: query,
+        values: values
+      });
       return;
     }
     res.send({
