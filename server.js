@@ -92,53 +92,27 @@ app.get('/api/invoices/:SrNo', (req, res) => {
   });
 });
 
-// Update an invoice by ID
+// Update an invoice by SrNo
 app.put('/api/invoices/:SrNo', (req, res) => {
   console.log('PUT /api/invoices/:SrNo endpoint hit');
   const { SrNo } = req.params;
-  const invoice = req.body;
+  const { name, value } = req.body;
 
   const query = `
-    UPDATE invoice SET
-SrNo, Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, State, Pincode, Transport, Payment, itemName, Quantity, Rate, NetRate, cgst, sgst, ctax, stax, TotalTax, Amount, AmountWord
-    WHERE SrNo = ?
+    UPDATE invoice SET ${name} = ? WHERE SrNo = ?
   `;
+  const values = [value, SrNo];
 
-  db.query(query, [
-  invoice.date,
-  invoice.invoiceNo,
-  invoice.company[0].name,
-  invoice.company[0].gst,
-  invoice.company[0].flatDoorNo,
-  invoice.company[0].street1,
-  invoice.company[0].street2,
-  invoice.company[0].townCity,
-  invoice.company[0].state,
-  invoice.company[0].pin,
-  invoice.transport,
-  invoice.payment,
-  invoice.itemName,
-  invoice.qty,
-  invoice.rate,
-  invoice.amount,
-  invoice.Cgst,
-  invoice.Sgst,
-  invoice.ctax,
-  invoice.stax,
-  invoice.totalTax,
-  invoice.amount,
-  invoice.amountWords
-  ], (err, results) => {
+  db.query(query, values, (err, results) => {
     if (err) {
       console.error('Error updating data:', err);
       res.status(500).send('Error updating data');
       return;
     }
-    if (results.affectedRows === 0) {
-      res.status(404).send('Invoice not found');
-      return;
-    }
-    res.status(200).send('Invoice updated successfully');
+    res.send({
+      message: 'Invoice updated successfully',
+      results: results // Include the results in the response
+    });
   });
 });
 

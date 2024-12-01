@@ -16,7 +16,7 @@ const EditRow = () => {
         console.error('Error fetching data:', error);
       }
     };
-  
+
     fetchInvoiceData();
   }, [srNo]);
 
@@ -26,11 +26,14 @@ const EditRow = () => {
       ...invoiceData,
       [name]: value,
     });
+    handleInsert(name, value);
   };
 
-  const handleInsert = async () => {
+  const handleInsert = async (name, value) => {
     try {
-      const response = await axios.put(`https://sgmnewinvoice.onrender.com/api/invoices/${invoiceData.SrNo}`, invoiceData);
+      const response = await axios.put(`https://sgmnewinvoice.onrender.com/api/invoices/${invoiceData.SrNo}`, {
+        [name]: value,
+      });
       console.log(response.data);
       alert('Data updated successfully');
       navigate('/'); // Navigate to InvoiceEntry
@@ -45,9 +48,9 @@ const EditRow = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Invoice Details</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <h2>Edit Invoice</h2>
+      <form onSubmit={(e) => { e.preventDefault(); handleInsert(); }}>
         <div className="details-item">
           <label className="block text-gray-700"><strong>Date:</strong></label>
           <input type="date" name="date" value={invoiceData.Date} onChange={handleChange} className="input-box" />
@@ -105,7 +108,8 @@ const EditRow = () => {
           </select>
         </div>
         <div className="details-item">
-          <label  type="text" name="itemName" value={invoiceData.itemName} onChange={handleChange} className="input-box" />
+          <label className="block text-gray-700"><strong>Item Name:</strong></label>
+          <input type="text" name="itemName" value={invoiceData.ItemName} onChange={handleChange} className="input-box" />
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>Amount:</strong></label>
@@ -121,19 +125,19 @@ const EditRow = () => {
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>CGST:</strong></label>
-          <input type="number" name="Cgst" value={invoiceData.cgst} onChange={handleChange} className="input-box" />
+          <input type="number" name="cgst" value={invoiceData.Cgst} onChange={handleChange} className="input-box" />
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>SGST:</strong></label>
-          <input type="number" name="Sgst" value={invoiceData.sgst} onChange={handleChange} className="input-box" />
+          <input type="number" name="sgst" value={invoiceData.Sgst} onChange={handleChange} className="input-box" />
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>CTax:</strong></label>
-          <input type="number" name="ctax" value={invoiceData.ctax} onChange={handleChange} className="input-box" />
+          <input type="number" name="ctax" value={invoiceData.Ctax} onChange={handleChange} className="input-box" />
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>STax:</strong></label>
-          <input type="number" name="stax" value={invoiceData.stax} onChange={handleChange} className="input-box" />
+          <input type="number" name="stax" value={invoiceData.Stax} onChange={handleChange} className="input-box" />
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>Total Tax:</strong></label>
@@ -141,14 +145,14 @@ const EditRow = () => {
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>Gross Amount:</strong></label>
-          <input type="number" name="grossAmount" value={invoiceData.Amount} onChange={handleChange} className="input-box" />
+          <input type="number" name="grossAmount" value={invoiceData.GrossAmount} onChange={handleChange} className="input-box" />
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>Amount In Words:</strong></label>
-          <input type="text" name="AmountWords" value={invoiceData.AmountWords} onChange={handleChange} className="input-box" />
+          <input type="text" name="amountWords" value={invoiceData.AmountWords} onChange={handleChange} className="input-box" />
         </div>
-      </div>
-      <button onClick={handleInsert} className="mt-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Update</button>
+        <button type="submit" className="btn btn-primary">Update Invoice</button>
+      </form>
     </div>
   );
 };
