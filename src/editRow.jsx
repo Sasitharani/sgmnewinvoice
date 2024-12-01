@@ -16,9 +16,9 @@ const EditRow = () => {
         console.error('Error fetching data:', error);
       }
     };
-
+  
     fetchInvoiceData();
-  }, [srNo]);
+  }, []); // Empty dependency array ensures this runs only once
 
   const handleChange = (e) => {
     const { name, value } = e.target;
