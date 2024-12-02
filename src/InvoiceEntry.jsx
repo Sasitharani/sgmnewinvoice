@@ -246,6 +246,11 @@ if (name === 'qty' || name === 'rate') {
     }
   };
 
+  
+  const handlePrint = (invoice) => {
+    navigate('/print', { state: { invoice } });
+  };
+
   const handleDelete = async (srNo) => {
     const result = await Swal.fire({
       title: 'Are you sure?',

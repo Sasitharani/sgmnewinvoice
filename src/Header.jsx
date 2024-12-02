@@ -1,6 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 
 const Header = () => {
+  const newValuesFromDb = useSelector((state) => state.invoice); // Access the Redux state
   return (
     <div>
       <div className="my-center">
@@ -39,6 +42,10 @@ const Header = () => {
         <div className="col-span-5 h-8 text-left font-bold">Address:</div>
         <div className="col-span-2 h-8 text-left font-bold">GSTIN:</div>
       </div>
+      <div>
+      <h1>All Values from Redux State</h1>
+      <pre>{JSON.stringify(newValuesFromDb, null, 2)}</pre>
+    </div>
     </div>
   );
 };

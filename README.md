@@ -87,4 +87,4 @@ Currently, two official plugins are available:
 
    --------------------------------------------02-12-2024---------------------------------------------------------------------
    Update design
-   Print Invoice
+   Print Invoice-a new file is create as PrintInvoice values from slice not fetched properly-Instead of slice pick value from databse

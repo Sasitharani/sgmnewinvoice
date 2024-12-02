@@ -13,6 +13,8 @@ import Footer from './Footer';
 import InvoiceEntry from './InvoiceEntry';
 import InsertDb from './editRow';
 import EditRow from './editRow';
+import PrintInvoice from './PrintInvoice'; // Import PrintInvoice component
+
 
 // import SliceDetails from './sliceDetails';
 
@@ -87,6 +89,7 @@ const App = () => {
         <Route path="/invoice" element={<InvoicePage />} />
         <Route path="/edit/:srNo" element={<EditRow />} /> {/* Update the route to include srNo parameter */}
         {/* <Route path="/sliceDetails" element={<SliceDetails />} /> */}
+        <Route path="/print" element={<PrintInvoice />} /> {/* Add route for PrintInvoice */}
       </Routes>
     </Router>
   );
