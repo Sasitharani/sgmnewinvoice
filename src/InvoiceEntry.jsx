@@ -219,17 +219,31 @@ if (name === 'qty' || name === 'rate') {
 }
   };
 
-  const handleInsert = async () => {
-    try {
-      console.log('newValuesFromDb:', JSON.stringify(formState, null, 2));
-      const newValues = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', newValuesFromDb);
-      console.log(newValues.data);
-      alert('Data inserted successfully');
-    } catch (error) {
-      console.error('Error inserting data:', error);
-      alert('Error inserting data');
+  const handleInsert = async (invoiceData) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to insert this invoice?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, insert it!',
+      cancelButtonText: 'No, cancel'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        console.log('newValuesFromDb:', JSON.stringify(formState, null, 2));
+        const newValues = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', newValuesFromDb);
+        console.log(newValues.data);
+        Swal.fire('Inserted!', 'Invoice has been inserted.', 'success');
+        // Update the state to include the new invoice
+        setInvoices([...invoices, response.data]);
+      } catch (error) {
+        console.error('Error inserting invoice:', error);
+        Swal.fire('Error!', 'There was an error inserting the invoice.', 'error');
+      }
     }
   };
+
   const handleDelete = async (srNo) => {
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -270,10 +284,7 @@ if (name === 'qty' || name === 'rate') {
     window.location.reload(); // Refresh the page
   };
 
-  const handleEdit = (srNo) => {
-    console.log("Editing SrNo:--" + srNo);
-    navigate('/edit/' + srNo);
-  };
+
   
   return (
     <div>
