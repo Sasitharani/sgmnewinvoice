@@ -7,6 +7,7 @@ import { db } from './db.js'; // Import the database connection pool
 import bodyParser from 'body-parser';
 
 
+
 dotenv.config(); // Load environment variables from .env file
 
 
@@ -38,7 +39,7 @@ app.put('/api/invoices/:srNo', (req, res) => {
     UPDATE invoice SET 
       Date = ?, InvoiceNo = ?, CompanyName = ?, Gst = ?, DoorNo = ?, Street1 = ?, Street2 = ?, Town = ?, State = ?, Pincode = ?, 
       Transport = ?, Payment = ?, ItemName = ?, Amount = ?, Rate = ?, Quantity = ?, Cgst = ?, Sgst = ?, Ctax = ?, Stax = ?, 
-      TotalTax = ?, GrossAmount = ?, AmountWords = ? 
+      TotalTax = ?, Amount = ?, AmountWords = ? 
     WHERE SrNo = ?
   `;
   const values = [

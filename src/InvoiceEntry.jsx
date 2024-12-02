@@ -95,7 +95,7 @@ const InvoiceEntry = () => {
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
-    axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
+    axios.get('/sgmnewinvoice.vercel.app/api/invoices')
       .then(response => {
         setInvoices(response.data); // Store fetched invoices in state
       })
@@ -217,7 +217,7 @@ if (name === 'qty' || name === 'rate') {
   const handleInsert = async () => {
     try {
       console.log('newValuesFromDb:', JSON.stringify(formState, null, 2));
-      const newValues = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', newValuesFromDb);
+      const newValues = await axios.post('/sgmnewinvoice.vercel.app/api/insertInvoice', newValuesFromDb);
       console.log(newValues.data);
       alert('Data inserted successfully');
     } catch (error) {
