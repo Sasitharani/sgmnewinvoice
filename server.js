@@ -7,7 +7,6 @@ import { db } from './db.js'; // Import the database connection pool
 import bodyParser from 'body-parser';
 
 
-
 dotenv.config(); // Load environment variables from .env file
 
 
@@ -24,7 +23,7 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Log when the server starts
-console.log('Server is starting sasi...');
+console.log('Server is starting...');
 
 
 // Update an invoice by SrNo
