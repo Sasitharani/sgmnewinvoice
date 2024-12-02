@@ -26,7 +26,9 @@ const EditRow = () => {
     setInvoiceData({
       ...invoiceData,
       [name]: value,
+ 
     });
+    console.log(invoiceData);
   };
 
   const handleInsert = async () => {

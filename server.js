@@ -33,6 +33,7 @@ app.put('/api/invoices/:srNo', (req, res) => {
     date, invoiceNo, companyName, gst, flatDoorNo, street1, street2, townCity, state, pin,
     transport, payment, itemName, amount, rate, qty, cgst, sgst, ctax, stax, totalTax, Amount, amountWords
   } = req.body;
+  console.log(req.body);
 
   const query = `
     UPDATE invoice SET 
