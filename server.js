@@ -174,7 +174,7 @@ const values = [
   invoice.stax,
   invoice.totalTax,
   invoice.amount,
-  invoice.amountWords// Assuming amountWords is part of the formState
+  invoice.AmountWords// Assuming amountWords is part of the formState
 ];
     console.log('InvoiceNo:', invoice.invoiceNo);
     console.log('Date:', invoice.date);

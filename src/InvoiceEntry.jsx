@@ -197,6 +197,7 @@ if (name === 'qty' || name === 'rate') {
   const newStax = newAmount * sgst * 0.01;
   const newTotalTax = newCtax + newStax;
   const newGrossAmount = newAmount + newTotalTax;
+  let AmountWords = numberToWords(newGrossAmount);
 
 
   setAmountS(newAmount);
@@ -216,6 +217,7 @@ if (name === 'qty' || name === 'rate') {
   dispatch(setRate(newRate));
   dispatch(setCgst(cgst));
   dispatch(setSgst(sgst));
+  dispatch(SetAmountWords(AmountWords));
 }
   };
 
@@ -345,7 +347,30 @@ if (name === 'qty' || name === 'rate') {
                   <td className="excel-view">{invoices[index]?.TotalTax}</td>
                   <td className="excel-view">{invoices[index]?.Amount}</td>
                   <td className="excel-view">
-                    <button
+                  <div className="flex space-x-2">
+                  <button
+                    type="button"
+                    className="bg-green-500 text-white px-2 py-1 rounded"
+                    onClick={() => handlePrint()}
+                  >
+                    Print
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-yellow-500 text-white px-2 py-1 rounded"
+                    onClick={() => navigate(`/edit/${invoices[index].SrNo}`)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={() => handleDelete(invoices[index].SrNo)}
+                  >
+                    Delete
+                  </button>
+                </div>
+                    {/* <button
                       type="button"
                       className="bg-yellow-500 text-white px-2 py-1 rounded"
                       onClick={() => handleEdit(invoices[index].SrNo)}
@@ -358,7 +383,7 @@ if (name === 'qty' || name === 'rate') {
                       onClick={() => handleDelete(invoices[index].SrNo)}
                     >
                       Delete
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}
