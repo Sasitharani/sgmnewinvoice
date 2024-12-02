@@ -24,7 +24,7 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Log when the server starts
-console.log('Server is starting...');
+console.log('Server is starting sasi...');
 
 
 // Update an invoice by SrNo
