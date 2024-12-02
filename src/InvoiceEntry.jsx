@@ -231,16 +231,28 @@ if (name === 'qty' || name === 'rate') {
     }
   };
   const handleDelete = async (srNo) => {
-    try {
-      await axios.delete(`https://sgmnewinvoice.onrender.com/api/invoices/${srNo}`);
-      alert('Invoice deleted successfully');
-      // Update the state to remove the deleted invoice
-      setInvoices(invoices.filter(invoice => invoice.SrNo !== srNo));
-    } catch (error) {
-      console.error('Error deleting invoice:', error);
-      alert('Error deleting invoice');
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this invoice?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`https://sgmnewinvoice.onrender.com/api/invoices/${srNo}`);
+        Swal.fire('Deleted!', 'Invoice has been deleted.', 'success');
+        // Update the state to remove the deleted invoice
+        setInvoices(invoices.filter(invoice => invoice.SrNo !== srNo));
+      } catch (error) {
+        console.error('Error deleting invoice:', error);
+        Swal.fire('Error!', 'There was an error deleting the invoice.', 'error');
+      }
     }
   };
+
 
   if (loading) {
     return (

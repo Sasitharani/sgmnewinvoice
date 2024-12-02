@@ -81,6 +81,10 @@ Currently, two official plugins are available:
 
    --------------------------------------------29-11-2024---------------------------------------------------------------------
 
-Start with the writing a query for update in the server.js
-Design edit more---->Done
- Show loading until the database is displayed
+    Start with the writing a query for update in the server.js
+    Design edit more---->Done
+    Show loading until the database is displayed
+
+   --------------------------------------------02-12-2024---------------------------------------------------------------------
+   Update design
+   Print Invoice
