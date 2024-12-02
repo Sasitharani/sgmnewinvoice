@@ -123,10 +123,10 @@ app.put('/api/invoices/:SrNo', (req, res) => {
 });
 
 // Delete an invoice by ID
-app.delete('/api/invoices/:id', (req, res) => {
-  console.log('DELETE /api/invoices/:id endpoint hit');
+app.delete('/api/invoices/:SrNo', (req, res) => {
+  console.log('DELETE /api/invoices/:SrNo endpoint hit');
   const { id } = req.params;
-  const query = 'DELETE FROM invoice WHERE id = ?';
+  const query = 'DELETE FROM invoice WHERE SrNo = ?';
   db.query(query, [id], (err, results) => {
     if (err) {
       console.error('Error deleting data:', err);
