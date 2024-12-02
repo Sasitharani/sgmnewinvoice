@@ -31,7 +31,7 @@ app.put('/api/invoices/:srNo', (req, res) => {
   const { srNo } = req.params;
   const {
     date, invoiceNo, companyName, gst, flatDoorNo, street1, street2, townCity, state, pin,
-    transport, payment, itemName, amount, rate, qty, cgst, sgst, ctax, stax, totalTax, grossAmount, amountWords
+    transport, payment, itemName, amount, rate, qty, cgst, sgst, ctax, stax, totalTax, Amount, amountWords
   } = req.body;
 
   const query = `
