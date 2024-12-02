@@ -30,21 +30,21 @@ console.log('Server is starting...');
 app.put('/api/invoices/:srNo', (req, res) => {
   const { srNo } = req.params;
   const {
-    date, invoiceNo, companyName, gst, flatDoorNo, street1, street2, townCity, state, pin,
-    transport, payment, itemName, amount, rate, qty, cgst, sgst, ctax, stax, totalTax, Amount, amountWords
+    Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, State, Pin,
+    Transport, Payment, itemName, rate, qty, cgst, sgst, ctax, stax, totalTax, Amount, AmountWords,SrNo
   } = req.body;
   console.log(req.body);
 
   const query = `
     UPDATE invoice SET 
       Date = ?, InvoiceNo = ?, CompanyName = ?, Gst = ?, DoorNo = ?, Street1 = ?, Street2 = ?, Town = ?, State = ?, Pincode = ?, 
-      Transport = ?, Payment = ?, ItemName = ?, Amount = ?, Rate = ?, Quantity = ?, Cgst = ?, Sgst = ?, Ctax = ?, Stax = ?, 
+      Transport = ?, Payment = ?, ItemName = ?, Amount = ?, Rate = ?, Quantity = ?, cgst = ?, cgst = ?, ctax = ?, stax = ?, 
       TotalTax = ?, Amount = ?, AmountWords = ? 
     WHERE SrNo = ?
   `;
   const values = [
-    date, invoiceNo, companyName, gst, flatDoorNo, street1, street2, townCity, state, pin,
-    transport, payment, itemName, amount, rate, qty, cgst, sgst, ctax, stax, totalTax, Amount, amountWords, srNo
+    Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, State, Pin,
+    Transport, Payment, itemName, rate, qty, cgst, sgst, ctax, stax, totalTax, Amount, AmountWords, SrNo
   ];
 
   db.query(query, values, (err, results) => {
@@ -62,7 +62,7 @@ app.put('/api/invoices/:srNo', (req, res) => {
 
 // Get all invoices
 app.get('/api/invoices', (req, res) => {
-  console.log('GET /api/invoices endpoint hit');
+  console.log('GET /api/invoices endpoint hit to get all invoices');
   const query = 'SELECT * FROM invoice';
   db.query(query, (err, results) => {
     if (err) {
