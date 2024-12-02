@@ -52,47 +52,47 @@ const EditRow = () => {
         <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={(e) => { e.preventDefault(); handleInsert(); }}>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Date:</strong></label>
-            <input type="date" name="date" value={invoiceData.Date} onChange={handleChange} className="text-box" />
+            <input type="date" name="Date" value={invoiceData.Date} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Invoice No:</strong></label>
-            <input type="text" name="invoiceNo" value={invoiceData.InvoiceNo} onChange={handleChange} className="text-box" />
+            <input type="text" name="InvoiceNo" value={invoiceData.InvoiceNo} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Company Name:</strong></label>
-            <input type="text" name="companyName" value={invoiceData.CompanyName} onChange={handleChange} className="text-box" />
+            <input type="text" name="CompanyName" value={invoiceData.CompanyName} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>GST:</strong></label>
-            <input type="text" name="gst" value={invoiceData.Gst} onChange={handleChange} className="text-box" />
+            <input type="text" name="Gst" value={invoiceData.Gst} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Flat/Door No:</strong></label>
-            <input type="text" name="flatDoorNo" value={invoiceData.DoorNo} onChange={handleChange} className="text-box" />
+            <input type="text" name="DoorNo" value={invoiceData.DoorNo} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Street 1:</strong></label>
-            <input type="text" name="street1" value={invoiceData.Street1} onChange={handleChange} className="text-box" />
+            <input type="text" name="Street1" value={invoiceData.Street1} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Street 2:</strong></label>
-            <input type="text" name="street2" value={invoiceData.Street2} onChange={handleChange} className="text-box" />
+            <input type="text" name="Street2" value={invoiceData.Street2} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Town/City:</strong></label>
-            <input type="text" name="townCity" value={invoiceData.Town} onChange={handleChange} className="text-box" />
+            <input type="text" name="Town" value={invoiceData.Town} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>State:</strong></label>
-            <input type="text" name="state" value={invoiceData.State} onChange={handleChange} className="text-box" />
+            <input type="text" name="State" value={invoiceData.State} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>PIN:</strong></label>
-            <input type="text" name="pin" value={invoiceData.Pincode} onChange={handleChange} className="text-box" />
+            <input type="text" name="Pincode" value={invoiceData.Pincode} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Transport:</strong></label>
-            <select name="transport" value={invoiceData.Transport} onChange={handleChange} className="text-box">
+            <select name="Transport" value={invoiceData.Transport} onChange={handleChange} className="text-box">
               <option value="" disabled>Select Transport</option>
               <option value="SGM">SGM</option>
               <option value="Own">Own</option>
@@ -100,7 +100,7 @@ const EditRow = () => {
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Payment:</strong></label>
-            <select name="payment" value={invoiceData.Payment} onChange={handleChange} className="text-box">
+            <select name="Payment" value={invoiceData.Payment} onChange={handleChange} className="text-box">
               <option value="" disabled>Select Payment</option>
               <option value="Cash">Cash</option>
               <option value="Online/Gpay">Online/Gpay</option>
@@ -112,15 +112,15 @@ const EditRow = () => {
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Amount:</strong></label>
-            <input type="number" name="amount" value={invoiceData.Amount} onChange={handleChange} className="text-box" />
+            <input type="number" name="Amount" value={invoiceData.Amount} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Rate:</strong></label>
-            <input type="number" name="rate" value={invoiceData.Rate} onChange={handleChange} className="text-box" />
+            <input type="number" name="Rate" value={invoiceData.Rate} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Quantity:</strong></label>
-            <input type="number" name="qty" value={invoiceData.Quantity} onChange={handleChange} className="text-box" />
+            <input type="number" name="Quantity" value={invoiceData.Quantity} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>CGST:</strong></label>
@@ -140,7 +140,7 @@ const EditRow = () => {
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Total Tax:</strong></label>
-            <input type="number" name="totalTax" value={invoiceData.TotalTax} onChange={handleChange} className="text-box" />
+            <input type="number" name="TotalTax" value={invoiceData.TotalTax} onChange={handleChange} className="text-box" />
           </div>
           <div className="details-item">
             <label className="block text-gray-700"><strong>Gross Amount:</strong></label>
