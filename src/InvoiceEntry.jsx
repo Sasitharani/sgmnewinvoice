@@ -95,7 +95,7 @@ const InvoiceEntry = () => {
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
-    axios.get('sgmnewinvoice.vercel.app/api/invoices')
+    axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
       .then(response => {
         setInvoices(response.data); // Store fetched invoices in state
       })
