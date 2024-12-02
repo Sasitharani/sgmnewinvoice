@@ -173,7 +173,7 @@ const values = [
   invoice.ctax,
   invoice.stax,
   invoice.totalTax,
-  invoice.amount,
+  invoice.grossAmount,
   invoice.AmountWords// Assuming amountWords is part of the formState
 ];
     console.log('InvoiceNo:', invoice.invoiceNo);
