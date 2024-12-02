@@ -122,24 +122,24 @@ app.put('/api/invoices/:SrNo', (req, res) => {
   });
 });
 
-// Delete an invoice by ID
-app.delete('/api/invoices/:SrNo', (req, res) => {
-  console.log('DELETE /api/invoices/:SrNo endpoint hit');
-  const { id } = req.params;
-  const query = 'DELETE FROM invoice WHERE SrNo = ?';
-  db.query(query, [id], (err, results) => {
+
+// Delete an invoice by SrNo
+app.delete('/api/invoices/:srNo', (req, res) => {
+  const { srNo } = req.params;
+  const query = 'DELETE FROM invoice WHERE invoice.SrNo = ?';
+  db.query(query, [srNo], (err, results) => {
     if (err) {
       console.error('Error deleting data:', err);
       res.status(500).send('Error deleting data');
       return;
     }
-    if (results.affectedRows === 0) {
-      res.status(404).send('Invoice not found');
-      return;
-    }
-    res.status(200).send('Invoice deleted successfully');
+    res.send({
+      message: 'Invoice deleted successfully',
+      results: results // Include the results in the response
+    });
   });
 });
+
 
 // Insert a new invoice with additional fields working 
 app.post('/api/insertInvoice', (req, res) => {

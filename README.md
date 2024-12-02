@@ -82,5 +82,5 @@ Currently, two official plugins are available:
    --------------------------------------------29-11-2024---------------------------------------------------------------------
 
 Start with the writing a query for update in the server.js
-Design edit more
+Design edit more---->Done
  Show loading until the database is displayed

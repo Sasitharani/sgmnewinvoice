@@ -236,6 +236,17 @@ if (name === 'qty' || name === 'rate') {
       alert('Error deleting invoice');
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <button type="button" className="bg-blue-500 text-white py-2 px-4 rounded-full animate-pulse">
+          Loading...
+        </button>
+      </div>
+    );
+  }
+  
   const saveInvoice = async (e) => {
     e.preventDefault();
     await handleInsert();
