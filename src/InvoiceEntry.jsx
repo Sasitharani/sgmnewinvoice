@@ -75,6 +75,7 @@ const InvoiceEntry = () => {
   const [rate, setRateS] = useState(0);
   const [qty, setRQtyS] = useState(0);
   const [amount, setAmountS] = useState(0);
+  const [loading, setLoading] = useState(true); // Initialize loading state
   let [cgst,setCgstS] = useState(0);
   let [sgst,setSgstS] = useState(0);
   let [ctax,setCtaxS] = useState(0);
@@ -94,14 +95,18 @@ const InvoiceEntry = () => {
 
 
   useEffect(() => {
-    // Fetch data from the API when the component mounts
-    axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
-      .then(response => {
-        setInvoices(response.data); // Store fetched invoices in state
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    const fetchInvoices = async () => {
+      try {
+        const response = await axios.get('https://sgmnewinvoice.onrender.com/api/invoices');
+        setInvoices(response.data);
+      } catch (error) {
+        console.error('Error fetching invoices:', error);
+      } finally {
+        setLoading(false); // Set loading to false once data is fetched
+      }
+    };
+
+    fetchInvoices();
   }, []);
 
   const numberOfRows = invoices.length;
@@ -246,7 +251,7 @@ if (name === 'qty' || name === 'rate') {
       </div>
     );
   }
-  
+
   const saveInvoice = async (e) => {
     e.preventDefault();
     await handleInsert();
