@@ -197,7 +197,7 @@ if (name === 'qty' || name === 'rate') {
   const newStax = newAmount * sgst * 0.01;
   const newTotalTax = newCtax + newStax;
   const newGrossAmount = newAmount + newTotalTax;
-  let AmountWords = numberToWords(newGrossAmount);
+  const AmountWords = numberToWords(newGrossAmount);
 
 
   setAmountS(newAmount);
@@ -489,7 +489,7 @@ if (name === 'qty' || name === 'rate') {
                 <td className="excel-view">{ctax.toFixed(2)}</td>
                 <td className="excel-view">{stax.toFixed(2)}</td>
                 <td className="excel-view">{totalTax.toFixed(2)}</td>
-                <td className="excel-view">{grossAmount.toFixed(0)}</td>
+                <td className="excel-view">{grossAmount.toFixed(2)}</td>
                 <td className="excel-view">
                   <div className="flex space-x-2">
                     <button
