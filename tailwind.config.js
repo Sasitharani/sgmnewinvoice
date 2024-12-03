@@ -32,6 +32,7 @@ export default {
           justifyContent: 'center',
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
         },
+        
         '.modal-content': {
           backgroundColor: 'white',
           padding: '1.5rem',

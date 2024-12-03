@@ -89,7 +89,7 @@ const App = () => {
         <Route path="/invoice" element={<InvoicePage />} />
         <Route path="/edit/:srNo" element={<EditRow />} /> {/* Update the route to include srNo parameter */}
         {/* <Route path="/sliceDetails" element={<SliceDetails />} /> */}
-        <Route path="/print" element={<PrintInvoice />} /> {/* Add route for PrintInvoice */}
+        <Route path="/print/:srNo" element={<PrintInvoice />} /> {/* Add route for PrintInvoice */}
       </Routes>
     </Router>
   );

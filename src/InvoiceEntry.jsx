@@ -356,7 +356,7 @@ if (name === 'qty' || name === 'rate') {
                   <button
                     type="button"
                     className="bg-green-500 text-white px-2 py-1 rounded"
-                    onClick={() => handlePrint()}
+                    onClick={() => navigate(`/print/${invoices[index].SrNo}`)}
                   >
                     Print
                   </button>

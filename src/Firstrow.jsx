@@ -1,8 +1,23 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './index.css'; // Import the custom CSS file
 
-const Firstrow = () => {
-  const invoiceData = useSelector((state) => state.invoice.invoiceData);
+const Firstrow = ({ srNo }) => {
+  const [invoiceData, setInvoiceData] = useState(null);
+
+  useEffect(() => {
+    const fetchInvoiceData = async () => {
+      if (srNo) {
+        try {
+          const response = await axios.get(`https://sgmnewinvoice.onrender.com/api/invoices/${srNo}`);
+          setInvoiceData(response.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+    fetchInvoiceData();
+  }, [srNo]); // Dependency array includes srNo to ensure it runs when srNo changes
 
   const spanStyle = {
     display: 'inline-block',
@@ -24,103 +39,73 @@ const Firstrow = () => {
   };
 
   return (
-    <div>
-      {/* Company Name and Date */}
-      <div className="grid grid-cols-7 my-border">
-        <div className="col-span-5">
-          <span style={spanStyle}>
-            {invoiceData.companyname || 'Name of the Company'}
-          </span>
-        </div>
-        <div className="col-span-2 font-semibold">
-          <div className="grid grid-cols-[30%_70%]">
-            <div className="text-left">Date</div>
-            <div>
-              <span style={spanStyle}>
-                {formatDate(invoiceData.date)}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <table className="border-collapse border border-black w-full">
+      <tbody>
+        {/* Company Name and Date */}
+        <tr className="h-8">
+          <td className="border border-black ps-3" colSpan="5">{invoiceData?.CompanyName || 'Name of the Company'}</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className="border border-black text-left ps-3 font-semibold">Date:-</td>
+          <td className="border border-black">{formatDate(invoiceData?.Date)}</td>
+        </tr>
 
-      {/* Address 1 */}
-      <div className="grid grid-cols-7">
-        <div className="col-span-5">
-          <span style={spanStyle}>
-            {invoiceData.add1 || 'Address 1'}
-          </span>
-        </div>
-        <div className="col-span-2 font-semibold text-center"></div>
-      </div>
+        {/* Address 1 */}
+        <tr className="h-8">
+          <td className="border border-black ps-3" colSpan="5">{invoiceData?.DoorNo || 'Name of the Company'}</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className="border border-black text-left ps-3 font-semibold"></td>
+          <td className="border border-black"></td>
+        </tr>
 
-      {/* Address 2 and Invoice No */}
-      <div className="grid grid-cols-7 my-border">
-        <div className="col-span-5">
-          <span style={spanStyle}>
-            {invoiceData.street1 || 'Address 2'}
-          </span>
-        </div>
-        <div className="col-span-2 font-semibold">
-          <div className="grid grid-cols-[30%_70%]">
-            <div className="text-left">Invoice No:</div>
-            <div>
-              <span style={spanStyle}>
-                {invoiceData.invoiceNo || 'Invoice No'}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+        {/* Street1 and Invoice No */}
+        <tr className="h-8">
+          <td className="border border-black ps-3" colSpan="5">{invoiceData?.Street1|| 'Street1'}</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className="border border-black text-left ps-3 font-semibold">Invoice No:-</td>
+          <td className="border border-black">{invoiceData?.InvoiceNo}</td>
+        </tr>
 
-      {/* Address 3 and Delivery Mode */}
-      <div className="grid grid-cols-7">
-        <div className="col-span-5">
-          <span style={spanStyle}>
-            {invoiceData.street2 || 'Address 3'}
-          </span>
-        </div>
-        <div className="col-span-2 font-semibold">
-          <div className="grid grid-cols-[30%_70%]">
-            <div className="text-left">Delivery Mode:</div>
-            <div>
-              <span style={spanStyle}>
-                {invoiceData.transport || 'Delivery Mode'}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+        {/* Street1 and Delivery Mode */}
+        <tr className="h-8">
+          <td className="border border-black ps-3" colSpan="5">{invoiceData?.Street2|| 'Street2'}</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className="border border-black text-left ps-3"></td>
+          <td className="border border-black"></td>
+        </tr>
 
-      {/* Town and Payment Mode */}
-      <div className="grid grid-cols-7 my-border">
-        <div className="col-span-5">
-          <span style={spanStyle}>
-            {invoiceData.town || 'Town'}
-          </span>
-        </div>
-        <div className="col-span-2 font-semibold">
-          <div className="grid grid-cols-[30%_70%]">
-            <div className="text-left">Payment Mode:</div>
-            <div>
-              <span style={spanStyle}>
-                {invoiceData.payment || 'Payment Mode'}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+        {/* Town and Payment Mode */}
+        <tr className="h-8">
+          <td className="border border-black ps-3" colSpan="5">{invoiceData?.Town|| 'Town'}</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className="border border-black text-left ps-3 font-semibold">Delivery Mode:-</td>
+          <td className="border border-black">{invoiceData?.Transport}</td>
+        </tr>
 
-      {/* Pin Code */}
-      <div className="grid grid-cols-7 my-border">
-        <div className="col-span-5">
-          <span style={spanStyle}>
-            {invoiceData.pin || 'Pin Code'}
-          </span>
-        </div>
-        <div className="col-span-2 font-semibold"></div>
-      </div>
-    </div>
+        {/* Pin Code */}
+        <tr className="h-8">
+          <td className="border border-black ps-3" colSpan="5">{invoiceData?.Pincode|| 'Town'}</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className='w-96 border border-black text-left ps-3'>&nbsp;</td>
+          <td className="border border-black text-left ps-3"></td>
+          <td className="border border-black"></td>
+        </tr>
+
+        
+        {/* GST of the Company*/}
+        <tr className="h-8">
+          <td className="border border-black ps-3" colSpan="5">{invoiceData?.Gst|| 'GST of the Company'}</td>
+          <td className='w-96'>&nbsp;</td>
+          <td className='w-96'>&nbsp;</td>
+          <td className="border border-black text-left ps-3 font-semibold">Payment Mode:-</td>
+          <td className="border border-black">{invoiceData?.Payment}</td>
+        </tr>
+      </tbody>
+    </table>
   );
 };
 

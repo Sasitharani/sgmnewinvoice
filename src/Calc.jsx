@@ -1,77 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 
+export default function Calc({ srNo }) {
+  const [invoiceData, setInvoiceData] = useState(null);
 
-export default function Calc() {
-  const {totalTax, totalAmount,grossAmount,SgstAmount,CgstAmount,Cgst,Sgst } = useSelector((state) => state.invoice);
-  const formData1 = useSelector((state) => state.invoice);
+  useEffect(() => {
+    const fetchInvoiceData = async () => {
+      if (srNo) {
+        try {
+          const response = await axios.get(`https://sgmnewinvoice.onrender.com/api/invoices/${srNo}`);
+          setInvoiceData(response.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+    fetchInvoiceData();
 
-  console.log(formData1)
-  console.log(Sgst+"--formData Sgst")
-  console.log(totalAmount+"---totalAmount in calc")
-
-  const [formData, setFormData] = useState({
-    address1: '',
-    address2: '',
-    address3: '',
-    address4: '',
-    address6: '',
-    items: Array(8).fill({ item1: '', description: '', pack: '', hsn: '', qty: '', rate: '', amount: 0 }),
-    accNo: '',
-    ifscCode: '',
-    bankName: '',
-    branch: '',
-    paymentMode: '',
-    transportMode: '',
-    cgstPercent: 0,
-    sgstPercent: 0,
-    cgstAmount: 0,
-    sgstAmount: 0,
-    grossAmount: 0,
-    totalTax: 0,
-    totalAmount: 0,
-    totalTaxInWords: '',
-    date: '',
-    invoiceNo: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const numberToWords = (num) => {
-    const a = [
-      '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
-      'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
-    ];
-    const b = [
-      '', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'
-    ];
-    if ((num = num.toString()).length > 9) return 'Overflow';
-    const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{1})$/);
-    if (!n) return;
-
-    let str = '';
-    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + ' Crore ' : '';
-    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + ' Lakh ' : '';
-    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + ' Thousand ' : '';
-    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + ' Hundred ' : '';
-    str += (n[5] != 0) ? ((str != '') ? 'And ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + ' Only/- ' : '';
-    return str.trim();
-  };
-
-
-  const handleTaxChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  }, [srNo]); // Dependency array includes srNo to ensure it runs when srNo changes
+  console.log(invoiceData)
+  if (!invoiceData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -97,99 +47,36 @@ export default function Calc() {
           </div>
           {/* Bank details end */}
         </div>
-        <div className="grid col-span-3 border border-black">
-       
-            <div>
+        <div className="grid col-span-3 "><div>
               {/* Outline of the amounts starting */}
-              <div className="grid grid-cols-[40%_30%_30%]">
-                <div>
-                <div className="border border-black font-bold text-left h-8">Gross Amount:</div>
-                  <div className="border border-black font-bold text-left h-8">CGST %:</div>
-                  <div className="border border-black font-bold text-left h-8">SGST %:</div>
-                  <div className="border border-black font-bold text-left h-8">Total Tax:</div>
-                  <div className="border border-black font-bold text-left h-8">Total Amount:</div>
-                </div>
-                <div>
-                  <div className="border border-black font-bold text-left h-8">
-                  <input
-                      type="text"
-                      name="grossAmount"
-                      value=""
-                      readOnly
-                      className="w-full h-8 border font-bold"
-                    />
-                    </div>
-                  <div className="border border-black font-bold text-left h-8">
-                    <input
-                      type="text"
-                      name="CgstPercent"
-                      value={Cgst+"%"}
-                      className="w-full h-8 border"
-                    />
-                  </div>
-                  <div className="h-8">
-                  <div className="border border-black font-bold text-left h-8">
-                    <input
-                      type="text"
-                      name="CgstPercent"
-                      value={Sgst+"%"}
-                      className="w-full h-8 border"
-                    />
-                  </div>
-                  </div>
-                  <div className="h-8"></div>
-                  <div className="h-8"></div>
-                </div>
-                <div>
-                <div className="h-8">
-                <input
-                      type="text"
-                      name="SgstPercent"
-                      value={grossAmount}
-                      readOnly
-                      className="w-full h-8 border font-bold"
-                    />
-                  </div>
-                  <div className="h-8">
-                    <input
-                      type="text"
-                      name="sgstPercent"
-                      value={CgstAmount}
-                      onChange={handleTaxChange}
-                      className="w-full h-8 border"
-                    />
-                  </div>
-                  <div className="h-8">
-                    <input
-                      type="text"
-                      name="sgstPercent"
-                      value={SgstAmount}
-                      onChange={handleTaxChange}
-                      className="w-full h-8 border"
-                    />
-                  </div>
-                  <div className="h-8">
-                    <input
-                      type="text"
-                      name="totalTax"
-                      value={totalTax}
-                      readOnly
-                      className="w-full h-8 border font-bold"
-                      placeholder="Total Tax"
-                    />
-                  </div>
-          
-                  <div className="h-8">
-                    <input
-                      type="text"
-                      name="grossAmount"
-                      value={totalAmount}
-                      readOnly
-                      className="w-full h-8 border font-bold"
-                    />
-                  </div>
-                </div>
-              </div>
+              <table class ="border-collapse ">
+                <tr>
+                  <td className="font-bold text-left h-8 border border-black">Net Amount:</td>
+                  <td className="border border-black font-bold text-left h-8 w-32"></td>
+                  <td className="border border-black text-left h-8 w-32">{invoiceData.NetRate}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black font-bold text-left h-8 w-32">CGST %:</td>
+                  <td className="border border-black font-bold text-left h-8 w-32">{invoiceData.cgst+"%"}</td>
+                  <td className="border border-black text-left h-8 w-32">{invoiceData.ctax}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black font-bold text-left h-8 w-32">SGST %:</td>
+                  <td className="border border-black  text-left h-8">{invoiceData.sgst+"%"}</td>
+                  <td className="border border-black  text-left h-8">{invoiceData.stax}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black font-bold text-left h-8">Total Tax Amount</td>
+                  <td className="border border-black text-left h-8"></td>
+                  <td className="border border-black text-left h-8">{invoiceData.TotalTax}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black font-bold text-left h-8">Gross Amount</td>
+                  <td className="border border-black  text-left h-8"></td>
+                  <td className="border border-black font-extrabold text-left h-8">{invoiceData.Amount}</td>
+                </tr>
+              </table>
+
               {/* End of the amounts */}
             </div>
        
@@ -197,16 +84,10 @@ export default function Calc() {
       </div>
       {/* Rupees in words */}
       <div className="grid grid-cols-12 border-black border-2">
-        <div className="col-span-2 h-9">Rupees</div>
+        <div className="col-span-2 h-9 font-bold">Rupees</div>
         <div className="col-span-10 h-9">
-          <input
-            type="text"
-            name="totalTaxInWords"
-            value={numberToWords(totalAmount)}
-            readOnly
-            className="w-full h-9 font-bold"
-            placeholder="Total Amount in Words"
-          />
+{invoiceData.AmountWords}
+
         </div>
 
       </div>
