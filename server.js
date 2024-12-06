@@ -30,20 +30,21 @@ console.log('Server is starting...');
 app.put('/api/invoices/:srNo', (req, res) => {
   const { srNo } = req.params;
   const {
-    date, invoiceNo, companyName, gst, flatDoorNo, street1, street2, townCity, state, pin,
-    transport, payment, itemName, amount, rate, qty, cgst, sgst, ctax, stax, totalTax, grossAmount, amountWords
+    Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, State, Pincode,
+    Transport, Payment, itemName, Rate, Quantity, cgst, sgst, ctax, stax, totalTax, Amount, AmountWords,SrNo
   } = req.body;
+  console.log(req.body);
 
   const query = `
     UPDATE invoice SET 
       Date = ?, InvoiceNo = ?, CompanyName = ?, Gst = ?, DoorNo = ?, Street1 = ?, Street2 = ?, Town = ?, State = ?, Pincode = ?, 
-      Transport = ?, Payment = ?, ItemName = ?, Amount = ?, Rate = ?, Quantity = ?, Cgst = ?, Sgst = ?, Ctax = ?, Stax = ?, 
-      TotalTax = ?, GrossAmount = ?, AmountWords = ? 
+      Transport = ?, Payment = ?, itemName = ?,Rate = ?, Quantity = ?, cgst = ?, sgst = ?, ctax = ?, stax = ?, 
+      TotalTax = ?, Amount = ?, AmountWords = ? 
     WHERE SrNo = ?
   `;
   const values = [
-    date, invoiceNo, companyName, gst, flatDoorNo, street1, street2, townCity, state, pin,
-    transport, payment, itemName, amount, rate, qty, cgst, sgst, ctax, stax, totalTax, grossAmount, amountWords, srNo
+    Date, InvoiceNo, CompanyName, Gst, DoorNo, Street1, Street2, Town, State, Pincode,
+    Transport, Payment, itemName, Rate, Quantity, cgst, sgst, ctax, stax, totalTax, Amount, AmountWords, SrNo
   ];
 
   db.query(query, values, (err, results) => {
@@ -61,7 +62,7 @@ app.put('/api/invoices/:srNo', (req, res) => {
 
 // Get all invoices
 app.get('/api/invoices', (req, res) => {
-  console.log('GET /api/invoices endpoint hit');
+  console.log('GET /api/invoices endpoint hit to get all invoices');
   const query = 'SELECT * FROM invoice';
   db.query(query, (err, results) => {
     if (err) {
@@ -72,6 +73,26 @@ app.get('/api/invoices', (req, res) => {
     res.status(200).json(results);
   });
 });
+
+
+// API endpoint to get invoices by month
+app.get('/api/invoice', (req, res) => {
+  const { date } = req.query; // Expecting date in 'YYYY-MM' format
+  const query = `
+    SELECT *
+    FROM invoice
+    WHERE DATE_FORMAT(date, '%Y-%m') = ?
+  `;
+  db.query(query, [date], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      res.status(500).send('Error fetching data');
+      return;
+    }
+    res.send(results);
+  });
+});
+
 
 // Get a single invoice by ID
 app.get('/api/invoices/:SrNo', (req, res) => {
@@ -121,24 +142,24 @@ app.put('/api/invoices/:SrNo', (req, res) => {
   });
 });
 
-// Delete an invoice by ID
-app.delete('/api/invoices/:id', (req, res) => {
-  console.log('DELETE /api/invoices/:id endpoint hit');
-  const { id } = req.params;
-  const query = 'DELETE FROM invoice WHERE id = ?';
-  db.query(query, [id], (err, results) => {
+
+// Delete an invoice by SrNo
+app.delete('/api/invoices/:srNo', (req, res) => {
+  const { srNo } = req.params;
+  const query = 'DELETE FROM invoice WHERE invoice.SrNo = ?';
+  db.query(query, [srNo], (err, results) => {
     if (err) {
       console.error('Error deleting data:', err);
       res.status(500).send('Error deleting data');
       return;
     }
-    if (results.affectedRows === 0) {
-      res.status(404).send('Invoice not found');
-      return;
-    }
-    res.status(200).send('Invoice deleted successfully');
+    res.send({
+      message: 'Invoice deleted successfully',
+      results: results // Include the results in the response
+    });
   });
 });
+
 
 // Insert a new invoice with additional fields working 
 app.post('/api/insertInvoice', (req, res) => {
@@ -172,8 +193,8 @@ const values = [
   invoice.ctax,
   invoice.stax,
   invoice.totalTax,
-  invoice.amount,
-  invoice.amountWords// Assuming amountWords is part of the formState
+  invoice.grossAmount,
+  invoice.AmountWords// Assuming amountWords is part of the formState
 ];
     console.log('InvoiceNo:', invoice.invoiceNo);
     console.log('Date:', invoice.date);

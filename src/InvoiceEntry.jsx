@@ -75,6 +75,7 @@ const InvoiceEntry = () => {
   const [rate, setRateS] = useState(0);
   const [qty, setRQtyS] = useState(0);
   const [amount, setAmountS] = useState(0);
+  const [loading, setLoading] = useState(true); // Initialize loading state
   let [cgst,setCgstS] = useState(0);
   let [sgst,setSgstS] = useState(0);
   let [ctax,setCtaxS] = useState(0);
@@ -94,14 +95,18 @@ const InvoiceEntry = () => {
 
 
   useEffect(() => {
-    // Fetch data from the API when the component mounts
-    axios.get('https://sgmnewinvoice.onrender.com/api/invoices')
-      .then(response => {
-        setInvoices(response.data); // Store fetched invoices in state
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    const fetchInvoices = async () => {
+      try {
+        const response = await axios.get('https://sgmnewinvoice.onrender.com/api/invoices');
+        setInvoices(response.data);
+      } catch (error) {
+        console.error('Error fetching invoices:', error);
+      } finally {
+        setLoading(false); // Set loading to false once data is fetched
+      }
+    };
+
+    fetchInvoices();
   }, []);
 
   const numberOfRows = invoices.length;
@@ -192,6 +197,7 @@ if (name === 'qty' || name === 'rate') {
   const newStax = newAmount * sgst * 0.01;
   const newTotalTax = newCtax + newStax;
   const newGrossAmount = newAmount + newTotalTax;
+  const AmountWords = numberToWords(newGrossAmount);
 
 
   setAmountS(newAmount);
@@ -211,20 +217,73 @@ if (name === 'qty' || name === 'rate') {
   dispatch(setRate(newRate));
   dispatch(setCgst(cgst));
   dispatch(setSgst(sgst));
+  dispatch(SetAmountWords(AmountWords));
 }
   };
 
-  const handleInsert = async () => {
-    try {
-      console.log('newValuesFromDb:', JSON.stringify(formState, null, 2));
-      const newValues = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', newValuesFromDb);
-      console.log(newValues.data);
-      alert('Data inserted successfully');
-    } catch (error) {
-      console.error('Error inserting data:', error);
-      alert('Error inserting data');
+  const handleInsert = async (invoiceData) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to insert this invoice?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, insert it!',
+      cancelButtonText: 'No, cancel'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        console.log('newValuesFromDb:', JSON.stringify(formState, null, 2));
+        const newValues = await axios.post('https://sgmnewinvoice.onrender.com/api/insertInvoice', newValuesFromDb);
+        console.log(newValues.data);
+        Swal.fire('Inserted!', 'Invoice has been inserted.', 'success');
+        // Update the state to include the new invoice
+        setInvoices([...invoices, response.data]);
+      } catch (error) {
+        console.error('Error inserting invoice:', error);
+        Swal.fire('Error!', 'There was an error inserting the invoice.', 'error');
+      }
     }
   };
+
+  
+  const handlePrint = (invoice) => {
+    navigate('/print', { state: { invoice } });
+  };
+
+  const handleDelete = async (srNo) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this invoice?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`https://sgmnewinvoice.onrender.com/api/invoices/${srNo}`);
+        Swal.fire('Deleted!', 'Invoice has been deleted.', 'success');
+        // Update the state to remove the deleted invoice
+        setInvoices(invoices.filter(invoice => invoice.SrNo !== srNo));
+      } catch (error) {
+        console.error('Error deleting invoice:', error);
+        Swal.fire('Error!', 'There was an error deleting the invoice.', 'error');
+      }
+    }
+  };
+
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <button type="button" className="bg-blue-500 text-white py-2 px-4 rounded-full animate-pulse">
+          Loading...
+        </button>
+      </div>
+    );
+  }
 
   const saveInvoice = async (e) => {
     e.preventDefault();
@@ -232,10 +291,7 @@ if (name === 'qty' || name === 'rate') {
     window.location.reload(); // Refresh the page
   };
 
-  const handleEdit = (srNo) => {
-    console.log("Editing SrNo:--" + srNo);
-    navigate('/edit/' + srNo);
-  };
+
   
   return (
     <div>
@@ -296,7 +352,30 @@ if (name === 'qty' || name === 'rate') {
                   <td className="excel-view">{invoices[index]?.TotalTax}</td>
                   <td className="excel-view">{invoices[index]?.Amount}</td>
                   <td className="excel-view">
-                    <button
+                  <div className="flex space-x-2">
+                  <button
+                    type="button"
+                    className="bg-green-500 text-white px-2 py-1 rounded"
+                    onClick={() => navigate(`/print/${invoices[index].SrNo}`)}
+                  >
+                    Print
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-yellow-500 text-white px-2 py-1 rounded"
+                    onClick={() => navigate(`/edit/${invoices[index].SrNo}`)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={() => handleDelete(invoices[index].SrNo)}
+                  >
+                    Delete
+                  </button>
+                </div>
+                    {/* <button
                       type="button"
                       className="bg-yellow-500 text-white px-2 py-1 rounded"
                       onClick={() => handleEdit(invoices[index].SrNo)}
@@ -309,7 +388,7 @@ if (name === 'qty' || name === 'rate') {
                       onClick={() => handleDelete(invoices[index].SrNo)}
                     >
                       Delete
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}
@@ -415,7 +494,7 @@ if (name === 'qty' || name === 'rate') {
                 <td className="excel-view">{ctax.toFixed(2)}</td>
                 <td className="excel-view">{stax.toFixed(2)}</td>
                 <td className="excel-view">{totalTax.toFixed(2)}</td>
-                <td className="excel-view">{grossAmount.toFixed(0)}</td>
+                <td className="excel-view">{grossAmount.toFixed(2)}</td>
                 <td className="excel-view">
                   <div className="flex space-x-2">
                     <button
