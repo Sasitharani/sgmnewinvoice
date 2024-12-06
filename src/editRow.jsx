@@ -145,7 +145,7 @@ const EditRow = () => {
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>Gross Amount:</strong></label>
-          <input type="number" name="grossAmount" value={invoiceData.GrossAmount} onChange={handleChange} className="input-box" />
+          <input type="number" name="grossAmount" value={invoiceData.Amount} onChange={handleChange} className="input-box" />
         </div>
         <div className="details-item">
           <label className="block text-gray-700"><strong>Amount In Words:</strong></label>
