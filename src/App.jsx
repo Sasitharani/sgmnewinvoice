@@ -16,6 +16,7 @@ import EditRow from './editRow';
 import PrintInvoice from './PrintInvoice'; // Import PrintInvoice component
 
 
+
 // import SliceDetails from './sliceDetails';
 
 const InvoicePage = () => {
@@ -85,11 +86,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
+
         <Route path="/" element={<InvoiceEntry />} />
-        <Route path="/invoice" element={<InvoicePage />} />
-        <Route path="/edit/:srNo" element={<EditRow />} /> {/* Update the route to include srNo parameter */}
-        {/* <Route path="/sliceDetails" element={<SliceDetails />} /> */}
-        <Route path="/print/:srNo" element={<PrintInvoice />} /> {/* Add route for PrintInvoice */}
       </Routes>
     </Router>
   );
